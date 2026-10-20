@@ -21,8 +21,7 @@ to the original immutable public snapshot preserve access to them.
 
 ## TorchWasm candidate
 
-The subsequent 0.91 source is imported as a reviewed snapshot from the unmerged
-`codex/torchwasm-main-091` integration branch. Its original commit and import
-boundary are recorded in `source-snapshot.json`; this import does not claim that
-branch has been published or merged. Existing extracted commits and their map
+The subsequent 0.91 source is imported as a reviewed snapshot from the
+`codex/torchwasm-main-091` integration branch, since adopted by public main. Its original commit and import
+boundary are recorded in `source-snapshot.json`. Existing extracted commits and their map
 remain intact. Product adoption and repository URL renaming are separate steps.

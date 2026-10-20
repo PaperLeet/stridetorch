@@ -1,4 +1,4 @@
-> This API manual comes from the unmerged TorchWasm 0.91 candidate.
+> This API manual comes from the TorchWasm 0.91 source snapshot.
 > PaperLeet integration sections describe the upstream product tree; this
 > standalone checkout uses the root package and has no `paperleet export` command.
 

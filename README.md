@@ -6,8 +6,8 @@ without installing native PyTorch in the runtime.
 
 This draft adopts the **TorchWasm 0.91** package and launcher name. The GitHub
 repository currently retains its existing `PaperLeet/stridetorch` identity.
-The PaperLeet main branch still uses StrideTorch 0.85; this candidate does not
-change that pin or publish a release. See [source provenance](docs/source-snapshot.json).
+PaperLeet main adopted this same 0.91 source at `13ae2bf7a`. This standalone
+draft publishes no release and does not advance private platform pins. See [source provenance](docs/source-snapshot.json).
 
 TorchWasm grew out of [PaperLeet](https://github.com/Hongyang-Du/PaperLeet).
 It now has an independent source tree, tests and release workflow. It contains

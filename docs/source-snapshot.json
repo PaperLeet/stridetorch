@@ -4,7 +4,7 @@
   "branch": "codex/torchwasm-main-091",
   "revision": "13ae2bf7af07ac4f20a6cefd0425024eede5ac98",
   "directory": "packages/torchwasm",
-  "status": "Unmerged main-integration candidate; snapshot only, no release or deployment",
+  "status": "Adopted by PaperLeet main at this revision; independent runtime PR remains a draft, no release or deployment",
   "imported_files": 271,
   "excluded": [
     "benchmarks/results/*",
