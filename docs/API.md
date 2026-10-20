@@ -1,7 +1,3 @@
-> This API manual comes from the TorchWasm 0.91 source snapshot.
-> PaperLeet integration sections describe the upstream product tree; this
-> standalone checkout uses the root package and has no `paperleet export` command.
-
 # TorchWasm
 
 Lightweight `torch`-compatible tensors and autograd for the browser.
@@ -32,6 +28,22 @@ The [0.91 local qualification](validation/torch-runtime-0.91-qualification.md)
 records full SDK, application, package and browser checks plus independent
 archive restoration. This main-integration checkout is checked separately.
 No release has been published. Production WebGPU remains disabled.
+
+Version **0.92** bounds the temporary column-scan workspace to 64 KiB and
+reuses owned dtype-conversion buffers. In the measured million-element native
+inference cases, traced peaks fall about 50%–66% relative to the preceding
+column-layout development. Selected wide scans also remain faster than 0.91.
+Some WASM calls cost more latency than the unbounded development buffer; the
+budget does not bound output size, RSS or WASM heap use. See the
+[layout record](validation/torch-cumprod-column-layout.md) and
+[bounded-workspace record](validation/torch-cumprod-column-memory.md)
+for complete observations and boundaries. The
+[0.92 qualification](validation/torch-runtime-0.92-qualification.md)
+records standalone package, complete installed SDK, PaperLeet application,
+WASM and actual browser checks on its
+stated frozen main snapshot. That snapshot contains 92 PaperLeet modules;
+newer main integration and its upstream pin are checked separately. No release
+has been published.
 
 Cumulative sums also preserve scalar/empty shapes, integral promotion and
 requested `dtype`, including wider internal accumulation. Real float32/64
@@ -1689,8 +1701,8 @@ From the PaperLeet repository:
 
 ```sh
 python -m pip install -e .
-python -m pip install -e .
-python -m pytest tests tests/test_browser_*.py -q
+python -m pip install -e ./packages/torchwasm
+python -m pytest packages/torchwasm/tests tests/test_browser_*.py -q
 paperleet export
 cd web
 npm run check
@@ -1703,7 +1715,7 @@ The main PaperLeet distribution includes this same source tree under the private
 an unpublished dependency or a sibling checkout. The two distributions own
 separate files: uninstalling the standalone library cannot remove PaperLeet's
 bundled runtime, and installing it cannot silently change PaperLeet's backend.
-The subproject builds separately with `pip wheel --no-deps .`.
+The subproject builds separately with `pip wheel --no-deps ./packages/torchwasm`.
 `paperleet.browser.numpy_autograd` and `schedules_numpy` retain compatibility
 facades; source changes should be made in this library.
 
@@ -1772,7 +1784,7 @@ CPU/NumPy torch runtime.
 This standalone library is licensed under [Apache-2.0](LICENSE); attribution is
 in [NOTICE](NOTICE). Installed packages and `runtime.source_files()` include both
 files, including the smaller schedules profile. PaperLeet's private bundled copy
-carries the same notices. This license applies to ``;
+carries the same notices. This license applies to `packages/torchwasm/`;
 it does not set a license for the rest of the application or its dependencies.
 
 

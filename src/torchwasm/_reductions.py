@@ -10,6 +10,7 @@ _SCAN_ACCUMULATORS = {np.dtype('float16'):np.dtype('float32'),
                       np.dtype('float32'):np.dtype('float64'),
                       np.dtype('complex64'):np.dtype('complex128')}
 _SCAN_WORK_BYTES = 256 * 1024
+_PRODUCT_COLUMN_BYTES = 64 * 1024
 _SCAN_INT64 = np.dtype('int64')
 
 
@@ -152,6 +153,35 @@ def cumsum(input, dim, *, dtype=None):
     return _scan_result(input, axis, target)
 
 
+def _product_column_scan(data, dtype):
+    """Pack independent first-axis scans without a full column-major copy.
+
+    The caller ensures one complete scan fits the workspace budget. Cutting
+    the last retained dimension keeps each working slice Fortran contiguous;
+    outer coordinates map it back into the owned C-contiguous result.
+    """
+    limit = _PRODUCT_COLUMN_BYTES // dtype.itemsize
+    prefix, pivot = data.shape[0], 1
+    while pivot < data.ndim-1 and prefix * data.shape[pivot] <= limit:
+        prefix *= data.shape[pivot]
+        pivot += 1
+    width = min(data.shape[pivot], limit // prefix)
+    value = np.empty(data.shape, dtype=dtype)
+    workspace = np.empty(data.shape[:pivot]+(width,), dtype=dtype, order='F')
+    leading = (slice(None),) * pivot
+    tail = data.shape[pivot+1:]
+    positions = np.ndindex(tail) if tail else ((),)
+    for trailing in positions:
+        for start in range(0, data.shape[pivot], width):
+            count = min(width, data.shape[pivot]-start)
+            key = leading + (slice(start,start+count),) + trailing
+            work = workspace[..., :count]
+            np.copyto(work, data[key], casting='unsafe')
+            np.multiply.accumulate(work, axis=0, out=work)
+            np.copyto(value[key], work)
+    return value
+
+
 def _product_scan(data, axis, dtype):
     if not data.ndim:
         with np.errstate(all='ignore'):
@@ -166,6 +196,14 @@ def _product_scan(data, axis, dtype):
         # planning budget here; larger widened scans keep the blocked path.
         # Still narrow first and retain complex's initial identity product.
         with np.errstate(all='ignore'):
+            # Cast each real source tile directly into its working dtype.
+            # Avoid retaining an input-sized conversion or F output copy.
+            if (dtype.kind == 'f' and accumulator == dtype and axis == 0 and
+                    data.ndim > 1 and data.flags.f_contiguous and not data.flags.c_contiguous and
+                    data.dtype.kind != 'c' and data.size > _SCAN_WORK_BYTES // dtype.itemsize and
+                    data.shape[0] <= data.size // data.shape[0] and
+                    data.shape[0] <= _PRODUCT_COLUMN_BYTES // dtype.itemsize):
+                return _product_column_scan(data, dtype)
             source = data if data.dtype == dtype else data.astype(dtype)
             if dtype.kind == 'c':
                 work = np.array(source,dtype=accumulator,copy=True,order='C')
@@ -178,7 +216,19 @@ def _product_scan(data, axis, dtype):
                 # An explicit opmath buffer avoids NumPy's additional cast
                 # temporary for widened medium scans. Large non-widened real
                 # scans also avoid the measured WASM out-of-place loop cost.
-                work = np.array(source,dtype=accumulator,copy=True,order='C')
+                # Keep a contiguous scan axis for wide column-major batches.
+                # Tall batches retain the existing route: another full layout
+                # copy outweighed scan savings in the CPU/WASM controls.
+                column_batch = (accumulator == dtype and axis == 0 and
+                                source.flags.f_contiguous and
+                                source.shape[0] <= source.size // source.shape[0] and
+                                source.shape[0] <= _PRODUCT_COLUMN_BYTES // accumulator.itemsize)
+                order = 'F' if column_batch else 'C'
+                # astype above owns this conversion; reuse it only when its
+                # layout already matches the selected accumulation buffer.
+                owned = (source is not data and accumulator == dtype and
+                         (source.flags.f_contiguous if column_batch else source.flags.c_contiguous))
+                work = source if owned else np.array(source,dtype=accumulator,copy=True,order=order)
                 np.multiply.accumulate(work,axis=axis,out=work)
             else:work = np.multiply.accumulate(source,axis=axis,dtype=accumulator)
             return np.ascontiguousarray(work.astype(dtype,copy=False))

@@ -1,5 +1,5 @@
 // Real pinned Pyodide/NumPy benchmark, with a fresh process per source version.
-// Dev tooling uses the repository's installed node_modules/pyodide runtime.
+// Dev tooling uses the repository's installed web/node_modules/pyodide runtime.
 import fs from 'node:fs';
 import path from 'node:path';
 import {parseArgs} from 'node:util';
@@ -9,8 +9,8 @@ import {createHash} from 'node:crypto';
 const here = path.dirname(fileURLToPath(import.meta.url));
 const {values} = parseArgs({options: {
   source: {type:'string', default:path.resolve(here, '../src/torchwasm')},
-  runtime: {type:'string', default:path.resolve(here, '../node_modules/pyodide')},
-  cache: {type:'string', default:path.resolve(here, '../.wasm')},
+  runtime: {type:'string', default:path.resolve(here, '../../../web/node_modules/pyodide')},
+  cache: {type:'string', default:path.resolve(here, '../../../web/public/browser-runtime/pyodide-0.29.4')},
   output: {type:'string'}, repeat: {type:'string', default:'11'}, iterations: {type:'string', default:'30'},
   benchmark: {type:'string', default:'runtime'},
   implementation: {type:'string'},

@@ -265,3 +265,189 @@ def test_zero_safe_hvp_across_short_scan_boundary(dtype):
     expected[0] = second*(second-1)//2+length-second
     assert value.item() == 0
     np.testing.assert_array_equal(h.numpy(),expected)
+
+
+@pytest.mark.parametrize('shape,axis', [((8,8192),0), ((8,8192),1),
+    ((8192,8),0), ((8192,8),1), ((8,32,256),0), ((8,32,256),1), ((8,32,256),2),
+    ((255,256),0), ((256,256),0), ((257,256),0)])
+@pytest.mark.parametrize('layout', ['C','F','strided','readonly_F','broadcast'])
+@pytest.mark.parametrize('source_dtype', [np.float32,np.float64])
+@pytest.mark.parametrize('zero_count', [0,1,2])
+def test_large_matrix_prefix_values_and_derivatives_from_counted_monomials(shape,axis,layout,source_dtype,zero_count):
+    length = shape[axis]
+    first, second = length//3, 2*length//3 if zero_count == 2 else length
+    row = np.ones(length,dtype=source_dtype)
+    if zero_count:row[first] = 0
+    if zero_count == 2:row[second] = 0
+    geometry = [1]*len(shape);geometry[axis] = length
+    raw = np.broadcast_to(row.reshape(geometry),shape)
+    if layout != 'broadcast':
+        raw = np.array(raw,order='F' if layout in ('F','readonly_F') else 'C',copy=True)
+    if layout == 'strided':
+        storage = np.empty(tuple(2*n for n in shape),dtype=source_dtype)
+        view = storage[tuple(slice(None,None,2) for _ in shape)];view[...] = raw;raw = view
+    if layout == 'readonly_F':raw.flags.writeable = False
+    before = raw.copy()
+    # Each prefix is a monomial. At unit factors its partial derivative is
+    # one unless another factor is zero. Counting those monomials gives the
+    # value, all-ones VJP and directional derivative without a scan oracle.
+    values = np.ones(length,dtype=np.float64)
+    reverse = np.arange(length,0,-1,dtype=source_dtype)
+    tangent = np.arange(1,length+1,dtype=np.float64)
+    if zero_count:
+        values[first:] = 0
+        reverse[first:] = 0
+        reverse[:first] = np.arange(first,0,-1,dtype=source_dtype)
+        reverse[first] = second-first
+        tangent[first:second] = 1
+        tangent[second:] = 0
+    expand = lambda value: np.broadcast_to(value.reshape(geometry),shape)
+    x = tensor(raw,True)
+    y = x.cumprod(axis,dtype=torch.float64)
+    gradient, = torch.autograd.grad(y,x,torch.ones_like(y))
+    primal, direction = torch.func.jvp(lambda a:a.cumprod(axis,dtype=torch.float64),
+                                     (x,),(torch.ones_like(x),))
+    for actual, expected in ((y,values),(primal,values),(gradient,reverse),(direction,tangent)):
+        np.testing.assert_array_equal(actual.detach().numpy(),expand(expected))
+        assert actual.shape == shape
+    assert y.dtype == direction.dtype == np.dtype('float64')
+    assert gradient.dtype == np.dtype(source_dtype)
+    assert y.is_contiguous() and not np.shares_memory(y._data,raw)
+    assert x.grad is None
+    np.testing.assert_array_equal(raw,before)
+
+
+@pytest.mark.parametrize('shape,axis', [((8,8192),0), ((8,8192),1),
+    ((8192,8),0), ((8192,8),1), ((8,32,256),0), ((8,32,256),1), ((8,32,256),2)])
+@pytest.mark.parametrize('dtype', [np.float32,np.float64])
+@pytest.mark.parametrize('fill', [0.,1.,np.nan])
+def test_large_negative_stride_numpy_import_keeps_native_rejection(shape,axis,dtype,fill):
+    raw = np.flip(np.full(shape,fill,dtype=dtype,order='F'),axis)
+    before = raw.copy()
+    with pytest.raises(ValueError,match='strides'):
+        tensor(raw,True)
+    np.testing.assert_array_equal(raw,before)
+
+
+@pytest.mark.parametrize('shape', [(8,8192),(8,32,256)])
+@pytest.mark.parametrize('readonly', [False,True])
+@pytest.mark.parametrize('dtype', [np.float32,np.float64])
+@pytest.mark.parametrize('zero_count', [0,1,2])
+def test_wide_column_major_composed_hvp_from_monomial_hessians(shape,readonly,dtype,zero_count):
+    row = np.ones(8,dtype=dtype)
+    if zero_count:row[2] = 0
+    if zero_count == 2:row[5] = 0
+    values, jacobian, hessians = polynomial(row.reshape(8,1),0)
+    expected_hessian = 2*(jacobian.T@jacobian)+np.einsum('i,ijk->jk',2*values,hessians)
+    geometry = (8,)+(1,)*(len(shape)-1)
+    raw = np.array(np.broadcast_to(row.reshape(geometry),shape),order='F',copy=True)
+    if readonly:raw.flags.writeable = False
+    before = raw.copy()
+    x = tensor(raw,True)
+    value, curvature = torch.autograd.functional.hvp(
+        lambda a:a.cumprod(0,dtype=torch.float64).square().sum(),x,torch.ones_like(x),strict=True)
+    expected = np.broadcast_to((expected_hessian@np.ones(8)).reshape(geometry),shape)
+    assert value.item() == (np.prod(shape)//8)*(values@values)
+    np.testing.assert_array_equal(curvature.numpy(),expected)
+    assert curvature.dtype == np.dtype(dtype) and x.grad is None
+    np.testing.assert_array_equal(raw,before)
+
+
+def _encoded_column_case(shape,dtype,layout):
+    dtype = np.dtype(dtype)
+    count = int(np.prod(shape[1:]))
+    indices = np.arange(count,dtype=np.int64)
+    if dtype.kind == 'b':first = indices%2 == 0
+    elif dtype == np.dtype('uint64'):first = (np.uint64(2**53)+2*indices.astype(np.uint64)+1)
+    elif dtype == np.dtype('int64'):first = (2**53+2*indices+1)*np.where(indices%2,1,-1)
+    elif dtype.kind in 'iu':first = indices%17-8
+    else:first = (indices%17-8)/8
+    first = np.asarray(first,dtype=dtype).reshape(shape[1:])
+    raw = np.ones(shape,dtype=dtype,order='C' if layout == 'C' else 'F')
+    if dtype.kind not in 'bu':raw[1:] = -1
+    raw[0] = first
+    if layout == 'F_strided':
+        storage = np.empty(tuple(2*n for n in shape),dtype=dtype,order='F')
+        view = storage[tuple(slice(None,None,2) for _ in shape)];view[...] = raw;raw = view
+    if layout == 'readonly_F':raw.flags.writeable = False
+    # Each output is a monomial: the distinct column tag times exact unit
+    # signs. Scalar Python conversions independently pin requested rounding,
+    # including the odd int64/uint64 values above2**53.
+    converted = np.array([float(v) for v in first.reshape(-1)],dtype=np.float64).reshape(shape[1:])
+    signs = np.ones(shape[0]) if dtype.kind in 'bu' else 1-2*(np.arange(shape[0])%2)
+    expected = converted[None,...]*signs.reshape((shape[0],)+(1,)*(len(shape)-1))
+    return raw,expected
+
+
+@pytest.mark.parametrize('shape', [(7,5003),(3,17,1301),(5,7,11,173),(8,2048,4),
+    (8,16,16,32),(8,1024,2,4),(2,32769,1,1),(1,65537)])
+@pytest.mark.parametrize('dtype', [np.float16,np.float32,np.float64,np.int32,np.int64,np.uint64,np.bool_])
+@pytest.mark.parametrize('layout', ['C','F','F_strided','readonly_F'])
+def test_column_tags_odd_shapes_casting_and_owned_outputs(shape,dtype,layout):
+    raw,expected = _encoded_column_case(shape,dtype,layout)
+    before = raw.copy()
+    y = tensor(raw).cumprod(0,dtype=torch.float64)
+    np.testing.assert_array_equal(y.numpy(),expected)
+    np.testing.assert_array_equal(np.signbit(y.numpy()),np.signbit(expected))
+    assert y.dtype == np.dtype('float64') and y.is_contiguous()
+    assert not np.shares_memory(y._data,raw)
+    np.testing.assert_array_equal(raw,before)
+
+
+@pytest.mark.parametrize('shape', [(8,2048,4),(5,7,11,173),(256,256)])
+@pytest.mark.parametrize('budget', [1024,4096,65536])
+@pytest.mark.parametrize('dtype', [np.float32,np.float64])
+@pytest.mark.parametrize('readonly', [False,True])
+def test_column_values_independent_of_working_budget(shape,budget,dtype,readonly,monkeypatch):
+    import torchwasm._reductions as reductions
+    monkeypatch.setattr(reductions,'_PRODUCT_COLUMN_BYTES',budget)
+    raw,expected = _encoded_column_case(shape,dtype,'readonly_F' if readonly else 'F')
+    y = tensor(raw).cumprod(0,dtype=torch.float64)
+    np.testing.assert_array_equal(y.numpy(),expected)
+    assert y.is_contiguous() and not np.shares_memory(y._data,raw)
+
+
+@pytest.mark.parametrize('rank', [8,32,64])
+@pytest.mark.parametrize('dtype', [np.float32,np.float64])
+def test_high_rank_first_axis_columns_keep_logical_positions(rank,dtype):
+    shape = (2,32769)+(1,)*(rank-2)
+    try:raw,expected = _encoded_column_case(shape,dtype,'F')
+    except ValueError as error:
+        message = str(error).lower()
+        if 'maximum supported dimension' in message or 'maximum number of dimension' in message:
+            pytest.skip('Installed NumPy cannot construct this rank')
+        raise
+    y = tensor(raw).cumprod(0,dtype=torch.float64)
+    assert y.shape == shape
+    np.testing.assert_array_equal(y.numpy().reshape(-1),expected.reshape(-1))
+    assert y.is_contiguous() and not np.shares_memory(y._data.reshape(-1),raw.reshape(-1,order='F'))
+
+
+@pytest.mark.parametrize('dtype', [np.float32,np.float64])
+@pytest.mark.parametrize('layout', ['C','F','F_strided'])
+@pytest.mark.parametrize('modified', ['input','output'])
+def test_converted_or_packed_scan_keeps_saved_storage_guards(dtype,layout,modified):
+    raw,_ = _encoded_column_case((7,5003),dtype,layout)
+    x = tensor(raw,True)
+    y = x.cumprod(0,dtype=torch.float64)
+    with torch.no_grad():
+        (x if modified == 'input' else y.detach()).add_(1)
+    with pytest.raises(UnsupportedOperation,match='modified'):
+        y.sum().backward()
+
+
+@pytest.mark.parametrize('dtype', [np.complex64,np.complex128])
+@pytest.mark.parametrize('layout', ['C','F','F_strided'])
+def test_complex_to_real_conversion_keeps_warning_and_precast_values(dtype,layout):
+    real,expected = _encoded_column_case((7,5003),np.float64,layout)
+    raw = np.array(real+1j,dtype=dtype,order='C' if layout == 'C' else 'F')
+    if layout == 'F_strided':
+        storage = np.empty((14,10006),dtype=dtype,order='F');view=storage[::2,::2];view[...] = raw;raw = view
+    warning_type = getattr(np,'exceptions',np).ComplexWarning
+    x = tensor(raw)
+    with warnings.catch_warnings(record=True) as observed:
+        warnings.simplefilter('always')
+        y = x.cumprod(0,dtype=torch.float64)
+    assert len(observed) == 1 and issubclass(observed[0].category,warning_type)
+    np.testing.assert_array_equal(y.numpy(),expected)
+    assert not np.shares_memory(y._data,raw)

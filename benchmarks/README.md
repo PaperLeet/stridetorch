@@ -1,3 +1,12 @@
+# Historical qualification files
+
+Large numerical observation archives and PaperLeet integration captures remain
+in the original product repository. Use the immutable source revision in
+[the snapshot manifest](../docs/source-snapshot.json) to fetch those files or
+run their verification commands in that captured product tree. Historical
+commands below describe those layouts; this checkout does not duplicate the
+product archives. The standalone SDK and `npm run test:wasm` run independently.
+
 # Runtime benchmarks
 
 These are developer tools, not CI timing assertions. Use the same machine,
@@ -108,8 +117,8 @@ does not time unsupported baseline 1D calls, native Torch, GPU, import or transf
 From the repository root, with the standalone package installed:
 
 ```sh
-python benchmarks/bench_runtime.py --repeat 11 --iterations 30 --output cpu.json
-node benchmarks/bench_wasm.mjs --output wasm.json
+python packages/torchwasm/benchmarks/bench_runtime.py --repeat 11 --iterations 30 --output cpu.json
+node packages/torchwasm/benchmarks/bench_wasm.mjs --output wasm.json
 ```
 
 The WASM runner uses the repository's pinned Pyodide installation and package
@@ -254,7 +263,7 @@ Pass `--backend native` for an optional native Torch CPU comparison; the default
 imports only this library and NumPy and can run unchanged inside Pyodide. Scheduler
 construction is excluded from these timings. All samples and runtime identities
 are retained, and no timing assertions run in CI.
-Use `node benchmarks/bench_wasm.mjs --benchmark schedulers
+Use `node packages/torchwasm/benchmarks/bench_wasm.mjs --benchmark schedulers
 --iterations 120 --output schedulers-wasm.json` for the same suite on pinned WASM.
 
 `bench_nn.py` measures analytical LayerNorm/RMSNorm (all gradients and frozen-input
@@ -267,7 +276,7 @@ backward and update. New-module cases are omitted from historical runtimes that
 do not expose those classes; six common functional cases remain comparable.
 Use `bench_wasm.mjs --benchmark nn --dtype float32 --iterations 120` for Node WASM.
 
-`python benchmarks/bench_optimizer_memory.py --dtype float32`
+`python packages/torchwasm/benchmarks/bench_optimizer_memory.py --dtype float32`
 records CPython tracemalloc allocations after creating Adam over 16 pre-existing
 256×256 parameters and after one parameter receives a gradient. It also records
 state-array bytes. This is allocation evidence for lazy state, not RSS or browser
@@ -333,8 +342,8 @@ GroupNorm's first-order joint/composition benchmark uses the same library for
 both implementations and validates values and active gradients before timing:
 
 ```sh
-PYTHONPATH=src python benchmarks/bench_groupnorm.py --implementation joint --dtype float32
-node benchmarks/bench_wasm.mjs --benchmark groupnorm --implementation joint --dtype float32
+PYTHONPATH=packages/torchwasm/src python packages/torchwasm/benchmarks/bench_groupnorm.py --implementation joint --dtype float32
+node packages/torchwasm/benchmarks/bench_wasm.mjs --benchmark groupnorm --implementation joint --dtype float32
 ```
 
 Use separate fresh processes in balanced order; preserve all samples. Results
@@ -343,8 +352,8 @@ measure these local kernels, not native Torch or application-wide acceleration.
 Classification kernels include independent first-order NumPy value/VJP checks:
 
 ```sh
-PYTHONPATH=src python benchmarks/bench_classification.py --implementation joint --dtype float32
-node benchmarks/bench_wasm.mjs --benchmark classification --implementation joint --dtype float32
+PYTHONPATH=packages/torchwasm/src python packages/torchwasm/benchmarks/bench_classification.py --implementation joint --dtype float32
+node packages/torchwasm/benchmarks/bench_wasm.mjs --benchmark classification --implementation joint --dtype float32
 ```
 
 Label same-source joint/composition comparisons separately from old-release
@@ -495,12 +504,12 @@ uses the real library's `autograd.grad` for backward flows.
 For example, from the repository root with NumPy installed:
 
 ```sh
-PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python -B - <<'PY'
+PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=packages/torchwasm/src python -B - <<'PY'
 import importlib.util
 import torchwasm
 
 spec = importlib.util.spec_from_file_location(
-    'core_workloads', 'benchmarks/core_workloads.py')
+    'core_workloads', 'packages/torchwasm/benchmarks/core_workloads.py')
 workloads = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(workloads)
 case = next(item for item in workloads.specifications()
@@ -535,7 +544,7 @@ Later investigations retain the same measured-runtime distinction:
 
 ## Self-contained qualification replay
 
-`verify_qualification.py` checks recorded evidence hashes. The current 0.91
+`verify_qualification.py` checks recorded evidence hashes. The historical 0.91
 qualification uses a v1 archive with no ancestor/Git providers.
 `restore_qualification.py RECORD ARCHIVE NEW_DIRECTORY [PREFIX]` restores
 verified logical files into a new directory; `sdk/` selects the portable SDK.
@@ -543,3 +552,87 @@ Run its `sdk/replay-native-sdk.py` with NumPy and pytest for the complete SDK,
 or add `-k 'cumprod or standalone'` for the focused 669-case portability run.
 See the [0.91 record](../docs/validation/torch-runtime-0.91-qualification.md)
 for exact commands, exclusions and original raw observations.
+
+
+## Cumulative-product column-layout evidence
+
+The [development record](../docs/validation/torch-cumprod-column-layout.md)
+compares qualified 0.91 with a wide column-major work-buffer route. The final
+284-case CPU/Node timing corpus retains all samples and unchanged controls.
+The native allocation record preserves the additional selected inference
+temporary; this is not a memory-reduction or universal-speedup claim.
+
+From the package root (`packages/torchwasm`), with NumPy and pytest available:
+
+```sh
+python benchmarks/verify_qualification.py benchmarks/results/cumprod-column-layout.json
+python benchmarks/restore_qualification.py benchmarks/results/cumprod-column-layout.json benchmarks/results/cumprod-column-layout-harness.tar.gz /tmp/torchwasm-column-proof
+python /tmp/torchwasm-column-proof/torch-iteration-1115/replay_restored.py /tmp/torchwasm-column-proof /tmp/torchwasm-column-replay
+```
+
+Choose fresh restore and replay-output directories. The last command verifies
+restored SDK input hashes and runs the complete 1022-case affected module
+using the restored public source. This focused replay requires no native
+Torch or repository history. The original performance/reference harnesses and
+raw logs are also retained; their absolute capture paths and third-party
+runtime layout require remapping when replaying the full experiment elsewhere.
+The separate replay record/archive documents actual restoration and both
+native NumPy replays. Full application/package qualification and the next
+version/main adoption remain pending.
+
+
+## Bounded column-scan workspace followup
+
+The preceding layout and bounded-workspace records are historical development
+snapshots. `cumprod-column-memory.json` captures the latter: the packed NumPy workspace is at most
+64 KiB, compatible owned conversion arrays are reused, and both CPU and
+Node/Chrome complete SDK campaigns pass.
+The [followup record](../docs/validation/torch-cumprod-column-memory.md)
+retains its memory reduction, WASM time cost relative to the development
+parent, separate main comparison and identical-baseline timing diagnostics.
+
+From the package root, choose new restore/replay directories:
+
+```sh
+python benchmarks/verify_qualification.py benchmarks/results/cumprod-column-memory.json
+python benchmarks/restore_qualification.py benchmarks/results/cumprod-column-memory.json benchmarks/results/cumprod-column-memory-harness.tar.gz /tmp/torchwasm-column-memory
+python /tmp/torchwasm-column-memory/torch-iteration-1136/replay_restored.py /tmp/torchwasm-column-memory /tmp/torchwasm-column-memory-replay
+```
+
+The final command needs NumPy and pytest and executes the restored 1,306-case
+affected module. On the recorded NumPy 1.26.4 environment, pass `2` as its
+last argument to check the two documented rank-64 construction skips.
+It does not require native Torch or Git history. The primary archive retains
+the exact first-party WASM loader and pinned runtime fingerprints; full
+WASM/reference/timing replay elsewhere requires separate third-party runtimes
+and remapping historical absolute harness paths. These development archives
+predate the fresh 0.92 package/application/export qualification below; newer
+main adoption remains separate.
+
+
+## TorchWasm 0.92 package/application qualification
+
+The [0.92 record](../docs/validation/torch-runtime-0.92-qualification.md)
+closes the versioned package, installed SDK, native application, 92-module WASM
+and 254-command frontend/build/actual Worker checks on its exact frozen main
+snapshot. It preserves the initial flow-matching budget excess and a later
+isolated passing observation. Newer main adds an upstream source lock and still
+requires separate integration; no main adoption or publication is claimed.
+
+From this package directory, using new output directories:
+
+```sh
+python benchmarks/verify_qualification.py benchmarks/results/qualification-0.92-column-workspace.json --check-current-source
+python benchmarks/restore_qualification.py benchmarks/results/qualification-0.92-column-workspace.json benchmarks/results/qualification-0.92-column-workspace-harness.tar.gz /tmp/torchwasm-092-proof
+python -I -B /tmp/torchwasm-092-proof/torch-iteration-1149/replay_native.py /tmp/torchwasm-092-proof /tmp/torchwasm-092-replay
+```
+
+The full archive restores 3,665 logical files without ancestor/Git providers.
+The final command checks every restored 80-file source/102-module SDK input hash and
+executes the focused 1,319 cumulative-product/standalone/CLI cases. Supply NumPy
+and pytest separately; append `2` for the documented NumPy 1.26 rank skips.
+The separate replay record/archive captures full restoration readback and both
+native focused runs. Full WASM/frontend replay also needs its pinned third-party
+runtimes and historical-path remapping. Older development records verify their
+original integrity; their package version differs from current 0.92, so their
+current-source check intentionally fails.

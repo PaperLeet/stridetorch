@@ -207,7 +207,7 @@ float64-math/finite-difference oracles cover strided inputs, empty batches,
 float32 cancellation and training continuation. Full native/application/WASM,
 Chrome Worker and isolated minimum-version wheel gates pass. Balanced same-source
 CPU/WASM measurements preserve all samples; the larger runtime transfer size is
-reported separately. See [validation](docs/validation/torch-runtime-iteration-17.md).
+reported separately. See [validation](../../docs/validation/torch-runtime-iteration-17.md).
 
 ## Version 0.18 milestone
 
@@ -237,7 +237,7 @@ cover reverse and forward tapes. Four frozen CPU/WASM comparisons retain the
 initial rejected regressions and the remaining validated view-checking costs.
 Complete local native/catalog/WASM/distribution/frontend gates pass; exact remote
 adoption follows publication. Evidence is tracked in
-[iteration 20](docs/validation/torch-runtime-iteration-20.md).
+[iteration 20](../../docs/validation/torch-runtime-iteration-20.md).
 
 ## Version 0.21
 
@@ -254,7 +254,7 @@ small costs. Version 0.21 is adopted on main at `9eee6fa0` with all 78 exported 
 within budget. Exact Quality passes; the runtime-identical curriculum descendant
 `abbf721b` passes Quality/eligible Pages and all 78 live module/158 immutable
 asset comparisons. See
-[iteration 21](docs/validation/torch-runtime-iteration-21.md).
+[iteration 21](../../docs/validation/torch-runtime-iteration-21.md).
 
 ## Version 0.22 milestone
 
@@ -447,7 +447,7 @@ source-commit deployment was superseded and is not claimed as published.
   bidirectional resumed training pass. Source gzip grows5074 bytes,cold CPU
   namespace import about2ms;compute controls remain within about±2%. Small-tensor
   save metadata remains slower than native Torch.
-- [Core evidence and measured scope](docs/validation/torch-runtime-iteration-30.md)
+- [Core evidence and measured scope](../../docs/validation/torch-runtime-iteration-30.md)
   and complete application evidence now pass original78/10218/342/three-repeat
   native CI and exported78/342/30suites948 WASM,with unchanged budgets.
 - All15 upstream UI/docs/style/check files through9d35 and7546 existing immutable
@@ -455,7 +455,7 @@ source-commit deployment was superseded and is not claimed as published.
   Non-force mainb1a1631a passes all four Quality jobs38935475320 and actual
   Pages38937107666;78 decoded modules/158 immutable assets and both runtime
   licenses/version0.30 match pinned source in live requests.
-  [Exact remote evidence](docs/validation/torch-runtime-iteration-30.md)
+  [Exact remote evidence](../../docs/validation/torch-runtime-iteration-30.md)
   separates budget checks from comparative benchmarks.
 
 ## Version0.31 local integration verified
@@ -470,7 +470,7 @@ source-commit deployment was superseded and is not claimed as published.
 - Final core30879/one optional skip,NumPy-only wheel1125 and Node/Chrome1113 in
   31 suites pass. Public/private ownership,independent uninstall and actual
   training/checkpoint resume pass. Earlier regressions/failed probes are retained.
-- [Measured complete flows](docs/validation/torch-runtime-iteration-31.md)
+- [Measured complete flows](../../docs/validation/torch-runtime-iteration-31.md)
   improve selected large/small workloads;CPU JVP remains about1% slower and
   controls are within about±2%. Source gzip grows1530 bytes. Complete application
   original application78/10218/342/three-repeat native CI and exported78/342/
@@ -506,7 +506,7 @@ source-commit deployment was superseded and is not claimed as published.
 - Core31042/one optional skip,focused163,NumPy-only wheel1140 and actual
   Node/Chrome1128 checks in32 suites pass. Public/private ownership,aliases,
   checkpoint resume and independent uninstall pass. Source gzip grows1791bytes.
-- [Measurements and adoption boundary](docs/validation/torch-runtime-iteration-32.md)
+- [Measurements and adoption boundary](../../docs/validation/torch-runtime-iteration-32.md)
   retain all initial regressions/failed probes. Original native78/10218/342/
   three repeats146.10s and actual exported WASM78/342/1128 checks243138ms
   pass within original budgets. Full frontend60 guides/180 prompts and both
@@ -536,7 +536,7 @@ source-commit deployment was superseded and is not claimed as published.
   minimum Python/NumPy wheel 1,387 passes. Complete original native/WASM catalogs,
   current frontend/builds and immutable assets all pass unchanged gates.
 - Initial regressions and final paired measurements are retained in the
-  [validation record](docs/validation/torch-runtime-iteration-33.md).
+  [validation record](../../docs/validation/torch-runtime-iteration-33.md).
   Main adoption is separate from online publication; no CI/tag/dispatch is
   triggered. The user will explicitly tag a release later.
 
@@ -547,7 +547,7 @@ source-commit deployment was superseded and is not claimed as published.
   correct 12 overly restrictive 0.33 probe cases; unneeded X/T arrays release.
 - Full core 32,043 passes; Node/Chrome 1,439 each; minimum installed
   wheel 1,451. Original native/exported WASM catalogs and application gates pass.
-- [Measured paired results](docs/validation/torch-runtime-iteration-34.md)
+- [Measured paired results](../../docs/validation/torch-runtime-iteration-34.md)
   compare both 0.33 fused and 0.32 public composition workflows, including a full
   reverse-through-JVP workload. No uniform speedup or GPU support is claimed.
 - No automatic CI, tag or online publication. Naming remains pending user choice.
@@ -560,7 +560,7 @@ source-commit deployment was superseded and is not claimed as published.
   prototype regressions for small and frozen-factor workflows.
 - Full core 32,235 passes; Node/Chrome 1,495 each; minimum installed wheel 1,507.
   Original native/exported WASM catalogs and full application gates pass.
-- [Paired measurements and retained pilots](docs/validation/torch-runtime-iteration-35.md)
+- [Paired measurements and retained pilots](../../docs/validation/torch-runtime-iteration-35.md)
   include the older 0.32 composition baseline and frozen/no-reverse workflows.
   Main adoption is separate from online publication; no CI/tag/dispatch occurs.
 
@@ -571,7 +571,7 @@ source-commit deployment was superseded and is not claimed as published.
   singular diagnostics, empty strides and native saved-value mutation behavior.
 - Scalar/small LAPACK/CPU Gram/large WASM solve paths improve selected complete
   workflows; all initial regressions and remaining inference costs are retained
-  in the [validation record](docs/validation/torch-runtime-iteration-36.md).
+  in the [validation record](../../docs/validation/torch-runtime-iteration-36.md).
 - Full core 32,463 passes; Node/Chrome 1,532 each; minimum wheel 1,544.
   Original native/exported WASM catalogs and full application gates pass.
   A bounded actual-state wait repairs an upstream mounted navigation check.
@@ -590,7 +590,7 @@ source-commit deployment was superseded and is not claimed as published.
 - Full core 32,549 passes; Node/Chrome 1,581 each; minimum wheel 1,594.
   Complete native/exported WASM catalogs and frontend/builds pass. No uniform
   numerical speedup is claimed; all controls and outlier follow-up are retained
-  in the [validation record](docs/validation/torch-runtime-iteration-37.md).
+  in the [validation record](../../docs/validation/torch-runtime-iteration-37.md).
 - Quiet main adoption is separate from publication. No CI/tag/dispatch/online
   release. Actual missing pooling/transpose-convolution APIs remain future work.
 
@@ -605,7 +605,7 @@ source-commit deployment was superseded and is not claimed as published.
 - Full suite 33,167 passes; actual Node/Chrome 1,730 each;
   minimum wheel 1,743. Native/exported catalogs and frontend/builds pass.
   Raw controls, compatibility limits and measurements are in the
-  [validation record](docs/validation/torch-runtime-iteration-38.md).
+  [validation record](../../docs/validation/torch-runtime-iteration-38.md).
 - Quiet main adoption remains separate from publication. No CI/tag/dispatch
   or online release. Broader pooling/convolution/normalization remains active.
 
@@ -626,7 +626,7 @@ source-commit deployment was superseded and is not claimed as published.
   generic scan on the measured cases; this is a different comparison.
 - A separate one-dimensional pooling prototype has native reference coverage;
   it requires independent contracts, runtime checks and complete-flow timing
-  before integration. See the [validation record](docs/validation/torch-runtime-iteration-39.md).
+  before integration. See the [validation record](../../docs/validation/torch-runtime-iteration-39.md).
 
 ## 0.40: cached ordered pooling geometry
 
@@ -644,7 +644,7 @@ source-commit deployment was superseded and is not claimed as published.
   these are not uniform speedup or cross-runtime throughput claims.
 - Warm tracked allocation samples improve while the huge-adjoint bound is
   retained; the separately bounded plan metadata is a memory/latency tradeoff.
-  See the [validation record](docs/validation/torch-runtime-iteration-40.md).
+  See the [validation record](../../docs/validation/torch-runtime-iteration-40.md).
 
 ## 0.41: one-dimensional average pooling and direct graph nodes
 
@@ -659,7 +659,7 @@ source-commit deployment was superseded and is not claimed as published.
 - Measure 34 complete flows against the supported 0.40 composition in four fresh
   CPU/Node/Chrome processes each, retaining same-candidate composition controls,
   legacy workflows, import costs, every sample and regressions. See the
-  [0.41 validation record](docs/validation/torch-runtime-iteration-41.md).
+  [0.41 validation record](../../docs/validation/torch-runtime-iteration-41.md).
 - Full local catalog/frontend and export-identity gates precede main adoption.
   GitHub Actions, tag releases, package upload and deployment remain user-controlled.
 
@@ -676,7 +676,7 @@ source-commit deployment was superseded and is not claimed as published.
   training across CPU, minimum packaging and actual Node/Chrome WASM.
 - Measure 52 complete flows with candidate-composition controls plus a separate
   forced-scan study, legacy flows and imports; retain every sample/regression.
-  See the [0.42 validation record](docs/validation/torch-runtime-iteration-42.md).
+  See the [0.42 validation record](../../docs/validation/torch-runtime-iteration-42.md).
 - Full original catalog, latest frontend, typed builds and immutable export
   identity gates precede main adoption; CI/tag/publishing remain user-controlled.
 
@@ -693,7 +693,7 @@ source-commit deployment was superseded and is not claimed as published.
   minimum-environment wheel tests, 944 native-reference trials, original 78/342
   catalog flows and complete 62-flow performance cases in 12 fresh children.
 - Preserve all 9,755 prior immutable payloads and all release rules. See
-  [the 0.43 validation record](docs/validation/torch-runtime-iteration-43.md).
+  [the 0.43 validation record](../../docs/validation/torch-runtime-iteration-43.md).
   The measured overlap-window regression motivates a separable numerical
   reduction path next, preserving native NaN/index/layout and derivative rules.
   Independent-library, broader core API and GPU/backend work remains active.
@@ -708,7 +708,7 @@ source-commit deployment was superseded and is not claimed as published.
 - Validate 37,605 CPU tests, 3,977 Node/Chrome tests each, 3,990 minimum-wheel
   tests, 1,180 native trials, original 78/342 catalog checks and 76 complete
   performance flows in twelve fresh processes. Preserve 9,913 prior payloads.
-- See [the 0.44 validation record](docs/validation/torch-runtime-iteration-44.md)
+- See [the 0.44 validation record](../../docs/validation/torch-runtime-iteration-44.md)
   for measured benefits, regressions and controls. Broader APIs, bounded memory
   work and GPU/backend evaluation remain active toward an independent library.
 
@@ -723,7 +723,7 @@ source-commit deployment was superseded and is not claimed as published.
 - Native differential, minimum-wheel, Node/actual Chrome, exported 78-problem
   catalog, frontend and four-process/runtime whole-flow evidence are retained.
   Overlapping windows and some adaptive adjoints remain optimization targets.
-- See [the 0.45 validation record](docs/validation/torch-runtime-iteration-45.md).
+- See [the 0.45 validation record](../../docs/validation/torch-runtime-iteration-45.md).
 
 ## 0.46: ordered inverse 3D pooling adjoints
 
@@ -733,7 +733,7 @@ source-commit deployment was superseded and is not claimed as published.
   cancellation, nonfinite locality, strided seeds, JVP and reverse-tangent rules.
 - Complete CPU, installed-wheel, Node/Chrome, 78-problem application and whole-flow
   evidence is retained; unselected paths have no universal speedup.
-- See [the 0.46 validation record](docs/validation/torch-runtime-iteration-46.md).
+- See [the 0.46 validation record](../../docs/validation/torch-runtime-iteration-46.md).
 
 ## Next implementation areas
 
@@ -763,7 +763,7 @@ source-commit deployment was superseded and is not claimed as published.
    policy, and validate analytical gradients. Establish an end-to-end benefit
    before enabling it for PaperLeet. A WGSL matmul probe is not an implemented
    torch GPU backend; Python/JS transfer and graph execution remain required work.
-   The [sandbox bridge experiment](docs/validation/torch-webgpu-bridge-feasibility.md)
+   The [sandbox bridge experiment](../../docs/validation/torch-webgpu-bridge-feasibility.md)
    found no WebGPU exposure in the current opaque-origin Worker on the measured
    Chrome build, although its ordinary secure Worker completed a Python/GPU
    scalar roundtrip. The synchronous Python entry also could not suspend.
@@ -805,7 +805,7 @@ source-commit deployment was superseded and is not claimed as published.
 - Compare 26 direct/composed flows across 12 fresh CPU/Node/Chrome processes,
   including complete convolution/SGD steps; retain every timing sample.
 - Preserve 10,387 prior payloads and seven release-policy files. See the
-  [iteration 47 record](docs/validation/torch-runtime-iteration-47.md).
+  [iteration 47 record](../../docs/validation/torch-runtime-iteration-47.md).
   Broader core APIs, efficiency and optional persistent GPU backend work remain active.
 
 ## Transposed convolution milestone (0.48)
@@ -820,7 +820,7 @@ source-commit deployment was superseded and is not claimed as published.
   contracts and all78 exported problems. Retain38 timing flows across12 fresh
   CPU/Node/Chrome children with direct/matrix controls and decoder SGD updates.
 - Preserve10,545 prior payloads, latest upstream frontend work and seven canonical
-  policy files. See the [iteration48 record](docs/validation/torch-runtime-iteration-48.md).
+  policy files. See the [iteration48 record](../../docs/validation/torch-runtime-iteration-48.md).
   Broader core APIs, efficiency and persistent GPU backend evaluation remain active.
 
 ## Bounded regular-convolution zero padding (0.49)
@@ -836,7 +836,7 @@ source-commit deployment was superseded and is not claimed as published.
   version baselines and padded/gather/tap controls; ordinary cases and full
   encoder/decoder SGD measurements keep regressions/noise visible.
 - Preserve10,703 prior payloads, latest upstream frontend work and seven policies.
-  See the [iteration49 record](docs/validation/torch-runtime-iteration-49.md).
+  See the [iteration49 record](../../docs/validation/torch-runtime-iteration-49.md).
   Broader core API, efficiency and persistent GPU-backend evaluation remain active.
 
 ## Math attention, grouped heads and forward AD (0.50)
@@ -849,7 +849,7 @@ source-commit deployment was superseded and is not claimed as published.
   gates and 22 performance flows across 12 fresh children.
 - Record the stable zero derivative for fully-masked rows and native mixed-AD NaN
   differences explicitly. Keep every ordinary/grouped/training timing and control.
-- See the [iteration 50 record](docs/validation/torch-runtime-iteration-50.md).
+- See the [iteration 50 record](../../docs/validation/torch-runtime-iteration-50.md).
   Multihead/Transformer modules, larger-sequence memory/throughput, further core
   coverage, measured attention validation/setup overhead and a persistent GPU
   backend remain active work.
@@ -867,7 +867,7 @@ source-commit deployment was superseded and is not claimed as published.
   primitive/extreme/encoder oracles, 192 tape observations, full CPU/Node/Chrome,
   minimum package/coinstall and 78 exported problems. Retain 40 primary and 22
   legacy timing flows across 24 fresh children, including every regression.
-- See the [iteration 51 record](docs/validation/torch-runtime-iteration-51.md).
+- See the [iteration 51 record](../../docs/validation/torch-runtime-iteration-51.md).
   Core API coverage, Multihead/Transformer modules, temporary work and persistent
   GPU-backend evaluation continue toward independent-library quality.
 
@@ -892,7 +892,7 @@ source-commit deployment was superseded and is not claimed as published.
   through the opaque Python Worker, including transfers and cleanup. Whole-call
   timing, resident tensor graph/autograd integration and a demonstrated benefit
   remain required before considering a production GPU backend.
-- See the [0.80 evidence and limits](docs/validation/torch-runtime-0.80-qualification.md).
+- See the [0.80 evidence and limits](../../docs/validation/torch-runtime-0.80-qualification.md).
   Independent-library readiness and broader core API coverage remain active.
 
 
@@ -912,7 +912,7 @@ source-commit deployment was superseded and is not claimed as published.
 - Keep known norm/sine precision differences and remaining norm-HVP costs
   visible. GPU tensor storage/autograd, broader core APIs and independent-library
   readiness remain active work. See the
-  [0.81 record](docs/validation/torch-runtime-0.81-qualification.md).
+  [0.81 record](../../docs/validation/torch-runtime-0.81-qualification.md).
 
 
 ## TorchWasm 0.91
@@ -927,4 +927,49 @@ source-commit deployment was superseded and is not claimed as published.
   tracked separately. Main adoption does not publish or deploy a release.
 - Broader core coverage, large CPU inference costs, known numerical boundaries,
   and useful GPU storage/autograd integration remain active work. See the
-  [0.91 qualification](docs/validation/torch-runtime-0.91-qualification.md).
+  [0.91 qualification](../../docs/validation/torch-runtime-0.91-qualification.md).
+
+
+## Column-major cumulative-product development after 0.91
+
+- Keep an F-contiguous working array for eligible wide, non-widened real
+  first-axis scans, then return an owned contiguous output. Tall matrices retain
+  the previous route; routing and derivative boundaries are explicitly tested.
+- Extend the SDK with 366 counted-monomial/layout/import-boundary/HVP cases.
+  Complete native SDK and affected Node/Chrome suites pass. All 1312 expanded
+  numerical outputs remain identical to baseline within each runtime.
+- Preserve the original temporary-allocation increase and earlier regressions
+  as historical evidence. The bounded-workspace followup below replaces the
+  full selected temporary and adds conversion-buffer reuse; version/package/
+  application qualification remains before the next main adoption.
+- See [the development record](../../docs/validation/torch-cumprod-column-layout.md).
+
+
+## Bounded column-scan workspace followup
+
+- Pack eligible real first-axis columns into at most 64 KiB, casting directly
+  into each tile and writing logical coordinates into an owned contiguous
+  output. Reuse compatible owned dtype-conversion buffers on other scans.
+- Add 284 tagged-column/rounding/layout/budget/high-rank/storage-guard/warning
+  tests; complete native and Node/Chrome SDK campaigns pass. The minimum NumPy
+  environment retains five documented rank-construction skips.
+- Native selected inference peaks fall substantially; keep the measured WASM
+  time/memory tradeoff and independent identical-baseline timing anomalies.
+- Prepare the next version and fresh package/application/export/current-main
+  integration qualification before another main adoption.
+- See [the memory followup](../../docs/validation/torch-cumprod-column-memory.md).
+
+## Version 0.92 milestone
+
+- Preserve wide column-major cumulative-product scan layout while bounding the
+  new packed workspace to 64 KiB. Retain owned C output, logical column identity,
+  odd tiles, high-rank coordinates and native casting/rounding behavior.
+- Convert eligible real inputs directly into each tile and reuse compatible
+  owned conversion buffers on other scan routes. Caller storage, saved-value
+  guards, gradients, JVP/HVP and the complex-cast warning boundary remain intact.
+- Validate complete native and real WASM SDKs, independent native references and
+  complete-flow latency/allocation controls. Keep the measured WASM latency cost
+  relative to unbounded packing explicit; output/RSS/WASM heap are not bounded.
+- Qualify the standalone public/private distributions, current PaperLeet catalogue,
+  exports and actual browser Worker before main adoption. Production WebGPU
+  remains disabled pending a separate justified backend qualification.

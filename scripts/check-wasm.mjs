@@ -66,6 +66,33 @@ with as_torch():
     np.testing.assert_allclose(tangent.numpy(), [1., 2., 6.])
     _, hvp = torch.autograd.functional.hvp(lambda a: a.cumprod(0).sum(), point, direction)
     np.testing.assert_allclose(hvp.numpy(), [4., 6., 2.])
+    # Exercise the 0.92 packed first-axis route with an odd high-rank tile.
+    import torchwasm._reductions as reductions
+    original_scan = reductions._product_column_scan
+    calls = []
+    def observe_scan(data, dtype):
+        calls.append((data.shape, str(data.dtype), str(dtype)))
+        return original_scan(data, dtype)
+    try:
+        reductions._product_column_scan = observe_scan
+        raw = np.asfortranarray(np.where(np.arange(3 * 17 * 1301).reshape(3, 17, 1301) % 3 == 0, -1., 1.).astype('float32'))
+        before = raw.copy()
+        value = torch.from_numpy(raw).requires_grad_()
+        prefixes = []
+        prefix = np.ones((17, 1301), dtype='float64')
+        for row in range(3):
+            prefix = prefix * raw[row]
+            prefixes.append(prefix.copy())
+        output = value.cumprod(0, dtype=torch.float64)
+        np.testing.assert_array_equal(output.numpy(), np.stack(prefixes))
+        assert output.is_contiguous() and not np.shares_memory(output.numpy(), raw)
+        output.sum().backward()
+        expected = np.stack([sum(prefixes[row:]) / raw[row] for row in range(3)]).astype('float32')
+        np.testing.assert_array_equal(value.grad.numpy(), expected)
+        np.testing.assert_array_equal(raw, before)
+        assert len(calls) == 1
+    finally:
+        reductions._product_column_scan = original_scan
     torch.manual_seed(42)
     model = torch.nn.Linear(2, 1)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.05)
@@ -81,4 +108,4 @@ with as_torch():
     assert losses[-1] < losses[0] * 0.1, losses
 assert 'torch' not in sys.modules
 `);
-console.log(`PASS standalone WASM: Pyodide ${py.version}, NumPy, gradient correctness, zero-safe cumprod/JVP/HVP, real Adam training and import isolation`);
+console.log(`PASS standalone WASM: Pyodide ${py.version}, NumPy, gradient correctness, zero-safe cumprod/JVP/HVP, bounded odd-tile column scan, real Adam training and import isolation`);

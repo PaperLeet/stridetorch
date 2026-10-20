@@ -6,8 +6,12 @@ without installing native PyTorch in the runtime.
 
 This draft adopts the **TorchWasm 0.91** package and launcher name. The GitHub
 repository currently retains its existing `PaperLeet/stridetorch` identity.
-PaperLeet main adopted this same 0.91 source at `13ae2bf7a`. This standalone
-draft publishes no release and does not advance private platform pins. See [source provenance](docs/source-snapshot.json).
+This branch prepares the locally qualified 0.92 numerical source, including
+bounded column-scan workspace and owned conversion reuse. Product integration
+and its immutable upstream pin are verified separately. No release, package
+publication or deployment is created by this source candidate.
+See [source provenance](docs/source-snapshot.json) and the
+[0.92 product qualification](docs/validation/torch-runtime-0.92-qualification.md).
 
 TorchWasm grew out of [PaperLeet](https://github.com/Hongyang-Du/PaperLeet).
 It now has an independent source tree, tests and release workflow. It contains
@@ -60,6 +64,22 @@ For a browser host, install the pure-Python wheel with NumPy in a compatible
 Pyodide environment, or embed the modules returned by
 `torchwasm.runtime.source_files()`. The host owns the Worker lifecycle and
 any decision to rerun unsupported work elsewhere.
+
+## Local 0.92 qualification
+
+The independent checkout passes all 14,659 SDK cases on modern NumPy and
+14,654 with five rank-construction skips on NumPy 1.26. Its real Pyodide flow
+checks import isolation, gradients, zero-safe scans, JVP/HVP, the odd-tile
+column route and Adam training without a PaperLeet runtime or catalogue.
+The [machine record](docs/validation/qualification-0.92-independent.json)
+includes an independently hash-verifiable source/SDK and raw-receipt archive.
+
+```sh
+python scripts/check-evidence.py docs/validation/qualification-0.92-independent.json --check-current-source
+```
+
+Product integration and publication remain separate steps; this candidate
+creates neither a package release nor a deployment.
 
 ## Scope and contributions
 
