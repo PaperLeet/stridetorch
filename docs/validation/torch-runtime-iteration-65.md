@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Torch runtime iteration 65 — inverse APIs and saved-value guards
 
 Version **0.65.0** adds `torch.inverse`, `Tensor.inverse()`, native-style
@@ -270,8 +274,8 @@ The initial adoption helper stopped safely on newly advanced affiliation docs;
 the reviewed disjoint UI/docs were subsequently fast-forwarded before final
 full tests. Setup-failure logs and the resumed transition are retained.
 
-[Machine report](../../benchmarks/results/iteration-65.json)
-and [raw harness](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/iteration-65-harness.tar.gz)
+[Machine report](../../packages/torchwasm/benchmarks/results/iteration-65.json)
+and [raw harness](../../packages/torchwasm/benchmarks/results/iteration-65-harness.tar.gz)
 contain source/test snapshots, frozen native values/inputs, programs, failed
 pilots, package artifacts, receipts and every sample. Archive: 19,073,187
 bytes; SHA-256 `a88e5a6baa8307150c2980ba4460fb8d3a31f72bb1e09bbc4b1dd7b73bf50d11`.

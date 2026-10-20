@@ -5,7 +5,7 @@ import io
 import weakref
 import numpy as np
 import pytest
-from stridetorch import torch, UnsupportedOperation
+from torchwasm import torch, UnsupportedOperation
 
 
 def close(a,b,dtype='float64'):

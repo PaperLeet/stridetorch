@@ -2,7 +2,7 @@
 import math
 import numpy as np
 import pytest
-from stridetorch import torch
+from torchwasm import torch
 
 
 @pytest.mark.parametrize('dtype_name,norm_target,rtol',[

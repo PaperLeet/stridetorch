@@ -6,7 +6,7 @@ import pickle
 import numpy as np
 import pytest
 
-from stridetorch import as_torch, torch
+from torchwasm import as_torch, torch
 
 
 def reference(inputs, state, *, heads=2, layout='sequence', padding=None, mask=None,

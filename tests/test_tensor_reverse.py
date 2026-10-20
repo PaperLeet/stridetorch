@@ -3,7 +3,7 @@ import gc
 import weakref
 import numpy as np
 import pytest
-from stridetorch import torch, _state
+from torchwasm import torch, _state
 
 
 def norm_hessian_product(values, direction):
@@ -68,7 +68,7 @@ def test_saved_alias_mutation_is_rejected_and_context_is_released():
 
 
 def test_tensor_pullback_rejects_mutation_of_its_saved_alias():
-    from stridetorch import _higher_order
+    from torchwasm import _higher_order
     context = _higher_order.Context()
     previous = _state._tensor_reverse_context
     assert previous is None

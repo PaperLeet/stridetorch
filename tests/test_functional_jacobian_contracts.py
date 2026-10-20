@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from stridetorch import as_torch, torch
+from torchwasm import as_torch, torch
 
 def test_jacobian_supports_ordinary_torch_import_alias():
     with as_torch() as alias:

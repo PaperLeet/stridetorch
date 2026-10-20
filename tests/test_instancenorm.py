@@ -4,7 +4,7 @@ import io
 import math
 import numpy as np
 import pytest
-from stridetorch import as_torch, torch, UnsupportedOperation
+from torchwasm import as_torch, torch, UnsupportedOperation
 
 
 @pytest.mark.parametrize('dtype', [torch.float32, torch.float64])

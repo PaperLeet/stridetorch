@@ -4,12 +4,12 @@ import math
 import weakref
 import numpy as np
 import pytest
-from stridetorch import torch
+from torchwasm import torch
 
 
 @pytest.fixture(params=['auto','gather','tap','capped'],autouse=True)
 def padding_route(request,monkeypatch):
-    from stridetorch import _convolution as c
+    from torchwasm import _convolution as c
     monkeypatch.setattr(c,'_PADDING_ALGORITHM','auto' if request.param=='capped' else request.param)
     if request.param=='capped':
         monkeypatch.setattr(c,'_PAD_WORKSPACE_BYTES',0)
@@ -78,7 +78,7 @@ def test_bilinear_jvp_reverse_finite_difference_and_gradcheck(dim):
 
 @pytest.mark.parametrize('dim',[1,2,3])
 def test_huge_padding_never_calls_full_pad_or_padded_adjoint(monkeypatch,dim):
-    from stridetorch import _convolution as c
+    from torchwasm import _convolution as c
     def reject(*args,**kwargs):raise AssertionError('full padded activation/adjoint allocation')
     monkeypatch.setattr(c,'_pad',reject);monkeypatch.setattr(c,'_matrix_input_gradient',reject)
     x=torch.ones(1,2,*([3]*dim),dtype=torch.float64,requires_grad=True);w=torch.ones(4,1,*([3]*dim),dtype=torch.float64,requires_grad=True)
@@ -90,7 +90,7 @@ def test_huge_padding_never_calls_full_pad_or_padded_adjoint(monkeypatch,dim):
 
 
 def test_zero_workspace_uses_per_tap_fallback_without_gather(monkeypatch):
-    from stridetorch import _convolution as c,_convolution_padding as kernels
+    from torchwasm import _convolution as c,_convolution_padding as kernels
     monkeypatch.setattr(c,'_PADDING_ALGORITHM','auto');monkeypatch.setattr(c,'_GATHER_WORKSPACE_BYTES',0);monkeypatch.setattr(c,'_PAD_WORKSPACE_BYTES',0);monkeypatch.setattr(c,'_ALGORITHM','matrix')
     def reject(*args,**kwargs):raise AssertionError('forbidden optional full workspace')
     monkeypatch.setattr(kernels,'gather',reject);monkeypatch.setattr(c,'_pad',reject)
@@ -117,7 +117,7 @@ def test_implicit_zero_ieee_rules(kind):
 
 
 def test_expanded_gather_is_not_retained_on_tape(monkeypatch):
-    from stridetorch import _convolution as c,_convolution_padding as kernels
+    from torchwasm import _convolution as c,_convolution_padding as kernels
     monkeypatch.setattr(c,'_PADDING_ALGORITHM','gather');monkeypatch.setattr(c,'_GATHER_WORKSPACE_BYTES',32*1024*1024)
     refs=[];original=kernels.gather
     def record(*args):

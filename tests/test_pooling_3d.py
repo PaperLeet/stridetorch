@@ -3,12 +3,12 @@ import itertools
 import pickle
 import numpy as np
 import pytest
-from stridetorch import torch, as_torch, UnsupportedOperation
+from torchwasm import torch, as_torch, UnsupportedOperation
 
 
 @pytest.fixture(params=['scan', 'window', 'block', 'auto', 'separable'], autouse=True)
 def algorithm(request, monkeypatch):
-    from stridetorch import _pooling, _pooling3d
+    from torchwasm import _pooling, _pooling3d
     monkeypatch.setattr(_pooling, '_ALGORITHM', 'auto' if request.param == 'separable' else request.param)
     monkeypatch.setattr(_pooling3d, '_SEPARABLE_MODE', 'force' if request.param == 'separable' else 'auto')
 
@@ -165,7 +165,7 @@ def test_invalid_and_bounded_geometry(kwargs,exception):
 
 
 def test_sparse_large_kernel_and_workspace_fallback(monkeypatch):
-    from stridetorch import _pooling
+    from torchwasm import _pooling
     monkeypatch.setattr(_pooling,'_WINDOW_WORKSPACE_BYTES',1)
     x = torch.arange(7,dtype=torch.float64).reshape(1,1,1,1,7).requires_grad_()
     y,i = torch.nn.functional.max_pool3d(x,(1,1,1_000_000),1,(0,0,500_000),return_indices=True)
@@ -208,7 +208,7 @@ def test_canonical_singleton_output_index_and_tangent_strides(shape,k,s):
 
 
 def test_separable_uses_bounded_scan_stages_when_packing_does_not_fit(monkeypatch):
-    from stridetorch import _pooling,_pooling3d
+    from torchwasm import _pooling,_pooling3d
     monkeypatch.setattr(_pooling,'_ALGORITHM','auto');monkeypatch.setattr(_pooling3d,'_SEPARABLE_MODE','force')
     a=np.arange(2*6*8*10,dtype=np.float64).reshape(1,2,6,8,10);x=torch.from_numpy(a).requires_grad_()
     geometry=_pooling3d._geometry(x,3,1,1,1,False)
@@ -224,7 +224,7 @@ def test_separable_uses_bounded_scan_stages_when_packing_does_not_fit(monkeypatc
 
 
 def test_separable_declines_oversized_intermediate_without_allocating(monkeypatch):
-    from stridetorch import _pooling,_pooling3d
+    from torchwasm import _pooling,_pooling3d
     monkeypatch.setattr(_pooling3d,'_SEPARABLE_MODE','force')
     x=torch.zeros(1,1,1,1,1).expand(1,1,3_000_000,1,1)
     geometry=_pooling3d._geometry(x,(3_000_000,1,1),None,0,1,False)
@@ -232,7 +232,7 @@ def test_separable_declines_oversized_intermediate_without_allocating(monkeypatc
 
 
 def test_small_index_tapes_keep_the_original_route(monkeypatch):
-    from stridetorch import _pooling3d
+    from torchwasm import _pooling3d
     monkeypatch.setattr(_pooling3d,'_SEPARABLE_MODE','auto')
     x=torch.ones(2,3,4,4,4,dtype=torch.float64)
     geometry=_pooling3d._geometry(x,3,1,1,1,False)

@@ -4,7 +4,7 @@ import math
 import weakref
 import numpy as np
 import pytest
-from stridetorch import torch
+from torchwasm import torch
 
 
 SHAPES = [(6, 3, 4), (2, 5, 4), (3, 5, 6), (3, 5)]
@@ -41,7 +41,7 @@ def scalar_attention(arrays, probability, seed):
 @pytest.mark.parametrize('probability', [0., .25, 1.])
 @pytest.mark.parametrize('active', range(16))
 def test_selective_dropout_pullbacks_match_independent_scalar_math(monkeypatch, dtype, probability, active):
-    from stridetorch import _random
+    from torchwasm import _random
     rng = np.random.default_rng(5110)
     arrays = [rng.normal(size=s).astype(dtype) * .2 for s in SHAPES]; arrays[-1][1] = -np.inf
     values = [torch.tensor(a, requires_grad=bool(active & (1 << i))) for i, a in enumerate(arrays)]
@@ -71,7 +71,7 @@ def test_selective_dropout_pullbacks_match_independent_scalar_math(monkeypatch, 
 @pytest.mark.parametrize('active', [0, 1, 2, 4, 8, 5, 6, 15])
 @pytest.mark.parametrize('probability', [0., .25, 1.])
 def test_tape_releases_unneeded_score_and_scaled_operand_arrays(monkeypatch, active, probability):
-    from stridetorch import _attention
+    from torchwasm import _attention
     refs = {}; probabilities = _attention._probabilities; multiplier = _attention._dropout_multiplier; product = _attention._head_product
     def record_probability(*args):
         result = probabilities(*args); refs['p'] = weakref.ref(result); return result
@@ -105,7 +105,7 @@ def test_tape_releases_unneeded_score_and_scaled_operand_arrays(monkeypatch, act
 
 
 def test_geometry_cache_does_not_retain_numpy_dtype_metadata():
-    from stridetorch import _attention
+    from torchwasm import _attention
     class Owner: pass
     owner = Owner(); ref = weakref.ref(owner)
     dtype = np.dtype(np.float32, metadata={'owner': owner})
@@ -138,7 +138,7 @@ def test_warm_metadata_cache_rechecks_types_shapes_and_scalar_options(changed):
 
 
 def test_cache_accepts_same_shape_new_values_and_dtypes_without_reusing_results():
-    from stridetorch import _attention
+    from torchwasm import _attention
     _attention._geometry.cache_clear()
     outputs = []
     for dtype, value in [(torch.float32, 1.), (torch.float32, 2.), (torch.float64, 3.)]:

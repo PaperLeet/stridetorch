@@ -3,7 +3,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 import torch as native
-from stridetorch import torch
+from torchwasm import torch
 from torch_bridge import MatmulOffload
 import torch_bridge as bridge_module
 

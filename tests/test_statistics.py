@@ -2,7 +2,7 @@
 import warnings
 import numpy as np
 import pytest
-from stridetorch import torch
+from torchwasm import torch
 
 
 @pytest.mark.parametrize('name,correction',[(name,c) for name in ['var','std','var_mean','std_mean'] for c in [0,.5,1]])

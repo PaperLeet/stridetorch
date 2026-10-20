@@ -1,7 +1,7 @@
 """Public precision regressions, with native-observed fixed expectations."""
 import numpy as np
 import pytest
-from stridetorch import torch
+from torchwasm import torch
 
 @pytest.mark.parametrize('dtype',[torch.float32,torch.float64])
 def test_negative_half_power_keeps_signed_zero_and_infinity(dtype):

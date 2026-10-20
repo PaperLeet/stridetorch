@@ -4,12 +4,12 @@ import gc
 import weakref
 import numpy as np
 import pytest
-from stridetorch import UnsupportedOperation, as_torch, torch
+from torchwasm import UnsupportedOperation, as_torch, torch
 
 
 @pytest.fixture(params=[(a,b) for a in ('scan','packed','auto') for b in ('loop','scatter')]+[('matrix','packed'),('block','block')], autouse=True)
 def algorithm(request,monkeypatch):
-    from stridetorch import _average_pooling
+    from torchwasm import _average_pooling
     monkeypatch.setattr(_average_pooling,'_ALGORITHM',request.param[0])
     monkeypatch.setattr(_average_pooling,'_BACKWARD_ALGORITHM',request.param[1])
 
@@ -116,7 +116,7 @@ def test_module_import_pickle_hooks_and_geometry_snapshot():
 
 
 def test_bounded_fallback_and_bicubic_forward_mode_boundary(monkeypatch):
-    from stridetorch import _average_pooling
+    from torchwasm import _average_pooling
     monkeypatch.setattr(_average_pooling,'_WORKSPACE_BYTES',1)
     x=torch.ones(1,1,6,8,requires_grad=True);y=torch.nn.functional.adaptive_avg_pool2d(x,(3,4));y.sum().backward()
     np.testing.assert_array_equal(x.grad.numpy(),.25)
@@ -131,7 +131,7 @@ def test_ill_conditioned_finite_regions_keep_ordered_accumulation(dtype,large):
 
 
 def test_geometry_caches_are_bounded_and_do_not_own_tensors():
-    from stridetorch import _average_pooling as pooling
+    from torchwasm import _average_pooling as pooling
     for n in range(70):torch.nn.functional.adaptive_avg_pool2d(torch.ones(1,1,5,7,requires_grad=True),(2+n%9,2+n//9)).sum().backward()
     assert pooling._cached_geometry.cache_info().currsize<=64
     assert pooling._binary_matrices.cache_info().currsize<=32
@@ -153,7 +153,7 @@ def test_cached_plans_recheck_live_numpy_values_and_gradient_seeds():
 
 
 def test_tiled_packing_uses_absolute_region_coordinates(monkeypatch):
-    from stridetorch import _average_pooling as pooling
+    from torchwasm import _average_pooling as pooling
     x=torch.arange(640,dtype=torch.float64).reshape(1,2,16,20).requires_grad_()
     expected=torch.nn.functional.adaptive_avg_pool2d(x,(5,7)).numpy().copy()
     monkeypatch.setattr(pooling,'_WORKSPACE_BYTES',2048)
@@ -163,7 +163,7 @@ def test_tiled_packing_uses_absolute_region_coordinates(monkeypatch):
 
 
 def test_streaming_large_region_keeps_prefix_order_and_zero_signs(monkeypatch):
-    from stridetorch import _average_pooling as pooling
+    from torchwasm import _average_pooling as pooling
     monkeypatch.setattr(pooling,'_WORKSPACE_BYTES',256)
     x=torch.ones(1,1,32,64,dtype=torch.float64,requires_grad=True)
     value=torch.nn.functional.adaptive_avg_pool2d(x,(1,2))
@@ -173,7 +173,7 @@ def test_streaming_large_region_keeps_prefix_order_and_zero_signs(monkeypatch):
 
 @pytest.mark.parametrize('nonfinite',[np.inf,np.nan])
 def test_chunked_finite_guard_checks_late_input_regions(monkeypatch,nonfinite):
-    from stridetorch import _average_pooling as pooling
+    from torchwasm import _average_pooling as pooling
     monkeypatch.setattr(pooling,'_WORKSPACE_BYTES',4096)
     a=np.ones((1,1,64,64));a[...,40,40]=nonfinite
     value=torch.nn.functional.adaptive_avg_pool2d(torch.from_numpy(a),2)
@@ -226,7 +226,7 @@ def test_upsampling_adjoint_nonfinite_seed_stays_in_its_input_region(nonfinite):
 
 
 def test_inverse_gather_checks_workspace_before_constructing_indices(monkeypatch):
-    from stridetorch import _average_pooling as pooling
+    from torchwasm import _average_pooling as pooling
     x=torch.ones(1,1,16,32,dtype=torch.float64,requires_grad=True)
     y=torch.nn.functional.adaptive_avg_pool2d(x,(3,5))
     def forbidden(*args):raise AssertionError('Oversized inverse geometry must not be constructed')

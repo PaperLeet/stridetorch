@@ -5,7 +5,7 @@ import warnings
 import weakref
 import numpy as np
 import pytest
-from stridetorch import UnsupportedOperation,torch
+from torchwasm import UnsupportedOperation,torch
 
 
 @pytest.mark.parametrize('dtype',['float16','float32','float64'])
@@ -77,7 +77,7 @@ def test_metadata_transform_tape_releases_intermediate_values():
 
 
 def test_inverse_axis_cache_is_bounded_and_does_not_hold_public_argument_payloads():
-    from stridetorch import _layout
+    from torchwasm import _layout
     _layout.inverse_permutation.cache_clear()
     x=torch.ones(1,1,1,1,1,requires_grad=True)
     for axes in itertools.permutations(range(5)):

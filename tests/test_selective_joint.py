@@ -2,8 +2,8 @@
 import numpy as np
 import pytest
 
-from stridetorch import torch, UnsupportedOperation
-from stridetorch._autograd import joint_result
+from torchwasm import torch, UnsupportedOperation
+from torchwasm._autograd import joint_result
 
 
 @pytest.mark.parametrize('active',[(True,True),(True,False),(False,True)])

@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Torch runtime iteration 75: bounded WebGPU matrix programs
 
 The stable library remains **0.73.0**, with its CPU/NumPy/WASM backend. This
@@ -9,7 +13,7 @@ Inputs may be copied float32 NumPy arrays or same-session resident matrices.
 One command submission contains the compute passes and final packed readback.
 Requested outputs may be read, retained, or both; intermediate buffers are
 released and retained outputs close through an atomic `release_many` request.
-The [portable sources and examples](../../benchmarks/webgpu_rpc/README.md)
+The [portable sources and examples](../../packages/torchwasm/benchmarks/webgpu_rpc/README.md)
 have no PaperLeet imports.
 
 ## Validation and failure handling

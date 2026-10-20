@@ -6,7 +6,7 @@ import weakref
 import numpy as np
 import pytest
 
-from stridetorch import torch, UnsupportedOperation
+from torchwasm import torch, UnsupportedOperation
 
 
 def tensor_layout(data,layout,requires=False):

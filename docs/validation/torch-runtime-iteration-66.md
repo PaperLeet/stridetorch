@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Torch runtime iteration 66 — selective shared inverse JVP reverse kernels
 
 Version **0.66.0** reduces repeated inverse-JVP reverse work on Pyodide/WASM,
@@ -240,8 +244,8 @@ but this implementation has an observable temporary-lifetime cost; lowering that
 peak remains further work. These proxy numbers do not establish a WASM heap
 increase of the same percentage.
 
-[Machine report](../../benchmarks/results/iteration-66.json)
-and [raw harness](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/iteration-66-harness.tar.gz)
+[Machine report](../../packages/torchwasm/benchmarks/results/iteration-66.json)
+and [raw harness](../../packages/torchwasm/benchmarks/results/iteration-66-harness.tar.gz)
 contain source/test snapshots, frozen native inputs/outputs, prototype snapshots,
 profiles, failed development pilots, corrected scope audit, package artifacts,
 qualification programs, receipts and all timing samples. Archive: 24,483,830
@@ -276,7 +280,7 @@ and passes. The seven canonical release-policy files and size budgets remain
 unchanged; no workflow retry or deployment was initiated. Local Node 25 build
 success does not imply that the current Node 22 release gate passes.
 
-The reusable [WebGPU bridge probe](../../benchmarks/webgpu_bridge.mjs)
+The reusable [WebGPU bridge probe](../../packages/torchwasm/benchmarks/webgpu_bridge.mjs)
 and [sandbox feasibility record](torch-webgpu-bridge-feasibility.md) also
 record a successful scalar Python/GPU roundtrip in a secure Worker, unavailable
 WebGPU in the tested opaque-origin Worker, and the asynchronous Python-entry

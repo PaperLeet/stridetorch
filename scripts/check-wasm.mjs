@@ -42,18 +42,30 @@ async function mount(directory, target) {
     else py.FS.writeFile(destination, new Uint8Array(await fs.readFile(source)));
   }
 }
-await mount(path.join(root, 'src/stridetorch'), '/library/stridetorch');
+await mount(path.join(root, 'src/torchwasm'), '/library/torchwasm');
 await py.runPythonAsync(`
 import sys
 sys.path.insert(0, '/library')
 import numpy as np
-from stridetorch import as_torch
+from torchwasm import as_torch
 assert 'paperleet' not in sys.modules
 with as_torch():
     import torch
     x = torch.tensor([2., 3.], requires_grad=True)
     x.square().sum().backward()
     np.testing.assert_allclose(x.grad.numpy(), [4., 6.])
+    scan = torch.tensor([2., 0., 3.], requires_grad=True)
+    product = scan.cumprod(0)
+    np.testing.assert_allclose(product.numpy(), [2., 0., 0.])
+    product.sum().backward()
+    np.testing.assert_allclose(scan.grad.numpy(), [1., 8., 0.])
+    point = torch.tensor([2., 0., 3.])
+    direction = torch.ones_like(point)
+    primal, tangent = torch.func.jvp(lambda a: a.cumprod(0), (point,), (direction,))
+    np.testing.assert_allclose(primal.numpy(), [2., 0., 0.])
+    np.testing.assert_allclose(tangent.numpy(), [1., 2., 6.])
+    _, hvp = torch.autograd.functional.hvp(lambda a: a.cumprod(0).sum(), point, direction)
+    np.testing.assert_allclose(hvp.numpy(), [4., 6., 2.])
     torch.manual_seed(42)
     model = torch.nn.Linear(2, 1)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.05)
@@ -69,4 +81,4 @@ with as_torch():
     assert losses[-1] < losses[0] * 0.1, losses
 assert 'torch' not in sys.modules
 `);
-console.log(`PASS standalone WASM: Pyodide ${py.version}, NumPy, gradient correctness, real Adam training and import isolation`);
+console.log(`PASS standalone WASM: Pyodide ${py.version}, NumPy, gradient correctness, zero-safe cumprod/JVP/HVP, real Adam training and import isolation`);

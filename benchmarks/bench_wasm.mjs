@@ -1,5 +1,5 @@
 // Real pinned Pyodide/NumPy benchmark, with a fresh process per source version.
-// Dev tooling uses this repository's pinned npm runtime and verified wheel cache.
+// Dev tooling uses the repository's installed node_modules/pyodide runtime.
 import fs from 'node:fs';
 import path from 'node:path';
 import {parseArgs} from 'node:util';
@@ -8,7 +8,7 @@ import {createHash} from 'node:crypto';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const {values} = parseArgs({options: {
-  source: {type:'string', default:path.resolve(here, '../src/stridetorch')},
+  source: {type:'string', default:path.resolve(here, '../src/torchwasm')},
   runtime: {type:'string', default:path.resolve(here, '../node_modules/pyodide')},
   cache: {type:'string', default:path.resolve(here, '../.wasm')},
   output: {type:'string'}, repeat: {type:'string', default:'11'}, iterations: {type:'string', default:'30'},
@@ -39,13 +39,13 @@ const {loadPyodide} = await import(pathToFileURL(path.join(path.resolve(values.r
 const py = await loadPyodide({indexURL:path.resolve(values.runtime), packageCacheDir:path.resolve(values.cache),
   stdout(){}, stderr(){}});
 await py.loadPackage('numpy');
-py.FS.mkdirTree('/runtime/stridetorch');
+py.FS.mkdirTree('/runtime/torchwasm');
 const sourceHashes = {};
 const resourceHashes = {};
 for (const name of fs.readdirSync(values.source).filter(name => name.endsWith('.py') || ['LICENSE','NOTICE'].includes(name))) {
   const raw = fs.readFileSync(path.join(values.source,name));
   (name.endsWith('.py') ? sourceHashes : resourceHashes)[name] = createHash('sha256').update(raw).digest('hex');
-  py.FS.writeFile('/runtime/stridetorch/'+name, raw.toString('utf8'));
+  py.FS.writeFile('/runtime/torchwasm/'+name, raw.toString('utf8'));
 }
 py.runPython('import sys\nsys.path.insert(0,"/runtime")');
 py.FS.writeFile('/runtime/bench_runtime.py',fs.readFileSync(path.join(here,`bench_${values.benchmark}.py`),'utf8'));

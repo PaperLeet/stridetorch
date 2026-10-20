@@ -4,7 +4,7 @@ import io
 import weakref
 import numpy as np
 import pytest
-from stridetorch import torch, UnsupportedOperation
+from torchwasm import torch, UnsupportedOperation
 
 
 def close(a,b,dtype='float64'):
@@ -149,7 +149,7 @@ def test_quiet_backend_failure_still_reports_first_batch_and_minor(upper,kind):
 @pytest.mark.parametrize('upper', [False, True])
 @pytest.mark.parametrize('batched', [False, True])
 def test_nan_factor_rejected_when_lapack_reports_success(monkeypatch, upper, batched):
-    from stridetorch import _cholesky
+    from torchwasm import _cholesky
     original = np.linalg.cholesky
 
     def permissive_lapack(data):

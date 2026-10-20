@@ -3,7 +3,7 @@ import gc
 import weakref
 import numpy as np
 import pytest
-from stridetorch import torch, UnsupportedOperation
+from torchwasm import torch, UnsupportedOperation
 
 
 def inverse2(a):

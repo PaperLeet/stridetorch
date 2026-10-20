@@ -1,10 +1,54 @@
-# StrideTorch
+> This API manual comes from the unmerged TorchWasm 0.91 candidate.
+> PaperLeet integration sections describe the upstream product tree; this
+> standalone checkout uses the root package and has no `paperleet export` command.
 
-A lightweight, bounded `torch`-compatible Python library backed by NumPy.
-It runs in CPython and Pyodide without installing native PyTorch. Analytical
+# TorchWasm
+
+Lightweight `torch`-compatible tensors and autograd for the browser.
+TorchWasm runs Python code in Pyodide with NumPy/WebAssembly, and also supports
+CPython with NumPy. It implements a bounded subset of the Torch API. Analytical
 reverse-mode gradients and a validated forward-mode subset come from PaperLeet's
 existing browser adapter. Core API fixes and performance improvements are
 developed here and checked against independent native PyTorch results.
+
+Formerly named StrideTorch during development; the distribution, Python package
+and launcher are now `torchwasm`. Earlier validation records retain their
+original names and measurements.
+
+Version **0.91** adds checked `cumprod` values and dtype promotion, owned
+scalar/empty results, zero-safe reverse gradients, direct/functional JVP and
+composed HVP. Forward transforms retain the real float32/64 boundary; complex
+autograd and output buffers remain unsupported. The differentiable zero-input
+path is quadratic in scan length.
+
+Relative to the preceding cumulative-product development, measured medium
+WASM inference flows improve about 40%, and the matrix-layout group about 35%.
+Native float64 inference traced peak allocation falls about 20%–34% in the
+measured cases. Some large CPU inference calls remain slower. These are scoped
+latency/allocation observations; see the
+[API development](validation/torch-cumprod-development.md) and
+[scan-execution record](validation/torch-cumprod-execution.md).
+The [0.91 local qualification](validation/torch-runtime-0.91-qualification.md)
+records full SDK, application, package and browser checks plus independent
+archive restoration. This main-integration checkout is checked separately.
+No release has been published. Production WebGPU remains disabled.
+
+Cumulative sums also preserve scalar/empty shapes, integral promotion and
+requested `dtype`, including wider internal accumulation. Real float32/64
+direct JVP, reverse-derived functional JVP and composed HVP are supported.
+Direct and reverse-derived transforms retain their distinct dtype-rounding
+order. Complex scan inference is supported; complex differentiation remains
+unsupported.
+
+`clamp`, `clamp_min` and `clamp_max` accept broadcast Tensor bounds and return
+their analytical gradients, JVP and composed HVP. Mixed Tensor/Number bounds
+remain invalid. Boundary derivatives retain the established Torch 2.6
+convention; newer PyTorch versions differ at ties. Saved-value and mutation
+guards remain active for scalar and Tensor bounds, including NumPy aliases.
+
+`torch.finfo` and `torch.iinfo` expose immutable native-style value objects,
+default-dtype handling, Python scalar attributes and exact 64-bit integer
+bounds through the same ordinary `torch` aliases.
 
 Version **0.85** avoids index-sized comparison buffers when checking integer
 indices. In the measured large indexed aggregation forward calls, traced peak
@@ -38,9 +82,9 @@ and local PaperLeet application/browser verification. WebGPU remains an
 experimental developer prototype; it is not an enabled torch backend.
 
 ```sh
-python -m pip install ./packages/stridetorch
-stridetorch train.py --epochs 10
-# Equivalent: python -m stridetorch train.py --epochs 10
+python -m pip install .
+torchwasm train.py --epochs 10
+# Equivalent: python -m torchwasm train.py --epochs 10
 ```
 
 Keep existing imports in `train.py`:
@@ -64,7 +108,7 @@ script's directory. For a Python or Pyodide host, activate aliases once before
 loading existing user code:
 
 ```python
-from stridetorch import install_as_torch
+from torchwasm import install_as_torch
 install_as_torch()
 
 import torch
@@ -75,11 +119,11 @@ import torch.nn.functional as F
 This enables `torch.nn`, `torch.nn.functional`, `torch.optim`, `torch.linalg`,
 `torch.autograd`, `torch.func`, `torch.testing`, `torch.random` and
 `torch.serialization`. Plain
-`import stridetorch` leaves native PyTorch imports untouched. Explicit usage
-via `from stridetorch import torch` also remains available. To scope aliases:
+`import torchwasm` leaves native PyTorch imports untouched. Explicit usage
+via `from torchwasm import torch` also remains available. To scope aliases:
 
 ```python
-from stridetorch import as_torch
+from torchwasm import as_torch
 
 with as_torch():
     import torch
@@ -416,7 +460,7 @@ raising. General solve/inverse use explicit singular-pivot diagnostics when the
 runtime cannot report floating-point error flags; empty-RHS solves also check
 the coefficient. Triangular solves retain their documented nonfinite-result
 behavior for zero pivots. Native linalg makes no general cross-backend guarantee
-for NaN inputs; StrideTorch consistently rejects a non-positive/NaN Cholesky
+for NaN inputs; TorchWasm consistently rejects a non-positive/NaN Cholesky
 factor diagonal while continuing to ignore unused input triangles.
 
 ## Matrix inverses and forward AD
@@ -507,7 +551,7 @@ gradients. Existing leaf gradients retain their object, storage and layout durin
 accumulation; resetting `.grad = None` selects the first-allocation rule again.
 
 Native accumulation can adopt different positive strides on singleton axes,
-which do not change any addressable value. StrideTorch keeps its owned-buffer
+which do not change any addressable value. TorchWasm keeps its owned-buffer
 allocation rule; meaningful non-singleton strides follow the same layout contract.
 
 Gradient allocations own their bytes: changing a supplied backward seed or a
@@ -655,6 +699,27 @@ isolate NumPy floating-point error settings and restore the caller's settings.
 As in native Torch, out-of-range ndarray floating-to-integer result values are
 platform dependent. Sequence scalar storage instead checks integer range and
 Python numeric protocols, following native construction rather than array casts.
+
+### Numeric limits
+
+`torch.finfo` and `torch.iinfo` return readonly value objects with Python numeric
+attributes. `finfo()` follows the current default floating dtype; complex64/128
+describe their float32/64 component type. `iinfo` requires an explicit integer
+type, including uint16/32/64, and preserves exact 64-bit integer bounds. Native
+Python `float`/`complex` classes select float64 limits and `int` selects int64,
+independently of the default dtype. The keyword spelling is `type=`, as in Torch.
+
+```python
+eps = torch.finfo(x.dtype).eps
+safe = x.clamp(min=eps, max=1 - eps)
+largest_index = torch.iinfo(torch.int64).max  # Python int, without rounding
+```
+
+The metadata stays constant inside forward/reverse differentiation. Float limit
+attributes are Python floats, so passing them to a tensor factory respects the
+current default dtype. Results have value equality and fresh identity, cannot
+be mutated, subclassed or pickled, and do not retain caller dtype metadata or
+Tensor storage. A bounded cache shares only immutable scalar tuples.
 
 ### Default floating dtype (0.55)
 
@@ -1019,7 +1084,7 @@ conjugate metadata and callable storage mapping are outside this contract.
 Storage loads on CPU. CUDA-tagged data requires an explicit CPU `map_location`
 (string, device or string mapping); this does not implement CUDA execution. Typed
 storage handles byte-order conversion; non-native-endian untyped storage is
-unsupported. Native/StrideTorch model, AdamW and StepLR state exchange is tested
+unsupported. Native/TorchWasm model, AdamW and StepLR state exchange is tested
 by resuming actual updates in both directions.
 
 ## Local model callbacks
@@ -1545,7 +1610,7 @@ are retained for compatibility with PaperLeet's fallback diagnostics.
 ## Pyodide and offline hosting
 
 Install the pure-Python wheel with NumPy in a compatible Pyodide runtime, or use
-`stridetorch.runtime.source_files()` to include the library's Python modules
+`torchwasm.runtime.source_files()` to include the library's Python modules
 in a static runtime bundle. PaperLeet exports those sources once per backend,
 under its existing content-addressed runtime assets. The independent wheel has
 only a NumPy runtime dependency. It contains no problem catalog, judge, pytest,
@@ -1554,7 +1619,7 @@ PyTorch binaries, or browser application code.
 ## Experimental browser GPU integration
 
 The installed distribution includes the explicit
-`stridetorch.experimental.webgpu` namespace. It provides `MatmulOffload`,
+`torchwasm.experimental.webgpu` namespace. It provides `MatmulOffload`,
 `ResidentMatmulOffload`, `Matrix`, `MatrixProgram` and `ProgramResult`; callers no
 longer need Python files from the benchmark directory. Importing this namespace
 works in CPython without Pyodide and leaves native `torch` imports untouched.
@@ -1565,7 +1630,7 @@ directory:
 
 ```python
 from pathlib import Path
-from stridetorch.experimental.webgpu import service_sources
+from torchwasm.experimental.webgpu import service_sources
 
 assets = Path('webgpu-assets')
 assets.mkdir(exist_ok=True)
@@ -1583,8 +1648,8 @@ shutdown and its application isolation boundary.
 After that explicit setup:
 
 ```python
-from stridetorch import torch
-from stridetorch.experimental.webgpu import ResidentMatmulOffload
+from torchwasm import torch
+from torchwasm.experimental.webgpu import ResidentMatmulOffload
 
 with ResidentMatmulOffload() as offload:
     a = torch.ones(256, 256, dtype=torch.float32, requires_grad=True)
@@ -1607,9 +1672,9 @@ a stateless offload fixes it at its first GPU submission. Replacing the host's
 global client does not retarget an existing offload. These wrappers release their
 own buffers and leave client/Worker shutdown to the host.
 
-For offline Pyodide hosts, `stridetorch.experimental.webgpu.source_files()`
+For offline Pyodide hosts, `torchwasm.experimental.webgpu.source_files()`
 returns the complete optional package payload, including the JS assets and
-redistribution notices. The normal `stridetorch.runtime.source_files()` export
+redistribution notices. The normal `torchwasm.runtime.source_files()` export
 remains unchanged and excludes this opt-in integration. This is an experimental
 API, not an enabled torch device or automatic `torch.matmul` replacement.
 
@@ -1624,8 +1689,8 @@ From the PaperLeet repository:
 
 ```sh
 python -m pip install -e .
-python -m pip install -e ./packages/stridetorch
-python -m pytest packages/stridetorch/tests tests/test_browser_*.py -q
+python -m pip install -e .
+python -m pytest tests tests/test_browser_*.py -q
 paperleet export
 cd web
 npm run check
@@ -1638,7 +1703,7 @@ The main PaperLeet distribution includes this same source tree under the private
 an unpublished dependency or a sibling checkout. The two distributions own
 separate files: uninstalling the standalone library cannot remove PaperLeet's
 bundled runtime, and installing it cannot silently change PaperLeet's backend.
-The subproject builds separately with `pip wheel --no-deps ./packages/stridetorch`.
+The subproject builds separately with `pip wheel --no-deps .`.
 `paperleet.browser.numpy_autograd` and `schedules_numpy` retain compatibility
 facades; source changes should be made in this library.
 
@@ -1649,7 +1714,7 @@ path. Three alternating fresh-process Node/WASM measurements of the unchanged
 seconds to 23.87 seconds (29.6%). All six runs produced identical recorded loss
 curves, MMD and coverage. This is a local workload measurement, not a latency
 promise for other devices or browser downloads. The
-[measurement record](../benchmarks/results/linear-wasm-0.13.1.json) identifies the
+[measurement record](benchmarks/results/linear-wasm-0.13.1.json) identifies the
 source, runtime, samples and scope. Empty/strided shapes, independent scalar and
 native gradients, repeated backward seeds, JVP and mutation guards are covered.
 
@@ -1662,7 +1727,7 @@ order changes slightly; mode coverage/outlier proportions were identical and
 the maximum sample-coordinate difference in the recorded Node pair was
 `1.79e-6`. These local measurements do not guarantee remote browser deadlines.
 The [0.15 validation record](validation/torch-runtime-iteration-15.md)
-and [raw measurements](../benchmarks/results/iteration-15.json) retain samples,
+and [raw measurements](benchmarks/results/iteration-15.json) retain samples,
 source identities, numerical differences and current release gates.
 
 The [0.14 validation record](validation/torch-runtime-iteration-14.md)
@@ -1694,20 +1759,20 @@ for optimizer/checkpoint parity, lazy-state memory, wheel isolation and real WAS
 Chrome measurements. The [0.3 record](validation/torch-runtime-iteration-3.md)
 retains model lifecycle results; the [0.2 record](validation/torch-runtime-iteration-2.md)
 retains attention, graph and import-alias results.
-The [extraction record](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/docs/validation/lightweight-torch-extraction.md)
+The [extraction record](validation/lightweight-torch-extraction.md)
 documents the original baseline.
 
-Ongoing development and release gates are tracked in [ROADMAP.md](../ROADMAP.md).
-The [benchmark tools](../benchmarks/README.md) cover CPU/WASM kernels and an
+Ongoing development and release gates are tracked in [ROADMAP.md](ROADMAP.md).
+The [benchmark tools](benchmarks/README.md) cover CPU/WASM kernels and an
 experimental WebGPU matmul probe. The probe is separate from the supported
 CPU/NumPy torch runtime.
 
 ## License
 
-This standalone library is licensed under [Apache-2.0](../LICENSE); attribution is
-in [NOTICE](../NOTICE). Installed packages and `runtime.source_files()` include both
+This standalone library is licensed under [Apache-2.0](LICENSE); attribution is
+in [NOTICE](NOTICE). Installed packages and `runtime.source_files()` include both
 files, including the smaller schedules profile. PaperLeet's private bundled copy
-carries the same notices. This license applies to `packages/stridetorch/`;
+carries the same notices. This license applies to ``;
 it does not set a license for the rest of the application or its dependencies.
 
 

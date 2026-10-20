@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # WebGPU bridge and sandbox feasibility
 
 This is a capability experiment, not a supported Torch device or performance
@@ -50,12 +54,12 @@ readback and transfer boundaries before choosing dispatch thresholds.
 ## Reproduction and evidence
 
 The reusable developer probe is
-[`webgpu_bridge.mjs`](../../benchmarks/webgpu_bridge.mjs).
+[`webgpu_bridge.mjs`](../../packages/torchwasm/benchmarks/webgpu_bridge.mjs).
 Call `probeWebGpuBridge(py)` with an initialized Pyodide instance inside each
 execution context. It records unavailable capabilities rather than enabling a
 backend and releases its temporary Python globals and GPU resources.
 
-The [raw observation](../../benchmarks/results/webgpu-bridge-capabilities.json)
+The [raw observation](../../packages/torchwasm/benchmarks/results/webgpu-bridge-capabilities.json)
 records browser/runtime versions, source hashes, requests from the opaque
 origin, Python diagnostics and both context results. Its scope is one scalar
 GPU calculation, without speed, memory, gradient or training claims.

@@ -1,4 +1,4 @@
-name: StrideTorch checks
+name: TorchWasm checks
 on:
   pull_request:
   push:

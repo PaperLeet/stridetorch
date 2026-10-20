@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Post-0.83 shape reuse and implicit GPU suspension probes
 
 Main adopted the qualified 0.83 runtime at
@@ -70,8 +74,8 @@ measured. A prepared predecessor failed compile preflight because module-level
 `await` was incompatible with the fixture's `exec` entry. It was not executed;
 the fresh probe uses explicit `run_sync` and retains that correction record.
 
-[Machine-readable results](../../benchmarks/results/post083-shape-jspi.json)
-and the [verified raw archive](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/post083-shape-jspi-harness.tar.gz)
+[Machine-readable results](../../packages/torchwasm/benchmarks/results/post083-shape-jspi.json)
+and the [verified raw archive](../../packages/torchwasm/benchmarks/results/post083-shape-jspi-harness.tar.gz)
 preserve both candidates, all 93 SDK sources, native arithmetic records,
 complete timing samples, the actual browser fixture and the proof-push receipt.
 The archive contains 562 files, 223 unique payloads and SHA-256

@@ -1,5 +1,6 @@
 """Operand promotion and Number conversion shared by core arithmetic."""
 import math
+import sys
 
 import numpy as np
 
@@ -8,6 +9,7 @@ from . import _autograd, _defaults, _errors, _ops, _promotion, _state, _tensor
 _FLOAT = np.dtype('float32')
 _DOUBLE = np.dtype('float64')
 _HALF = np.dtype('float16')
+_WASM = sys.platform == 'emscripten'
 _SCALAR_POWER_DTYPES = (_FLOAT, _DOUBLE)
 _SCALAR_POWER_EXPONENT_TYPES = (int, float, np.integer, np.floating, bool, np.bool_)
 
@@ -275,6 +277,11 @@ def scalar_power_values(source, exponent):
                 return output if exponent == .5 else np.reciprocal(output, out=output)
             if exponent == -1:
                 return np.reciprocal(source)
+            if exponent == 2 and _WASM and source.dtype == _DOUBLE:
+                # A private copy avoids the measured slow disjoint-buffer
+                # layout in WASM float64 multiplication; never edit the input.
+                output = source.copy(order='K')
+                return np.multiply(output, output, out=output)
             output = np.multiply(source, source)
             if exponent == 2:
                 return output
@@ -302,3 +309,20 @@ def scalar_power_values(source, exponent):
         np.power(source, np.float64(exponent), out=output, dtype=np.float64)
         return output
     return source ** exponent
+
+
+def square_backward(source, gradient):
+    """Reuse only a fresh float64 scratch array, preserving VJP operation order."""
+    if (_WASM and source.dtype == _DOUBLE and source.ndim and source.size
+            and source.flags.c_contiguous and gradient.shape == source.shape
+            and gradient.dtype.kind in 'biuf' and gradient.dtype.itemsize <= 8
+            and (gradient.flags.c_contiguous or all(stride == 0 for stride in gradient.strides))):
+        output = source.copy(order='C')
+        np.multiply(2, output, out=output)
+        # A uniform positive-one seed is an identity, even for non-finite
+        # source values: the preceding multiplication has already quieted NaNs.
+        if all(stride == 0 for stride in gradient.strides) and gradient.flat[0] == 1:
+            return output
+        np.multiply(gradient, output, out=output)
+        return output
+    return gradient * (2 * source)

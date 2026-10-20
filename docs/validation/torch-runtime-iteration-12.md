@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Lightweight torch 0.12 validation
 
 This milestone fixes sequence dtype inference and scalar storage, exposes
@@ -149,9 +153,9 @@ All 4,222 published hashed assets survive unchanged. Only 423 untracked,
 unpublished, unreachable intermediate assets were pruned. Earlier 4,720/4,729/
 4,732-test phases remain separately labeled. Full samples, source/resource/
 harness hashes, audits, reconstruction proofs and check receipts are in
-[iteration-12.json](../../benchmarks/results/iteration-12.json).
-The reverse patches reproduce the [initial prototype](../../benchmarks/results/iteration-12-prototype.patch)
-and [batch prototype](../../benchmarks/results/iteration-12-optimized-prototype.patch).
+[iteration-12.json](../../packages/torchwasm/benchmarks/results/iteration-12.json).
+The reverse patches reproduce the [initial prototype](../../packages/torchwasm/benchmarks/results/iteration-12-prototype.patch)
+and [batch prototype](../../packages/torchwasm/benchmarks/results/iteration-12-optimized-prototype.patch).
 Full local logs and frozen artifacts remain under
 `paperleet-wasm-evaluation-20261015/torch-iteration-12`.
 

@@ -3,7 +3,7 @@ import pickle
 import tracemalloc
 import numpy as np
 import pytest
-from stridetorch import torch, as_torch, UnsupportedOperation, _tensor
+from torchwasm import torch, as_torch, UnsupportedOperation, _tensor
 
 
 def product_oracle(a,b,ta,tb,seed):

@@ -2,12 +2,12 @@
 import copy,itertools,math,weakref,gc
 import numpy as np
 import pytest
-from stridetorch import torch,as_torch,UnsupportedOperation
+from torchwasm import torch,as_torch,UnsupportedOperation
 
 
 @pytest.fixture(params=['direct','matrix','auto'],autouse=True)
 def convolution_algorithm(request,monkeypatch):
-    from stridetorch import _convolution
+    from torchwasm import _convolution
     monkeypatch.setattr(_convolution,'_ALGORITHM',request.param)
 
 
@@ -143,7 +143,7 @@ def test_complete_cnn_checkpoint_resume_matches_uninterrupted_updates():
 
 
 def test_workspace_budget_falls_back_without_calling_matrix_helpers(monkeypatch):
-    from stridetorch import _convolution as c
+    from torchwasm import _convolution as c
     monkeypatch.setattr(c,'_MATRIX_WORKSPACE_BYTES',1)
     def forbidden(*args,**kwargs):raise AssertionError('Budgeted operation must not materialize matrix workspace')
     monkeypatch.setattr(c,'_matrix_forward',forbidden);monkeypatch.setattr(c,'_matrix_input_gradient',forbidden);monkeypatch.setattr(c,'_matrix_weight_gradient',forbidden)

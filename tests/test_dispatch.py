@@ -8,8 +8,8 @@ import weakref
 import numpy as np
 import pytest
 
-from stridetorch import UnsupportedOperation, torch
-from stridetorch._registry import OperatorRegistry
+from torchwasm import UnsupportedOperation, torch
+from torchwasm._registry import OperatorRegistry
 
 
 def registered(function, **policy):

@@ -5,7 +5,7 @@ import weakref
 import numpy as np
 import pytest
 
-from stridetorch import torch, UnsupportedOperation, _autograd
+from torchwasm import torch, UnsupportedOperation, _autograd
 
 
 def constant_sign_tangent(source):

@@ -3,7 +3,7 @@ import gc
 import weakref
 import numpy as np
 import pytest
-from stridetorch import UnsupportedOperation, torch
+from torchwasm import UnsupportedOperation, torch
 
 
 @pytest.mark.parametrize('dtype', [torch.float16,torch.float32,torch.float64])

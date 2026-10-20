@@ -2,12 +2,12 @@
 import pickle
 import numpy as np
 import pytest
-from stridetorch import torch, as_torch, UnsupportedOperation
+from torchwasm import torch, as_torch, UnsupportedOperation
 
 
 @pytest.fixture(params=['scan','window','block','auto'],autouse=True)
 def algorithm(request,monkeypatch):
-    from stridetorch import _pooling
+    from torchwasm import _pooling
     monkeypatch.setattr(_pooling,'_ALGORITHM',request.param)
 
 
@@ -97,7 +97,7 @@ def test_contiguous_output_indices_and_input_owned_storage(shape):
 
 
 def test_workspace_fallback_and_bounded_kernel(monkeypatch):
-    from stridetorch import _pooling
+    from torchwasm import _pooling
     monkeypatch.setattr(_pooling,'_WINDOW_WORKSPACE_BYTES',1)
     x=torch.arange(9,dtype=torch.float64).reshape(1,1,9).requires_grad_()
     y,i=torch.nn.functional.max_pool1d(x,3,1,1,return_indices=True)

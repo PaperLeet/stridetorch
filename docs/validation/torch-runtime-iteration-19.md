@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Lightweight torch 0.19: grouped convolution
 
 This iteration adds `nn.Conv1d/2d/3d`, functional `conv1d/2d/3d` and standard
@@ -123,7 +127,7 @@ new assets are reachable. The autograd runtime is
 bytes, +19310raw /4339gzip versus0.18 under identical gzip settings. No cold-start
 or peak-memory result is inferred.
 
-[Complete evidence](../../benchmarks/results/iteration-19.json)
+[Complete evidence](../../packages/torchwasm/benchmarks/results/iteration-19.json)
 retains all gates, probes, raw prototype versus production measurements and
 failures. `iteration-19-harness.tar.gz` archives387 runner/source/test/log files.
 The original timing parent handle became unavailable across a context transition;

@@ -37,7 +37,7 @@ def client_module(monkeypatch, client):
         raise AssertionError('RPC or JS conversion happened before feature refusal')
     monkeypatch.setitem(sys.modules, 'js', SimpleNamespace(matrix_rpc=client, Object=SimpleNamespace(fromEntries=forbidden)))
     monkeypatch.setitem(sys.modules, 'pyodide.ffi', SimpleNamespace(run_sync=forbidden, to_js=forbidden))
-    return importlib.import_module('stridetorch.experimental.webgpu.matrix_client')
+    return importlib.import_module('torchwasm.experimental.webgpu.matrix_client')
 
 
 class NoConvert:

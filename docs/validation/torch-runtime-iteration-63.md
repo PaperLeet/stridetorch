@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Torch runtime iteration 63 — robust determinants under NumPy policies
 
 Version **0.63.0** fixes false floating-point failures in determinant evaluation
@@ -174,8 +178,8 @@ not total tape bytes, process RSS, LAPACK workspace or WASM heap size. Cold-firs
 diagnostics remain separate. Full allocation/footprint tables are in the machine
 report; no new runtime dependency or GPU path is introduced.
 
-[Machine report](../../benchmarks/results/iteration-63.json)
-and [raw harness](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/iteration-63-harness.tar.gz).
+[Machine report](../../packages/torchwasm/benchmarks/results/iteration-63.json)
+and [raw harness](../../packages/torchwasm/benchmarks/results/iteration-63-harness.tar.gz).
 Archive: 5,218,350 bytes; SHA-256 `6a4f4ec2cfff232c66360d88b20f25f734e7b383c82b4630406ed4aba742e3ba`. Source snapshots, frozen
 native inputs/results, policy diagnostics, programs, plans, package artifacts,
 receipts, development failures and samples are included. The public benchmark

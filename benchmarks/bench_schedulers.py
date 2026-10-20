@@ -50,7 +50,7 @@ def run_benchmarks(*, backend='lite', repeat=11, iterations=120, warmup=3):
     if repeat < 1 or iterations < 1 or warmup < 0:
         raise ValueError('Positive repeat/iterations and nonnegative warmup required')
     if backend == 'lite':
-        from stridetorch import torch as api, __version__ as version
+        from torchwasm import torch as api, __version__ as version
     elif backend == 'native':
         import torch as api
         version = api.__version__

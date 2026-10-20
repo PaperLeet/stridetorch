@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # StrideTorch 0.27: stored gradient layout and ownership
 
 This iteration audits the first gradient allocation and retained non-leaf
@@ -133,7 +137,7 @@ the observed repository variable. Logs retain ephemeral Vite startup/shutdown
 messages; every complete command/assertion returns0. No application browser
 visual QA is claimed.
 
-[Integration evidence](../../benchmarks/results/iteration-27-integration-gates.json)
+[Integration evidence](../../packages/torchwasm/benchmarks/results/iteration-27-integration-gates.json)
 and the212-file receipt archive retain the frozen exports, actual reports,
 dependency interruption/recovery and process receipts. Main adoption uses a
 non-force push after latest-ref revalidation. Exact remote Quality and eligible
@@ -160,7 +164,7 @@ pass native78/10218/342/three repeats in416.25s and exported WASM78/342/no budge
 violations in524859ms, with identical per-case source hashes, counts, packages,
 budgets and27/841 standalone contracts.
 
-[Remote adoption evidence](../../benchmarks/results/iteration-27-remote-adoption.json)
+[Remote adoption evidence](../../packages/torchwasm/benchmarks/results/iteration-27-remote-adoption.json)
 and its14-file archive retain both runs, byte equivalence and actual live checks.
 All78 decoded starters/current detail/manifest references and158 immutable payloads
 match the frozen version, including both runtime byte sequences and LICENSE/NOTICE.

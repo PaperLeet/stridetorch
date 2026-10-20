@@ -1,7 +1,7 @@
 """Public HVP graph barriers: nonlinear and shared-storage frozen terms."""
 import numpy as np
 import pytest
-from stridetorch import torch
+from torchwasm import torch
 
 @pytest.mark.parametrize('dtype_name',['float32','float64'])
 @pytest.mark.parametrize('barrier',['square_no_grad','view_no_grad','square_detach','view_detach'])

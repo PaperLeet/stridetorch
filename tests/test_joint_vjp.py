@@ -2,8 +2,8 @@
 import numpy as np
 import pytest
 
-from stridetorch import UnsupportedOperation, torch
-from stridetorch._autograd import joint_result
+from torchwasm import UnsupportedOperation, torch
+from torchwasm._autograd import joint_result
 
 
 def test_joint_pullback_runs_once_per_traversal_and_accumulates_shared_inputs():

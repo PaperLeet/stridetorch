@@ -11,7 +11,7 @@ import statistics
 import sys
 import time
 import numpy as np
-from stridetorch import __version__, torch
+from torchwasm import __version__, torch
 
 
 def _fixture(shape, kind, dtype, implementation):

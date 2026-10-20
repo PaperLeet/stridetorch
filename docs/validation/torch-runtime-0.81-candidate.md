@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # StrideTorch 0.81 candidate: implementation and initial distribution checks
 
 Historical candidate-stage record. The subsequent
@@ -52,8 +56,8 @@ browser assets, run the actual WASM catalog/Worker budgets and required frontend
 build checks, reconcile moving main, then perform guarded adoption. No CI,
 tag, package publication or deployment is initiated by this candidate stage.
 
-[Machine-readable package/core result](../../benchmarks/results/candidate-0.81-package-core.json).
-The [raw package/core archive](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/candidate-0.81-package-core-harness.tar.gz)
+[Machine-readable package/core result](../../packages/torchwasm/benchmarks/results/candidate-0.81-package-core.json).
+The [raw package/core archive](../../packages/torchwasm/benchmarks/results/candidate-0.81-package-core-harness.tar.gz)
 contains 1153 verified files, 5,016,121 bytes, SHA-256
 `a39733729c36bb4fbf17c28e2159d817242d5b4cb4902f2359bf5207c291f64e`.
 It includes actual distributions, rebuilt wheels, installed sources, scripts,

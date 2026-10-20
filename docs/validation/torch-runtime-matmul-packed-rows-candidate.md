@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # WASM matrix packing candidate after 0.80
 
 An isolated candidate packs both matrix operands into contiguous reduction rows
@@ -14,7 +18,7 @@ The existing dtype, size and exceptional-range guards stay in place, as do the
 normal native CPU route and batched matrix implementation. The candidate replaces
 `einsum('ik,kj->ij', a, b)` with `einsum('ik,jk->ij', contiguous(a), contiguous(b.T))`.
 Output normalization remains unchanged. The
-[candidate patch](../../benchmarks/fixtures/matmul-packed-rows-candidate.patch)
+[candidate patch](../../packages/torchwasm/benchmarks/fixtures/matmul-packed-rows-candidate.patch)
 is retained separately from production sources.
 
 ## Evidence so far
@@ -62,9 +66,9 @@ application and package integration. Guard against packing copies erasing gains
 for other shapes or increasing memory unacceptably. Any later guard or algorithm
 change requires its own frozen candidate and evidence.
 
-The [machine report](../../benchmarks/results/matmul-packed-rows-candidate.json)
+The [machine report](../../packages/torchwasm/benchmarks/results/matmul-packed-rows-candidate.json)
 contains both scans, raw samples and all 65 candidate resource hashes. The
-[raw archive](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/matmul-packed-rows-candidate-harness.tar.gz)
+[raw archive](../../packages/torchwasm/benchmarks/results/matmul-packed-rows-candidate-harness.tar.gz)
 contains 577 verified files, 1,673,735 bytes, SHA-256
 `bca1c5b901765ff5ca34af5fc9047a43f894d35063778553e83199c623601004`.
 It retains the original workspace paths and external runtime dependencies;

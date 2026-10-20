@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Torch runtime iteration 1: indexing, attention and Adam
 
 This is an iteration toward an independent library, not a claim of complete
@@ -150,6 +154,6 @@ GPU compilation and each raw sample are preserved separately in the evidence.
 The Python/JS bridge and a resident multi-operation graph are still unimplemented.
 
 Raw samples, environments, source hashes, dtype and memory measurements are
-preserved in [`iteration-1.json`](../../benchmarks/results/iteration-1.json).
+preserved in [`iteration-1.json`](../../packages/torchwasm/benchmarks/results/iteration-1.json).
 The complete baseline source snapshot and local runtime logs remain in the
 `paperleet-wasm-evaluation-20261015/torch-iteration-1` evidence folder.

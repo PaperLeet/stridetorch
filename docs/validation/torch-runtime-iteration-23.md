@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # StrideTorch 0.23: bounded public-call validation
 
 This version reduces repeated public-operator dispatch overhead. Numerical
@@ -98,18 +102,18 @@ patterns. They do not measure first binding, import, cold start, native Torch,
 peak memory or application speed. One float32 WASM optional-output exponential
 case shows only a 3% gain; it is retained rather than averaged away.
 
-The [development evidence](../../benchmarks/results/iteration-23.json)
-and [source/test/harness archive](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/iteration-23-harness.tar.gz)
+The [development evidence](../../packages/torchwasm/benchmarks/results/iteration-23.json)
+and [source/test/harness archive](../../packages/torchwasm/benchmarks/results/iteration-23-harness.tar.gz)
 retain all phases, failed prototypes, independent distributions and release
 snapshots. They explicitly distinguish completed gates from pending adoption.
-The [merged gates](../../benchmarks/results/iteration-23-merged-gates.json)
-and [merged packaging/frontend archive](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/iteration-23-merged-gates-harness.tar.gz)
+The [merged gates](../../packages/torchwasm/benchmarks/results/iteration-23-merged-gates.json)
+and [merged packaging/frontend archive](../../packages/torchwasm/benchmarks/results/iteration-23-merged-gates-harness.tar.gz)
 record the refreshed application metadata and repeated affected checks.
-The [complete local release gates](../../benchmarks/results/iteration-23-local-gates.json)
-and [final WASM/archive receipts](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/iteration-23-local-gates-harness.tar.gz)
+The [complete local release gates](../../packages/torchwasm/benchmarks/results/iteration-23-local-gates.json)
+and [final WASM/archive receipts](../../packages/torchwasm/benchmarks/results/iteration-23-local-gates-harness.tar.gz)
 close the full exported catalog gate against the frozen source and 161 files.
-The [latest upstream gates](../../benchmarks/results/iteration-23-latest-upstream-gates.json)
-and [affected-check archive](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/iteration-23-latest-upstream-gates-harness.tar.gz)
+The [latest upstream gates](../../packages/torchwasm/benchmarks/results/iteration-23-latest-upstream-gates.json)
+and [affected-check archive](../../packages/torchwasm/benchmarks/results/iteration-23-latest-upstream-gates-harness.tar.gz)
 retain the final application merge, server checks and refreshed packaging.
 
 ## Main Quality and superseded publication
@@ -130,6 +134,6 @@ Both superseded/skipped workflow histories are retained. A mature 0.24 can
 supersede an unreleased site version; the actual final deployment still requires
 eligible Pages steps and frozen live-file verification.
 
-[Main-quality evidence](../../benchmarks/results/iteration-23-main-quality.json)
-and [workflow/artifact archive](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/iteration-23-main-quality-harness.tar.gz)
+[Main-quality evidence](../../packages/torchwasm/benchmarks/results/iteration-23-main-quality.json)
+and [workflow/artifact archive](../../packages/torchwasm/benchmarks/results/iteration-23-main-quality-harness.tar.gz)
 record that main adoption is proven while site publication is not.

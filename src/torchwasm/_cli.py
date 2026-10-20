@@ -9,7 +9,7 @@ from ._integration import as_torch
 
 def main(argv=None):
     parser = argparse.ArgumentParser(
-        prog='stridetorch',
+        prog='torchwasm',
         description='Run a Python script with the NumPy-backed torch compatibility library.')
     parser.add_argument('script', help='Python script to execute unchanged')
     parser.add_argument('arguments', nargs=argparse.REMAINDER, help='arguments passed to the script')

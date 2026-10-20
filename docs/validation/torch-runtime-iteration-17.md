@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Lightweight torch 0.17: GroupNorm
 
 This iteration adds `nn.GroupNorm`, `nn.functional.group_norm` and the ordinary
@@ -72,7 +76,7 @@ iteration evidence and reproducibility archive.
 - All77 visualization exports passed. All5494 previously published immutable
   assets remain byte-identical; all156 new hashed assets are reachable.
 - Full local proof, original probes, every raw performance sample and package/
-  browser identities are in [iteration-17.json](../../benchmarks/results/iteration-17.json).
+  browser identities are in [iteration-17.json](../../packages/torchwasm/benchmarks/results/iteration-17.json).
   Original runners and frozen sources are in `iteration-17-harness.tar.gz`.
 
 Exact-commit remote adoption subsequently passed as recorded below. The new
@@ -112,12 +116,12 @@ The previous0.16release is now fully remote-verified; its proof is carried with
 this implementation rather than a separate documentation-only CI cycle.
 
 Final integration preserves upstream inbox changes from `9ca363a2`.
-[Integration evidence](../../benchmarks/results/iteration-17-integration.json)
+[Integration evidence](../../packages/torchwasm/benchmarks/results/iteration-17-integration.json)
 records source/hash invariance and the complete post-rebase frontend rerun.
 
 ## Exact remote adoption
 
-[Remote proof](../../benchmarks/results/iteration-17-remote-adoption.json)
+[Remote proof](../../packages/torchwasm/benchmarks/results/iteration-17-remote-adoption.json)
 records commit `cea90293d861b299a2779fe5283a02c813f15e2d`, successful
 Quality38843241977 and Pages38843241942, and all77 live starters/details/manifests
 plus156 byte-identical immutable assets. Both runtime profiles contain0.17 and

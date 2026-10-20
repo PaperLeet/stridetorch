@@ -5,7 +5,7 @@ import itertools
 import weakref
 import numpy as np
 import pytest
-from stridetorch import torch, UnsupportedOperation
+from torchwasm import torch, UnsupportedOperation
 
 
 @pytest.mark.parametrize('dtype',[np.float32,np.float64,np.int16,np.int64,np.complex64,np.bool_])
@@ -111,7 +111,7 @@ def test_jvp_view_as_uses_only_other_shape():
 def test_readonly_view_and_broadcast_chunk_rejection():
     a=np.arange(12.,dtype=np.float64).reshape(3,4);a.setflags(write=False)
     with pytest.warns(UserWarning):
-        from stridetorch import _state
+        from torchwasm import _state
         old=_state._numpy_readonly_warning_emitted;_state._numpy_readonly_warning_emitted=False
         try:x=torch.from_numpy(a)
         finally:_state._numpy_readonly_warning_emitted=old

@@ -1,7 +1,7 @@
 """Cofactor-minor references independent of the SVD implementation."""
 import numpy as np
 import pytest
-from stridetorch import torch
+from torchwasm import torch
 
 def minor(a,i,j):return np.delete(np.delete(a,i,axis=0),j,axis=1)
 

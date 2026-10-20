@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Torch runtime 0.82 development candidate
 
 This is the historical development-stage record. The subsequent
@@ -84,8 +88,8 @@ No test cases or artifact-ownership assertions are removed.
 
 ## Evidence
 
-[Development results](../../benchmarks/results/gradient-utilities-0.82-development.json)
-and [verified raw archive](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/gradient-utilities-0.82-development-harness.tar.gz)
+[Development results](../../packages/torchwasm/benchmarks/results/gradient-utilities-0.82-development.json)
+and [verified raw archive](../../packages/torchwasm/benchmarks/results/gradient-utilities-0.82-development-harness.tar.gz)
 retain the independent oracle, frozen candidates, failures, test sources,
 SDK reports and six package artifacts. The archive contains 789 files,
 289 unique payloads, 3,020,479 bytes; SHA-256

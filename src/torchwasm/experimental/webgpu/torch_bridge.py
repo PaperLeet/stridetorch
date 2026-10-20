@@ -5,7 +5,7 @@ There is no resident Torch GPU storage, new device, or automatic monkeypatch.
 The injected submitter is also a deterministic transport test seam.
 """
 import numpy as np
-from stridetorch import torch, _autograd, _matmul, _state, _tensor
+from torchwasm import torch, _autograd, _matmul, _state, _tensor
 
 _FLOAT32 = np.dtype('float32')
 _MACS = 268435456

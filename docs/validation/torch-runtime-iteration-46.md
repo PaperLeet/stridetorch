@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Torch runtime iteration 46: ordered inverse pooling adjoints
 
 ## Result and bounds
@@ -59,7 +63,7 @@ Every sample, child median and control is retained. Unselected paths/general CNN
 | Source/license bytes | 607,595 | 610,370 |
 | Local concatenated gzip estimate | 141,441 | 142,106 |
 
-These are source-concatenation estimates, not wheel size, network transfer or peak memory. Repository tool: [bench_average_pooling_inverse.py](../../benchmarks/bench_average_pooling_inverse.py), importing the neighboring bench_average_pooling_3d.py helper. Pass baseline/candidate source directories, output path and optional samples/iterations/reverse order. [Machine-readable reports and four harness archives](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results) retain exact source/test/export/dependency/distribution identities, native arrays and all timing samples.
+These are source-concatenation estimates, not wheel size, network transfer or peak memory. Repository tool: [bench_average_pooling_inverse.py](../../packages/torchwasm/benchmarks/bench_average_pooling_inverse.py), importing the neighboring bench_average_pooling_3d.py helper. Pass baseline/candidate source directories, output path and optional samples/iterations/reverse order. [Machine-readable reports and four harness archives](../../packages/torchwasm/benchmarks/results/) retain exact source/test/export/dependency/distribution identities, native arrays and all timing samples.
 
 The numerically correct but slower per-plane prototype and initial packed versions remain in the local prototype-stage archive. All formal gates/timings are repeated on the final 0.46 identities. Seven release-policy files remain byte-identical to canonical commit 13d2782a494415ba72bc604a0ef7e4c4f875ba25. This work initiates no tag, workflow dispatch, release, package upload or online deployment. Broader independent-library/core-coverage/backend work remains active.
 

@@ -1,7 +1,7 @@
 """Independent math attention, grouped heads, mixed AD and stochastic tape rules."""
 import numpy as np
 import pytest
-from stridetorch import torch
+from torchwasm import torch
 
 
 def sum_to(value, shape):
@@ -151,7 +151,7 @@ def test_reverse_of_jvp_all_primal_and_direction_inputs(kind, grouped):
 @pytest.mark.parametrize('grouped', [False, True])
 @pytest.mark.parametrize('probability', [0., .25, 1.])
 def test_dropout_uses_one_mask_for_forward_reverse_and_jvp(monkeypatch, grouped, probability):
-    from stridetorch import _random
+    from torchwasm import _random
     rng = np.random.default_rng(5012)
     shapes = GQA_SHAPES[0] if grouped else SHAPES[1]
     arrays = [rng.normal(size=s) for s in shapes]
@@ -348,7 +348,7 @@ def test_dropout_rng_replay_and_single_call_transform():
 def test_geometry_cache_is_bounded_and_retains_no_tensor_state():
     import gc
     import weakref
-    from stridetorch import _attention
+    from torchwasm import _attention
     _attention._geometry.cache_clear()
     values = [torch.ones(*s) for s in GQA_SHAPES[0]]
     refs = [weakref.ref(x) for x in values]

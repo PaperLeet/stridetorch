@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Iteration 79: vector APIs and lower matmul inference overhead
 
 Version 0.77 adds `torch.mv`, `Tensor.mv`, `Tensor.dot` and `Tensor.matmul`, with native Tensor-only binding and keyword names for root `dot`/`matmul`. Existing `import torch` aliases and installed launchers expose the same APIs. Normal CPU/WASM numerical kernels, including the qualified batched matmul and SDPA engines, retain their 0.76 bytes. This iteration reduces Python graph setup for ordinary inference and handles empty products from metadata.
@@ -54,8 +58,8 @@ Main advanced by three notification/inbox/admin commits to `1535c6bc492726119ef1
 
 Complete frontend checks including the new review-notification check, both default/current Pages builds, asset-retention and release checks, exact worker regeneration and a fresh nested-page real Chrome judge run all pass on `fc128d125e6ac2f09eb5d47840685a0cb549d4a9`. The latter again passes 7/7 Attention tests and the explicit new API assertions. Numerical CPU/WASM and latency records retain their original execution bases and frozen bytes; no rerun on the rebased parent is claimed. No CI, tag, publication or deployment was initiated.
 
-[Machine record](../../benchmarks/results/iteration-79.json). [Raw evidence](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/iteration-79-raw.tar.gz): 6,128,847 bytes, SHA-256 `2f95dfc24e6795212fb31d91154b8f9ca686668329f003bd4f6e07840d48c3b3`.
+[Machine record](../../packages/torchwasm/benchmarks/results/iteration-79.json). [Raw evidence](../../packages/torchwasm/benchmarks/results/iteration-79-raw.tar.gz): 6,128,847 bytes, SHA-256 `2f95dfc24e6795212fb31d91154b8f9ca686668329f003bd4f6e07840d48c3b3`.
 
 ## Main adoption
 
-Version 0.77.0 was adopted on main at `3941149119e06d2db62d4f00ede7d603d9732ed3` through the unchanged guarded ordinary-push wrapper. Git/GitHub refs, the clean source tree and 2,442 qualified Git blobs were verified. All 15,319 prior immutable blob identities and modes are preserved. The source commit had zero Actions runs at verification. No CI, tag, publication or deployment was initiated. [Adoption receipt](../../benchmarks/results/iteration-79-main-adoption.json).
+Version 0.77.0 was adopted on main at `3941149119e06d2db62d4f00ede7d603d9732ed3` through the unchanged guarded ordinary-push wrapper. Git/GitHub refs, the clean source tree and 2,442 qualified Git blobs were verified. All 15,319 prior immutable blob identities and modes are preserved. The source commit had zero Actions runs at verification. No CI, tag, publication or deployment was initiated. [Adoption receipt](../../packages/torchwasm/benchmarks/results/iteration-79-main-adoption.json).

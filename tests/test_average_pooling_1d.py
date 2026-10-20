@@ -4,13 +4,13 @@ import pickle
 import numpy as np
 import pytest
 
-from stridetorch import UnsupportedOperation, as_torch, torch
+from torchwasm import UnsupportedOperation, as_torch, torch
 
 
 @pytest.fixture(params=[('scan', 'loop'), ('packed', 'scatter'), ('matrix', 'packed'),
                        ('block', 'block'), ('auto', 'auto')], autouse=True)
 def algorithm(request, monkeypatch):
-    from stridetorch import _average_pooling
+    from torchwasm import _average_pooling
     monkeypatch.setattr(_average_pooling, '_ALGORITHM', request.param[0])
     monkeypatch.setattr(_average_pooling, '_BACKWARD_ALGORITHM', request.param[1])
 

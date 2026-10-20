@@ -6,7 +6,7 @@ import tracemalloc
 import weakref
 import numpy as np
 import pytest
-from stridetorch import torch, as_torch, UnsupportedOperation, _tensor
+from torchwasm import torch, as_torch, UnsupportedOperation, _tensor
 
 
 # Measured native PyTorch 2.6 controls, independent of the implementation's

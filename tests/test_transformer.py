@@ -6,7 +6,7 @@ import pickle
 import numpy as np
 import pytest
 
-from stridetorch import as_torch, create_torch, torch
+from torchwasm import as_torch, create_torch, torch
 
 
 KINDS=['encoder_layer','decoder_layer','encoder','decoder','full']

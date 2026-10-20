@@ -1,7 +1,7 @@
 """Functional JVP retains caller-defined Tensor detach dispatch on private leaves."""
 import numpy as np
 import pytest
-from stridetorch import torch
+from torchwasm import torch
 
 
 @pytest.mark.parametrize('dtype',[torch.float32,torch.float64])

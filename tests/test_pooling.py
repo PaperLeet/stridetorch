@@ -4,12 +4,12 @@ import pickle
 import weakref
 import numpy as np
 import pytest
-from stridetorch import UnsupportedOperation, as_torch, torch
+from torchwasm import UnsupportedOperation, as_torch, torch
 
 
 @pytest.fixture(params=['scan', 'window', 'block', 'auto'], autouse=True)
 def pooling_algorithm(request, monkeypatch):
-    from stridetorch import _pooling
+    from torchwasm import _pooling
     monkeypatch.setattr(_pooling, '_ALGORITHM', request.param)
 
 
@@ -128,7 +128,7 @@ def test_module_imports_state_hooks_and_lifetimes():
 
 
 def test_workspace_fallback_and_inference_only_dilated_holes(monkeypatch):
-    from stridetorch import _pooling
+    from torchwasm import _pooling
     monkeypatch.setattr(_pooling, '_WINDOW_WORKSPACE_BYTES', 0)
     x = torch.arange(16).reshape(1, 1, 4, 4)
     np.testing.assert_array_equal(torch.nn.MaxPool2d(2)(x).numpy(), [[[[5, 7], [13, 15]]]])

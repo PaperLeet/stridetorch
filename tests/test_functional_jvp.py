@@ -1,7 +1,7 @@
 """Functional JVP graph ownership, native boundaries and independent derivative fixtures."""
 import numpy as np
 import pytest
-from stridetorch import as_torch, torch
+from torchwasm import as_torch, torch
 
 # Reference file SHA256: 87d2e5e3e4be39157e4180a85bf6b6c2da1e7fce31e3d0c913b5d802b7e9545e
 _REFERENCES = [{'case': 'layernorm',

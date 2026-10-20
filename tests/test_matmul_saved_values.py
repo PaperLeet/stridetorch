@@ -2,7 +2,7 @@
 import numpy as np
 import pytest
 
-from stridetorch import torch
+from torchwasm import torch
 
 
 SHAPES=[((2,2),(2,2)),((2,),(2,)),((2,),(2,2)),((2,2),(2,)),((2,2,2),(2,2))]

@@ -8,7 +8,7 @@ import statistics
 import time
 import numpy as np
 
-from stridetorch import torch
+from torchwasm import torch
 
 
 def run(samples=5, calls=4):

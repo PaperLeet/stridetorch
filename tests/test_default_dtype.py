@@ -5,7 +5,7 @@ import sys
 import numpy as np
 import pytest
 
-from stridetorch import UnsupportedOperation, as_torch, create_torch, torch
+from torchwasm import UnsupportedOperation, as_torch, create_torch, torch
 
 
 @pytest.fixture(autouse=True)

@@ -1,4 +1,4 @@
-# Contributing to StrideTorch
+# Contributing to TorchWasm
 
 Runtime operators, differentiation, Torch API compatibility, CPU/WASM correctness
 and performance work belong here. Paper exercises, teaching statements, learning

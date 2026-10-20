@@ -2,8 +2,8 @@
 import argparse,json,platform,statistics,time
 from pathlib import Path
 import numpy as np
-import stridetorch
-from stridetorch import torch
+import torchwasm
+from torchwasm import torch
 
 
 def run_benchmarks(*,dtype='float32',repeat=11,iterations=1000,cases=None):
@@ -54,7 +54,7 @@ def run_benchmarks(*,dtype='float32',repeat=11,iterations=1000,cases=None):
             for _ in range(count):fn()
             samples.append((time.perf_counter()-start)*1000/count)
         results[name]=dict(iterations=count,median_ms=statistics.median(samples),samples_ms=samples)
-    return dict(library=stridetorch.__version__,runtime_module=str(Path(stridetorch.__file__).with_name('_tensor.py')),python=platform.python_version(),numpy=np.__version__,dtype=dtype,repeat=repeat,iterations=iterations,warmup=3,scope='Twelve identical valid CPU/WASM means,reverse and unchanged exp control;baseline already supports method dtype. Excludes repaired overflow/invalid overloads,unsupported baseline functional dtype,coldstart/native Torch/application speed.',results=results)
+    return dict(library=torchwasm.__version__,runtime_module=str(Path(torchwasm.__file__).with_name('_tensor.py')),python=platform.python_version(),numpy=np.__version__,dtype=dtype,repeat=repeat,iterations=iterations,warmup=3,scope='Twelve identical valid CPU/WASM means,reverse and unchanged exp control;baseline already supports method dtype. Excludes repaired overflow/invalid overloads,unsupported baseline functional dtype,coldstart/native Torch/application speed.',results=results)
 
 
 if __name__=='__main__':

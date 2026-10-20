@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Lightweight torch 0.18: weighted spatial classification
 
 This iteration expands cross entropy beyond the old `[N,C]` / int64 `[N]`
@@ -158,7 +162,7 @@ latency follows from these microbenchmarks. Final browser runtime transfer size
 is411157raw /94654gzip bytes, up14312raw /2726gzip from0.17 under identical gzip
 settings; cold start and peak memory were not measured.
 
-[Full evidence](../../benchmarks/results/iteration-18.json)
+[Full evidence](../../packages/torchwasm/benchmarks/results/iteration-18.json)
 retains final native/WASM/distribution/source proofs, all32 final process reports,
 all earlier rejected samples/probes and archived unpublished-asset receipts.
 `iteration-18-harness.tar.gz` contains original runners, failed fixtures, each
@@ -174,7 +178,7 @@ private application wheel/sdist were rebuilt and checked against the new catalog
 Complete frontend checks, production build and Pages policy validation passed
 after rebase. Final initial JS graph:404456raw /130110gzip bytes; this includes
 upstream UI changes.
-[Integration evidence](../../benchmarks/results/iteration-18-integration.json)
+[Integration evidence](../../packages/torchwasm/benchmarks/results/iteration-18-integration.json)
 records input invariance, final distribution identities and all affected checks.
 
 ## Verified remote adoption
@@ -185,5 +189,5 @@ Commit `5321620fc58b014deaf0fa4bb57000fb9b2e1a71` passed exact-main Quality
 actual WASM passed77/77 with415 independent contracts and no budget excess.
 Live verification compared all77 starters/manifests/details and156 immutable
 payloads, including both0.18 profiles and Apache notices, to frozen expected bytes.
-The [remote proof](../../benchmarks/results/iteration-18-remote-adoption.json)
+The [remote proof](../../packages/torchwasm/benchmarks/results/iteration-18-remote-adoption.json)
 retains job/step outcomes, downloaded reports, live hashes and observed receipts.

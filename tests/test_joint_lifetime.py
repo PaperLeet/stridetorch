@@ -5,8 +5,8 @@ import weakref
 import numpy as np
 import pytest
 
-from stridetorch import torch, UnsupportedOperation
-from stridetorch._autograd import joint_result
+from torchwasm import torch, UnsupportedOperation
+from torchwasm._autograd import joint_result
 
 
 def weighted_pair(first,second,payload,selective):

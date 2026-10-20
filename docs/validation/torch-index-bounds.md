@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Integer index bounds without full-size comparison buffers
 
 These measurements describe the development candidate based on `08636f5e`,
@@ -20,9 +24,9 @@ resource sets. Package resources, numerical kernels, derivative rules and
 optional GPU dispatch are otherwise identical. The default CPU payload still
 contains 63 resources, and automatic GPU dispatch remains disabled.
 
-The [machine-readable record](../../benchmarks/results/index-bounds.json)
+The [machine-readable record](../../packages/torchwasm/benchmarks/results/index-bounds.json)
 binds the exact implementation/test hashes to the
-[raw evidence archive](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/index-bounds-harness.tar.gz).
+[raw evidence archive](../../packages/torchwasm/benchmarks/results/index-bounds-harness.tar.gz).
 
 | Functional verification | Result |
 | --- | --- |

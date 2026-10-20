@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Torch runtime 0.82 qualification
 
 Version 0.82 adds `torch.nn.utils.clip_grad_norm_`, `clip_grad_value_`, the
@@ -76,8 +80,8 @@ The terminal-HVP latency campaign remains inconclusive and its candidate is
 excluded. Operand-lifetime and JSPI/WebGPU experiments are separate; production
 WebGPU remains disabled. This release makes no new latency speedup claim.
 
-[Machine-readable qualification](../../benchmarks/results/qualification-0.82.json)
-and its [verified raw archive](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/qualification-0.82-harness.tar.gz)
+[Machine-readable qualification](../../packages/torchwasm/benchmarks/results/qualification-0.82.json)
+and its [verified raw archive](../../packages/torchwasm/benchmarks/results/qualification-0.82-harness.tar.gz)
 contain the current source/export identities, build artifacts, logs, failures,
 source-equivalence records and replay dependencies. The archive has 661 files,
 628 unique payloads and SHA-256
@@ -86,7 +90,7 @@ The earlier [development record](torch-runtime-0.82-development.md) retains the
 full independent oracle and SDK evidence.
 
 Main adopted commit `905f4da206a6168838efabeae147ec5af55b3fec`. The
-[remote adoption receipt](../../benchmarks/results/qualification-0.82-main-adoption.json)
+[remote adoption receipt](../../packages/torchwasm/benchmarks/results/qualification-0.82-main-adoption.json)
 verifies all 66 runtime resources, 183 active export identities and seven
 release-policy files from that same remote commit. It observes zero workflow
 runs for the adopted SHA and confirms Pages still serves `gh-pages` rather

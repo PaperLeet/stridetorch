@@ -4,7 +4,7 @@ import copy
 import numpy as np
 import pytest
 
-from stridetorch import UnsupportedOperation, as_torch, torch
+from torchwasm import UnsupportedOperation, as_torch, torch
 
 
 @pytest.mark.parametrize('name,options', [('SGD', {'momentum': .8}),

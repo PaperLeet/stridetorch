@@ -8,7 +8,7 @@ import math
 import statistics
 import time
 import numpy as np
-from stridetorch import torch,_transpose_convolution as tc
+from torchwasm import torch,_transpose_convolution as tc
 
 
 def composed(input,weight,bias,stride=2,padding=1,output_padding=1,groups=1,dilation=1):

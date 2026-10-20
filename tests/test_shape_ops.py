@@ -3,7 +3,7 @@ import copy
 import itertools
 import numpy as np
 import pytest
-from stridetorch import torch, UnsupportedOperation
+from torchwasm import torch, UnsupportedOperation
 
 
 @pytest.mark.parametrize('axes',list(itertools.permutations(range(3))))
@@ -112,7 +112,7 @@ def test_operator_signature_sentinel_has_stable_repr():
 
 
 def test_scalar_T_is_a_distinct_shared_view():
-    from stridetorch import _state
+    from torchwasm import _state
     old=getattr(_state,'_scalar_t_warning_emitted',False);_state._scalar_t_warning_emitted=False
     try:
         x=torch.tensor(2.,requires_grad=True)

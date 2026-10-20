@@ -4,7 +4,7 @@ import warnings
 import numpy as np
 import pytest
 
-from stridetorch import UnsupportedOperation, torch
+from torchwasm import UnsupportedOperation, torch
 
 
 def test_external_non_numeric_arrays_are_rejected_before_casting():
@@ -66,7 +66,7 @@ def test_scalar_and_numpy_casts_keep_ieee_values_and_error_policy():
 
 
 def test_readonly_array_warning_is_shared_by_import_factories(monkeypatch):
-    import stridetorch._state as state
+    import torchwasm._state as state
     monkeypatch.setattr(state, '_numpy_readonly_warning_emitted', False)
     data = np.arange(4, dtype='f4'); data.flags.writeable = False
     with warnings.catch_warnings(record=True) as seen:

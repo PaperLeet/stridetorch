@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Packed-row WASM matrix candidate: repeated timing and memory qualification
 
 The isolated packed-row candidate is selected for the next integration stage.
@@ -92,9 +96,9 @@ the existing guarded adoption process only after those checks pass. WebGPU
 remains experimental and disabled as a torch backend; its earlier 0.80 timing
 must not silently become a measurement of a newer CPU baseline.
 
-The [machine report](../../benchmarks/results/matmul-packed-rows-qualification.json)
+The [machine report](../../packages/torchwasm/benchmarks/results/matmul-packed-rows-qualification.json)
 retains every flow ratio, process identity, memory scope and source hash. The
-[raw harness archive](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/matmul-packed-rows-qualification-harness.tar.gz)
+[raw harness archive](../../packages/torchwasm/benchmarks/results/matmul-packed-rows-qualification-harness.tar.gz)
 contains **363** verified files, **1,195,489** bytes, SHA-256
 `4c9a24ef5a0cd7645f45b1361700926bf74093885356e50c17ea7926799d0f77`.
 The archive includes the referenced 342 SDK payloads; prior native targeted

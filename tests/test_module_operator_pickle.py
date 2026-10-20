@@ -2,7 +2,7 @@
 import copy,pickle
 import numpy as np
 import pytest
-from stridetorch import torch
+from torchwasm import torch
 
 @pytest.mark.parametrize('kind',['module','transformer'])
 @pytest.mark.parametrize('operator',['sin','vjp','jacobian','hvp','jvp'])

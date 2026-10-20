@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # StrideTorch 0.21: shape contracts and graphless views
 
 Version 0.21 is adopted on main at `9eee6fa0` and deployed through the
@@ -95,9 +99,9 @@ installation. No package has been published to PyPI. No 0.21 browser catalog has
 been exported or published, and all historical published assets remain untouched.
 
 Machine-readable local evidence is in
-[`iteration-21.json`](../../benchmarks/results/iteration-21.json);
+[`iteration-21.json`](../../packages/torchwasm/benchmarks/results/iteration-21.json);
 source snapshots, harnesses, all timing samples and rejected logs are in
-[`iteration-21-harness.tar.gz`](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/iteration-21-harness.tar.gz).
+[`iteration-21-harness.tar.gz`](../../packages/torchwasm/benchmarks/results/iteration-21-harness.tar.gz).
 
 ## Refined metadata path and direct gradient flags
 
@@ -123,8 +127,8 @@ A fresh complete merged run passes 22,667 tests with one optional Docker skip. O
 between final timed and runtime snapshots; their ASTs match and all other source
 and license bytes are identical.
 
-[Refinement evidence](../../benchmarks/results/iteration-21-view-path.json)
-and [source/harness archive](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/iteration-21-view-path-harness.tar.gz)
+[Refinement evidence](../../packages/torchwasm/benchmarks/results/iteration-21-view-path.json)
+and [source/harness archive](../../packages/torchwasm/benchmarks/results/iteration-21-view-path-harness.tar.gz)
 retain both phases and the rejected structural run.
 
 ## Independent project naming
@@ -165,8 +169,8 @@ application speed comparisons. The test command succeeded; a subsequent report
 copy used the wrong working-directory-relative path. The existing root report
 was copied and independently asserted without rerunning the suite.
 
-[Renaming proof](../../benchmarks/results/iteration-21-stridetorch.json)
-and [integration proof](../../benchmarks/results/iteration-21-stridetorch-integration.json)
+[Renaming proof](../../packages/torchwasm/benchmarks/results/iteration-21-stridetorch.json)
+and [integration proof](../../packages/torchwasm/benchmarks/results/iteration-21-stridetorch-integration.json)
 retain the canonical source, packaging, browser and merge checks. Old proofs are retained as the before-renaming snapshot, not
 reinterpreted as new namespace tests.
 
@@ -191,7 +195,7 @@ passes all 78 modules without budget excess (763.40s).
 Fresh live checks decode compressed starters and verify all 78 manifests/module
 details, 158 immutable assets and both profiles' LICENSE/NOTICE bytes against
 the frozen canonical snapshot. Both runtime payload hashes match exactly.
-[Remote proof](../../benchmarks/results/iteration-21-remote-adoption.json)
-and its [archive](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/iteration-21-remote-adoption-harness.tar.gz)
+[Remote proof](../../packages/torchwasm/benchmarks/results/iteration-21-remote-adoption.json)
+and its [archive](../../packages/torchwasm/benchmarks/results/iteration-21-remote-adoption-harness.tar.gz)
 retain the superseded/skipped run, source equivalence, both Quality/WASM results,
 eligible deployment and live verifier inputs. No public registry release occurred.

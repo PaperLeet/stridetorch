@@ -1,6 +1,6 @@
 """InstanceNorm versus an equivalent pre-existing BatchNorm composition.
 
-Run with Python or mount this file and stridetorch in a Pyodide worker.
+Run with Python or mount this file and torchwasm in a Pyodide worker.
 Timings include Python dispatch and tape construction; they are not kernel-only.
 """
 import json
@@ -8,7 +8,7 @@ import math
 import statistics
 import time
 import numpy as np
-from stridetorch import torch
+from torchwasm import torch
 
 
 def composed(input, weight, bias):

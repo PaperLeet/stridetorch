@@ -388,12 +388,12 @@ class ForwardTensor(_tensor.Tensor):
             # strictness instead follows its constant second derivative.
             slope=result(slope,(primal,lambda g,shape=primal.shape,dtype=primal.dtype:np.zeros(shape,dtype=dtype)),saves_tensors=False)
         return ForwardTensor(primal.abs(), self._tangent * slope)
+    def cumsum(self, dim, *, dtype=None):
+        return _reductions.cumsum(self, dim, dtype=dtype)
+    def cumprod(self, dim, *, dtype=None):
+        return _reductions.cumprod(self, dim, dtype=dtype)
     def clamp(self, min=None, max=None):
-        primal = self._primal.clamp(min=min, max=max)
-        mask = np.ones(self.shape, dtype=bool)
-        if min is not None: mask &= self._data >= min
-        if max is not None: mask &= self._data <= max
-        return ForwardTensor(primal, _ops.where(_tensor.Tensor(mask), self._tangent, 0.))
+        return _clamp.forward(self, min, max)
     def var(self, *args, dim=_layout.UNSPECIFIED_DIM, unbiased=_layout.UNSPECIFIED_DIM,
             keepdim=_layout.UNSPECIFIED_DIM, correction=_layout.UNSPECIFIED_DIM):
         from . import _statistics
@@ -929,4 +929,4 @@ from ._grad_mode import no_grad, enable_grad, set_grad_enabled, is_grad_enabled
 
 
 # Late module references break Tensor/autograd/operator cycles without rebinding functions.
-from . import _errors, _ops, _state
+from . import _clamp, _errors, _ops, _reductions, _state

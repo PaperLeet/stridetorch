@@ -4,8 +4,8 @@ import math
 import numpy as np
 import pytest
 
-from stridetorch import UnsupportedOperation, torch
-from stridetorch import _nn
+from torchwasm import UnsupportedOperation, torch
+from torchwasm import _nn
 
 
 @pytest.fixture(autouse=True)
