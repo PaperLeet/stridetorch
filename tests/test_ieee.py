@@ -4,7 +4,7 @@ import warnings
 import numpy as np
 import pytest
 
-from stridetorch import torch, UnsupportedOperation
+from torchwasm import torch, UnsupportedOperation
 
 
 @pytest.mark.parametrize('dtype',[torch.complex64,torch.complex128])

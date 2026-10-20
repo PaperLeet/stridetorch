@@ -1,7 +1,7 @@
 """Analytical HVP values and independent normalization chain rules."""
 import numpy as np
 import pytest
-from stridetorch import as_torch, torch
+from torchwasm import as_torch, torch
 
 @pytest.mark.parametrize('dtype',[np.float32,np.float64])
 @pytest.mark.parametrize('kind',['sin','tanh','cubic','square'])

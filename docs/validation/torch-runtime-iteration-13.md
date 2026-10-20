@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Lightweight torch 0.13 validation
 
 This milestone fixes mixed-dtype selection/concatenation, exposes `result_type`,
@@ -131,9 +135,9 @@ labeled with its own source hashes and reproducible intermediate patch.
 
 All final/prototype samples, source/resource/harness hashes, test/harness source,
 checks and reconstruction proofs are in
-[iteration-13.json](../../benchmarks/results/iteration-13.json).
+[iteration-13.json](../../packages/torchwasm/benchmarks/results/iteration-13.json).
 The initial 34-file prototype can be reconstructed from final source with the
-[verified reverse patch](../../benchmarks/results/iteration-13-prototype.patch).
+[verified reverse patch](../../packages/torchwasm/benchmarks/results/iteration-13-prototype.patch).
 The optimized prototype is byte-identical to final source; its empty diff is
 explicitly recorded. Full local frozen artifacts/logs remain in
 `paperleet-wasm-evaluation-20261015/torch-iteration-13`.

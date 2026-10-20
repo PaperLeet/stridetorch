@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Lightweight torch 0.6 validation
 
 This milestone completes common grouped learning-rate scheduling and scheduled
@@ -138,8 +142,8 @@ moment bytes; scheduling adds no per-parameter moments.
 
 Raw samples, environments, source hashes, initial/final scheduler paths, balanced
 CPU controls, memory and validation metadata are in
-[iteration-6.json](../../benchmarks/results/iteration-6.json).
-Use [bench_schedulers.py](../../benchmarks/bench_schedulers.py)
+[iteration-6.json](../../packages/torchwasm/benchmarks/results/iteration-6.json).
+Use [bench_schedulers.py](../../packages/torchwasm/benchmarks/bench_schedulers.py)
 and the WASM runner's `--benchmark schedulers` option. Complete logs, frozen
 sources and fresh-Worker scripts are in the local
 `paperleet-wasm-evaluation-20261015/torch-iteration-6` evidence directory.
@@ -148,4 +152,4 @@ Only untracked, unreachable intermediate exports in this owned worktree are
 eligible for cleanup; tracked published assets remain available. No producer was
 live during the UI rebase. No license is selected and no PyPI release is made.
 The broader core/efficiency/independent-library and resident GPU goals remain
-active in the [roadmap](../../ROADMAP.md).
+active in the [roadmap](../../packages/torchwasm/ROADMAP.md).

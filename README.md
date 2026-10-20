@@ -1,10 +1,15 @@
-# StrideTorch
+# TorchWasm
 
 A lightweight NumPy-backed tensor and automatic differentiation library with a
 bounded PyTorch-compatible API. Run Python learning code in CPython or Pyodide
 without installing native PyTorch in the runtime.
 
-StrideTorch grew out of [PaperLeet](https://github.com/Hongyang-Du/PaperLeet).
+This draft adopts the **TorchWasm 0.91** package and launcher name. The GitHub
+repository currently retains its existing `PaperLeet/stridetorch` identity.
+PaperLeet main adopted this same 0.91 source at `13ae2bf7a`. This standalone
+draft publishes no release and does not advance private platform pins. See [source provenance](docs/source-snapshot.json).
+
+TorchWasm grew out of [PaperLeet](https://github.com/Hongyang-Du/PaperLeet).
 It now has an independent source tree, tests and release workflow. It contains
 no problem catalog, product UI, account service or user data.
 
@@ -14,14 +19,14 @@ no problem catalog, product UI, account service or user data.
 git clone https://github.com/PaperLeet/stridetorch.git
 cd stridetorch
 python -m pip install .
-stridetorch train.py
+torchwasm train.py
 ```
 
-The launcher lets supported existing `import torch` code run against StrideTorch.
+The launcher lets supported existing `import torch` code run against TorchWasm.
 For explicit integration:
 
 ```python
-from stridetorch import as_torch
+from torchwasm import as_torch
 
 with as_torch():
     import torch
@@ -30,7 +35,7 @@ with as_torch():
     print(x.grad.tolist())  # [4.0, 6.0]
 ```
 
-Ordinary `import stridetorch` does not replace installed Torch modules. Alias
+Ordinary `import torchwasm` does not replace installed Torch modules. Alias
 activation is process-wide while active; use it before importing user code in
 an isolated process or Worker. Supported APIs and dtype/gradient restrictions
 are described in the [API reference](docs/API.md).
@@ -53,7 +58,7 @@ No PaperLeet checkout or service is needed.
 
 For a browser host, install the pure-Python wheel with NumPy in a compatible
 Pyodide environment, or embed the modules returned by
-`stridetorch.runtime.source_files()`. The host owns the Worker lifecycle and
+`torchwasm.runtime.source_files()`. The host owns the Worker lifecycle and
 any decision to rerun unsupported work elsewhere.
 
 ## Scope and contributions

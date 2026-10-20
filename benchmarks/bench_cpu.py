@@ -61,7 +61,7 @@ def main():
             if status != 0 or selected != requested:
                 raise RuntimeError('Accelerate rejected the requested BLAS threading model')
             controls['accelerate'] = dict(before=before, set_status=status, selected=selected, verified=True)
-    package = Path(importlib.util.find_spec('stridetorch').origin).parent
+    package = Path(importlib.util.find_spec('torchwasm').origin).parent
     before = source_hashes(package)
     path = Path(__file__).with_name('bench_' + options.benchmark + '.py')
     output = io.StringIO(); previous = sys.argv

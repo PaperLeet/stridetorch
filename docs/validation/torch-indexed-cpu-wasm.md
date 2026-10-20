@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Indexed CPU/WASM candidate
 
 This is the historical precursor recorded with 0.83.0 metadata. The
@@ -88,8 +92,8 @@ latency claim. Scatter coordinate vectors also avoid full rank-by-size grids.
 
 ## Evidence and release work
 
-[Summary](../../benchmarks/results/indexed-cpu-wasm.json) and
-[raw evidence archive](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/indexed-cpu-wasm-harness.tar.gz)
+[Summary](../../packages/torchwasm/benchmarks/results/indexed-cpu-wasm.json) and
+[raw evidence archive](../../packages/torchwasm/benchmarks/results/indexed-cpu-wasm-harness.tar.gz)
 preserve the candidate sources, SDK/native tests, package artifacts, logs,
 allocation probes, failed candidates and corrected harnesses. The archive uses
 content-addressed payloads with a complete virtual-path manifest and replay

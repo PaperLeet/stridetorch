@@ -18,3 +18,10 @@ The extracted source, tests, license and notices match that source snapshot.
 Standalone packaging, CI and documentation were then adjusted here. Historical
 `.tar.gz` and `.tar.xz` benchmark bundles were excluded from this checkout; links
 to the original immutable public snapshot preserve access to them.
+
+## TorchWasm candidate
+
+The subsequent 0.91 source is imported as a reviewed snapshot from the
+`codex/torchwasm-main-091` integration branch, since adopted by public main. Its original commit and import
+boundary are recorded in `source-snapshot.json`. Existing extracted commits and their map
+remain intact. Product adoption and repository URL renaming are separate steps.

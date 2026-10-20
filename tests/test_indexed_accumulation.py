@@ -5,7 +5,7 @@ import weakref
 import numpy as np
 import pytest
 
-from stridetorch import UnsupportedOperation, torch
+from torchwasm import UnsupportedOperation, torch
 
 
 def indexed(name, x, src, axis, index, alpha=.7):

@@ -2,7 +2,7 @@
 import itertools
 import numpy as np
 import pytest
-from stridetorch import torch
+from torchwasm import torch
 
 
 @pytest.mark.parametrize('axes',list(itertools.permutations(range(3))))

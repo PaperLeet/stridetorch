@@ -8,7 +8,7 @@ import weakref
 import numpy as np
 import pytest
 
-from stridetorch import UnsupportedOperation, torch
+from torchwasm import UnsupportedOperation, torch
 
 
 _ORDERS = [0.,.5,1.,1.5,2.,3.,float('inf')]
@@ -35,7 +35,7 @@ def scalar_direction(a,b,p):
 
 @pytest.fixture(params=[4096,8*1024*1024])
 def workspace(request,monkeypatch):
-    from stridetorch import _distance
+    from torchwasm import _distance
     monkeypatch.setattr(_distance,'_WORKSPACE_BYTES',request.param)
     return request.param
 

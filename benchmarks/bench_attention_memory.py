@@ -8,7 +8,7 @@ import json
 import tracemalloc
 
 import numpy as np
-from stridetorch import torch
+from torchwasm import torch
 
 
 def measure_attention_memory(dtype):

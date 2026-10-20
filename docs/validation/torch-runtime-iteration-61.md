@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Torch runtime iteration 61 — stable log determinants and adjoint det solves
 
 Version **0.61.0** adds `torch.slogdet`, `torch.linalg.slogdet`, `torch.logdet`
@@ -197,8 +201,8 @@ not wheel or network transfer size.
 
 ## Reproduction and limits
 
-[Machine report](../../benchmarks/results/iteration-61.json)
-and [raw harness](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/iteration-61-harness.tar.gz).
+[Machine report](../../packages/torchwasm/benchmarks/results/iteration-61.json)
+and [raw harness](../../packages/torchwasm/benchmarks/results/iteration-61-harness.tar.gz).
 Raw archive: 7,438,519 bytes, SHA-256 `18fe6c6a118fa6ff5b4c61bc6aee2164524e56387387ad416b2fe3ded8bd7e4e`. It contains baseline
 and final sources, frozen native arrays/results, programs, runtime plans,
 package artifacts, child receipts, full outputs and preserved development trials.

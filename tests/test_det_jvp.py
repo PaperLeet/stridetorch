@@ -6,7 +6,7 @@ import weakref
 import numpy as np
 import pytest
 
-from stridetorch import torch, _determinants
+from torchwasm import torch, _determinants
 
 
 def layout_tensor(data,layout,requires=True):

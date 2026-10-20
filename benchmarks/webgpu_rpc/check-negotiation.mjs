@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {MatrixRpc} from './rpc-client.mjs';
 import {MatrixRpc as LegacyClient} from './fixtures/protocol-v0/rpc-client.mjs';
+import {MatrixRpc as StrideClient} from './fixtures/stridetorch-v1/rpc-client.mjs';
 import {servePort, createGpuEngine, LIMITS} from './gpu-service.mjs';
 import {servePort as legacyServe, createGpuEngine as legacyEngine} from './fixtures/protocol-v0/gpu-service.mjs';
 import {fakeGpu} from './gpu-fixture.mjs';
@@ -16,7 +17,7 @@ function outgoing(port, transform){
     set onmessage(value){port.onmessage=value;}, set onmessageerror(value){port.onmessageerror=value;},
     start(){port.start();}, close(){port.close();}};
 }
-async function fixture(test,{oldHost=false,oldClient=false,ready=message=>message,timeoutMs=1000}={}){
+async function fixture(test,{oldHost=false,oldClient=false,strideClient=false,ready=message=>message,timeoutMs=1000}={}){
   const fake=fakeGpu(),names=['navigator','GPUBufferUsage','GPUMapMode','isSecureContext'];
   const previous=Object.fromEntries(names.map(name=>[name,Object.getOwnPropertyDescriptor(globalThis,name)]));
   const globals={navigator:{gpu:fake.gpu},GPUBufferUsage:{STORAGE:1,COPY_SRC:2,COPY_DST:4,UNIFORM:8,MAP_READ:16},GPUMapMode:{READ:1},isSecureContext:true};
@@ -27,7 +28,7 @@ async function fixture(test,{oldHost=false,oldClient=false,ready=message=>messag
     engine.execute=async request=>{calls.push(request.op);return execute(request);};
     const serverPort=outgoing(channel.port1,value=>value.event==='ready'?ready(value):value);
     service=(oldHost?legacyServe:servePort)(serverPort,engine,{onClosed:value=>disposed=value});
-    client=new (oldClient?LegacyClient:MatrixRpc)(channel.port2,{timeoutMs});
+    client=new (strideClient?StrideClient:oldClient?LegacyClient:MatrixRpc)(channel.port2,{timeoutMs});
     await test({client,engine,calls,channel,disposed:()=>disposed});
   }finally{
     await service?.close('negotiation fixture completed');client?.fail(new Error('fixture completed'));
@@ -48,6 +49,16 @@ await check('new client and host advertise immutable capabilities without an RPC
   assert.throws(()=>client.protocol={major:2},TypeError);
   await client.program(inputs(),nodes,outputs);assert.deepEqual(calls,['program']);
 });
+await check('previous StrideTorch v1 client interoperates after the package rename',async({client,calls})=>{
+  await client.ready;assert.equal(client.protocol.name,'stridetorch-matrix-rpc');
+  assert.equal(client.supports('program-retain-inputs'),true);
+  await client.program(inputs(),nodes,outputs);assert.deepEqual(calls,['program']);
+},{strideClient:true});
+await check('current client accepts the previously advertised StrideTorch v1 service',async({client,calls})=>{
+  await client.ready;assert.equal(client.protocol.name,'stridetorch-matrix-rpc');
+  assert.equal(client.supports('program-retain-inputs'),true);
+  await client.program(inputs(),nodes,outputs);assert.deepEqual(calls,['program']);
+},{ready:value=>({...value,protocol:{...PROTOCOL,name:'stridetorch-matrix-rpc'}})});
 await check('new client and legacy host retain computed-output programs',async({client,calls,engine})=>{
   await client.ready;assert.equal(client.protocol.major,0);assert.equal(client.protocol.legacy,true);
   client.requireFeatures('program-matmul-f32');assert.equal(client.supports('program-retain-inputs'),false);
@@ -132,5 +143,5 @@ await check('startup timeout actively disposes host without waiting for its leas
 await check('closing during startup preempts negotiation without GPU work',async({client,calls,disposed})=>{
   const startup=assert.rejects(client.ready,error=>error.code==='Closed');await client.close();await startup;await until(()=>disposed());assert.deepEqual(calls,[]);
 });
-const source_sha256=Object.fromEntries(['gpu-service.mjs','rpc-client.mjs','rpc-protocol.mjs','check-negotiation.mjs','fixtures/protocol-v0/gpu-service.mjs','fixtures/protocol-v0/rpc-client.mjs','fixtures/protocol-v0/plan-program.mjs'].map(name=>[name,createHash('sha256').update(fs.readFileSync(new URL('./'+name,import.meta.url))).digest('hex')]));
+const source_sha256=Object.fromEntries(['gpu-service.mjs','rpc-client.mjs','rpc-protocol.mjs','check-negotiation.mjs','fixtures/protocol-v0/gpu-service.mjs','fixtures/protocol-v0/rpc-client.mjs','fixtures/protocol-v0/plan-program.mjs','fixtures/stridetorch-v1/rpc-client.mjs','fixtures/stridetorch-v1/rpc-protocol.mjs'].map(name=>[name,createHash('sha256').update(fs.readFileSync(new URL('./'+name,import.meta.url))).digest('hex')]));
 console.log(JSON.stringify({status:'passed',cases:rows.length,rows,source_sha256,scope:'Real MessageChannel, historical pre-retention client/service/planner and injected GPU; no real GPU numerical or performance claim'}));

@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Lightweight torch 0.2 validation
 
 This version adds unchanged-script imports, fixes the first runtime iteration's attention memory regression, and makes the standalone and application wheels own disjoint installed files. It remains a bounded CPU/NumPy implementation; model/optimizer lifecycle coverage and a resident WebGPU backend remain open.
@@ -59,6 +63,6 @@ The float64 logits-retention regression is removed: forward retained allocations
 
 ## Evidence and next work
 
-Raw samples, source hashes, wheel identity, memory and native-gate summaries are in [`iteration-2.json`](../../benchmarks/results/iteration-2.json). Reproduction tools are in the package's `benchmarks/` directory. Complete local logs and frozen baselines are retained in `paperleet-wasm-evaluation-20261015/torch-iteration-2`.
+Raw samples, source hashes, wheel identity, memory and native-gate summaries are in [`iteration-2.json`](../../packages/torchwasm/benchmarks/results/iteration-2.json). Reproduction tools are in the package's `benchmarks/` directory. Complete local logs and frozen baselines are retained in `paperleet-wasm-evaluation-20261015/torch-iteration-2`.
 
-Core model/optimizer lifecycle, additional tensor/autograd coverage, selective saved operands and a resident GPU storage/graph prototype remain in [the roadmap](../../ROADMAP.md). This version is a repository integration milestone, not completion of the independent-library objective.
+Core model/optimizer lifecycle, additional tensor/autograd coverage, selective saved operands and a resident GPU storage/graph prototype remain in [the roadmap](../../packages/torchwasm/ROADMAP.md). This version is a repository integration milestone, not completion of the independent-library objective.

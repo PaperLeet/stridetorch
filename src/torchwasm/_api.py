@@ -22,7 +22,8 @@ def create_torch(name='torch', *, register=False):
     torch.half, torch.short, torch.char = torch.float16, torch.int16, torch.int8
     torch.cfloat, torch.cdouble = torch.complex64, torch.complex128
     torch.inf, torch.pi = np.inf, np.pi
-    torch.device, torch.finfo = _device.Device, np.finfo
+    torch.device = _device.Device
+    torch.finfo, torch.iinfo = _type_info.finfo, _type_info.iinfo
     root_name = name
     modules = {'torch': torch}
     for name in ('nn', 'nn.functional', 'nn.parameter', 'nn.modules', 'nn.modules.module',
@@ -198,10 +199,11 @@ def create_torch(name='torch', *, register=False):
     # Each tuple is (reverse-mode policy, validated JVP, unsupported native kwargs).
     methods = {
         **dict.fromkeys(('var','std'), ('analytic',True,('out',))),
+        **dict.fromkeys(('clamp','clamp_min','clamp_max','cumsum','cumprod'), ('analytic',True,('out',))),
         **dict.fromkeys(('sum','exp','log','sqrt','abs','sin','cos','tanh','rsqrt','sigmoid'), ('analytic',True,('out',))),
         **dict.fromkeys(('mean','nansum','nanmean','gather','sort','topk'), ('analytic',True,('out',))),
         **dict.fromkeys(('relu','softmax','log_softmax','reshape'), ('analytic',True,())),
-        **dict.fromkeys(('clamp','clamp_min','clamp_max','acos','cumsum','cumprod','norm','logsumexp','diag','triu','tril','amax','prod','round'), ('analytic',False,('out',))),
+        **dict.fromkeys(('acos','norm','logsumexp','diag','triu','tril','amax','prod','round'), ('analytic',False,('out',))),
         **dict.fromkeys(('repeat_interleave','flip','roll','chunk','erfinv'), ('analytic',False,())),
         **dict.fromkeys(('max','min'), ('analytic',False,('out',))),
         **dict.fromkeys(('all','any','argmax','argmin'), ('nondifferentiable',False,('out',))),
@@ -305,7 +307,7 @@ def create_torch(name='torch', *, register=False):
 
 
 # Late module references break Tensor/autograd/operator cycles without rebinding functions.
-from . import _defaults
+from . import _defaults, _type_info
 from . import _determinants, _arithmetic, _activation, _autograd, _average_pooling, _average_pooling3d, _batchnorm, _cholesky, _classification, _construction, _convolution, _conversion, _device, _errors, _groupnorm, _instancenorm, _linalg, _vector_norm, _module_hooks, _nn, _nn_modules, _normalization, _ops, _optim, _pooling, _pooling3d, _promotion, _random, _registry, _schedulers, _serialization, _tensor, _transpose_convolution, _multihead, _transformer, _indexed
 
 from . import _gradient_utils

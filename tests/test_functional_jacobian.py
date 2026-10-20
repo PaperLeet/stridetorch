@@ -1,7 +1,7 @@
 """Independent central differences for first-order reverse Jacobians."""
 import numpy as np
 import pytest
-from stridetorch import torch
+from torchwasm import torch
 
 def functions(case, arrays):
     if case == 'softmax':

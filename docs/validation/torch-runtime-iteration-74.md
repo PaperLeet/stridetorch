@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Torch runtime iteration 74: isolated WebGPU matrix service
 
 The supported library remains **0.73.0**, executing on CPU/NumPy/WASM. This
@@ -11,7 +15,7 @@ operations. An 8×8 tiled WGSL kernel accepts transpose flags; resident results
 can feed subsequent matrix products without a CPU read between them.
 The Python client copies upload/readback data and binds every handle to its
 own session. The portable sources have no PaperLeet imports:
-[`benchmarks/webgpu_rpc`](../../benchmarks/webgpu_rpc/README.md).
+[`benchmarks/webgpu_rpc`](../../packages/torchwasm/benchmarks/webgpu_rpc/README.md).
 
 ## Verification
 

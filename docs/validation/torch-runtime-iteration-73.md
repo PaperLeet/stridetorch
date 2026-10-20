@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Torch runtime iteration 73: functional JVP preprocessing
 
 Version 0.73 preserves the functional-JVP API and reduces temporary preprocessing
@@ -158,4 +162,4 @@ virtual environments are not bundled.
 
 ## Main adoption
 
-Version 0.73.0 was adopted on main at `cc2e83868783ee6b00e86bc0db6c0374cf1ff55d`. The guarded ordinary push passed with no active release chain. The remote ref and 2327 tested Git blobs were verified, together with generated Worker derivatives and all 14,605 prior immutable asset tree entries. The adopted SHA had zero Actions runs at verification. No workflow dispatch, tag, package publication or deployment was initiated. [Adoption receipt](../../benchmarks/results/iteration-73-main-adoption.json).
+Version 0.73.0 was adopted on main at `cc2e83868783ee6b00e86bc0db6c0374cf1ff55d`. The guarded ordinary push passed with no active release chain. The remote ref and 2327 tested Git blobs were verified, together with generated Worker derivatives and all 14,605 prior immutable asset tree entries. The adopted SHA had zero Actions runs at verification. No workflow dispatch, tag, package publication or deployment was initiated. [Adoption receipt](../../packages/torchwasm/benchmarks/results/iteration-73-main-adoption.json).

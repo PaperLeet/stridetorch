@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # StrideTorch 0.38: max pooling with measured NumPy kernels
 
 Version 0.38 adds `nn.MaxPool2d`, functional `max_pool2d` and
@@ -188,13 +192,13 @@ comparisons. Raw outliers remain in the tables and archives.
 
 ## Reproduction and adoption
 
-[`iteration-38.json`](../../benchmarks/results/iteration-38.json)
-and [`iteration-38-integration.json`](../../benchmarks/results/iteration-38-integration.json)
+[`iteration-38.json`](../../packages/torchwasm/benchmarks/results/iteration-38.json)
+and [`iteration-38-integration.json`](../../packages/torchwasm/benchmarks/results/iteration-38-integration.json)
 contain exact source/test/artifact hashes, child receipts, full measurements and
 hashed reproduction archives. Native-reference tests are test oracles, not
 runtime dependencies. Later main synchronization/adoption is recorded separately.
 
-The [explicit-release policy](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/docs/releasing.md) is unchanged: no CI, tag, workflow
+The [explicit-release policy](../releasing.md) is unchanged: no CI, tag, workflow
 dispatch, package upload or online publication is requested. The user will tag
 later. Local results do not establish remote Linux CI or an online deployment.
 Other pooling dimensions, average pooling, transpose convolution, normalization

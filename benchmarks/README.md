@@ -108,8 +108,8 @@ does not time unsupported baseline 1D calls, native Torch, GPU, import or transf
 From the repository root, with the standalone package installed:
 
 ```sh
-python packages/stridetorch/benchmarks/bench_runtime.py --repeat 11 --iterations 30 --output cpu.json
-node packages/stridetorch/benchmarks/bench_wasm.mjs --output wasm.json
+python benchmarks/bench_runtime.py --repeat 11 --iterations 30 --output cpu.json
+node benchmarks/bench_wasm.mjs --output wasm.json
 ```
 
 The WASM runner uses the repository's pinned Pyodide installation and package
@@ -254,7 +254,7 @@ Pass `--backend native` for an optional native Torch CPU comparison; the default
 imports only this library and NumPy and can run unchanged inside Pyodide. Scheduler
 construction is excluded from these timings. All samples and runtime identities
 are retained, and no timing assertions run in CI.
-Use `node packages/stridetorch/benchmarks/bench_wasm.mjs --benchmark schedulers
+Use `node benchmarks/bench_wasm.mjs --benchmark schedulers
 --iterations 120 --output schedulers-wasm.json` for the same suite on pinned WASM.
 
 `bench_nn.py` measures analytical LayerNorm/RMSNorm (all gradients and frozen-input
@@ -267,7 +267,7 @@ backward and update. New-module cases are omitted from historical runtimes that
 do not expose those classes; six common functional cases remain comparable.
 Use `bench_wasm.mjs --benchmark nn --dtype float32 --iterations 120` for Node WASM.
 
-`python packages/stridetorch/benchmarks/bench_optimizer_memory.py --dtype float32`
+`python benchmarks/bench_optimizer_memory.py --dtype float32`
 records CPython tracemalloc allocations after creating Adam over 16 pre-existing
 256×256 parameters and after one parameter receives a gradient. It also records
 state-array bytes. This is allocation evidence for lazy state, not RSS or browser
@@ -333,8 +333,8 @@ GroupNorm's first-order joint/composition benchmark uses the same library for
 both implementations and validates values and active gradients before timing:
 
 ```sh
-PYTHONPATH=packages/stridetorch/src python packages/stridetorch/benchmarks/bench_groupnorm.py --implementation joint --dtype float32
-node packages/stridetorch/benchmarks/bench_wasm.mjs --benchmark groupnorm --implementation joint --dtype float32
+PYTHONPATH=src python benchmarks/bench_groupnorm.py --implementation joint --dtype float32
+node benchmarks/bench_wasm.mjs --benchmark groupnorm --implementation joint --dtype float32
 ```
 
 Use separate fresh processes in balanced order; preserve all samples. Results
@@ -343,8 +343,8 @@ measure these local kernels, not native Torch or application-wide acceleration.
 Classification kernels include independent first-order NumPy value/VJP checks:
 
 ```sh
-PYTHONPATH=packages/stridetorch/src python packages/stridetorch/benchmarks/bench_classification.py --implementation joint --dtype float32
-node packages/stridetorch/benchmarks/bench_wasm.mjs --benchmark classification --implementation joint --dtype float32
+PYTHONPATH=src python benchmarks/bench_classification.py --implementation joint --dtype float32
+node benchmarks/bench_wasm.mjs --benchmark classification --implementation joint --dtype float32
 ```
 
 Label same-source joint/composition comparisons separately from old-release
@@ -387,7 +387,7 @@ same successful values, aliases and analytical derivatives. The comparison omits
 scalar/empty and no-grad behavior corrected by 0.21. Defaults are eleven batches
 of 1,200 calls (120 for reverse/JVP), with three warmups. The standalone Python
 harness preserves the measured 0.21 fast-path workload; its package imports
-were renamed to `stridetorch` after measurement. All initial
+were renamed to `stridetorch` after measurement, and later to `torchwasm`. All initial
 regressions remain in the validation evidence; native Torch, application latency,
 cold start and peak memory are outside this measurement.
 
@@ -495,17 +495,17 @@ uses the real library's `autograd.grad` for backward flows.
 For example, from the repository root with NumPy installed:
 
 ```sh
-PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=packages/stridetorch/src python -B - <<'PY'
+PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python -B - <<'PY'
 import importlib.util
-import stridetorch
+import torchwasm
 
 spec = importlib.util.spec_from_file_location(
-    'core_workloads', 'packages/stridetorch/benchmarks/core_workloads.py')
+    'core_workloads', 'benchmarks/core_workloads.py')
 workloads = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(workloads)
 case = next(item for item in workloads.specifications()
             if item['key'] == 'float32/power2048/backward')
-invoke = workloads.flow(stridetorch, case, workloads.make_inputs(case), False)
+invoke = workloads.flow(torchwasm, case, workloads.make_inputs(case), False)
 value, gradient = invoke()
 print(value.item(), gradient.shape, gradient.dtype)
 PY
@@ -531,3 +531,15 @@ Later investigations retain the same measured-runtime distinction:
   per-kernel/full-call allocation scopes and actual WASM copy-lifetime checks.
   The candidate is selected for integration; package/application adoption gates
   remain pending.
+
+
+## Self-contained qualification replay
+
+`verify_qualification.py` checks recorded evidence hashes. The current 0.91
+qualification uses a v1 archive with no ancestor/Git providers.
+`restore_qualification.py RECORD ARCHIVE NEW_DIRECTORY [PREFIX]` restores
+verified logical files into a new directory; `sdk/` selects the portable SDK.
+Run its `sdk/replay-native-sdk.py` with NumPy and pytest for the complete SDK,
+or add `-k 'cumprod or standalone'` for the focused 669-case portability run.
+See the [0.91 record](../docs/validation/torch-runtime-0.91-qualification.md)
+for exact commands, exclusions and original raw observations.

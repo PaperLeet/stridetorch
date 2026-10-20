@@ -7,7 +7,7 @@ import sys
 import tracemalloc
 
 import numpy as np
-from stridetorch import __version__, torch
+from torchwasm import __version__, torch
 
 
 def measure(dtype='float32', count=16, width=256):

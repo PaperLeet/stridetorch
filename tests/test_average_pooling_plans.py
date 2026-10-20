@@ -3,7 +3,7 @@ import gc
 import weakref
 import numpy as np
 import pytest
-from stridetorch import torch, _average_pooling as pooling
+from torchwasm import torch, _average_pooling as pooling
 
 
 CASES = [((2,3,17,23),(5,3)), ((2,3,5,7),(12,14))]

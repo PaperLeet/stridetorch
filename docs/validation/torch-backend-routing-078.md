@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Backend selection review for the 0.78 candidate
 
 Keep the supported Tensor backend on CPU/NumPy and NumPy/WASM while the 0.78
@@ -88,7 +92,7 @@ its two matrix gradients require 402,653,184 multiply-accumulate terms in total,
 exceeding the default 268,435,456 work limit for one program. Partition that
 workflow and include the resulting dispatch/ownership costs; do not increase
 the default quota to make the comparison look like one transaction. The
-[service contract](../../benchmarks/webgpu_rpc/README.md)
+[service contract](../../packages/torchwasm/benchmarks/webgpu_rpc/README.md)
 documents the remaining memory, handle, matrix and lease limits.
 
 After numerical and whole-program cost evidence supports a target workload,

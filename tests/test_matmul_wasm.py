@@ -2,7 +2,7 @@
 import numpy as np
 import pytest
 
-from stridetorch import torch, _matmul, _tensor
+from torchwasm import torch, _matmul, _tensor
 
 
 @pytest.fixture(autouse=True)

@@ -7,7 +7,7 @@ import sys
 import time
 
 import numpy as np
-from stridetorch import torch, __version__
+from torchwasm import torch, __version__
 
 
 def run_benchmarks(repeat=11, iterations=120, warmup=3, dtype='float32', cases=None):

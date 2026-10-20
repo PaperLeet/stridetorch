@@ -3,7 +3,7 @@ import gc
 import weakref
 import numpy as np
 import pytest
-from stridetorch import torch
+from torchwasm import torch
 
 @pytest.mark.parametrize('dtype',[torch.float32,torch.float64])
 @pytest.mark.parametrize('kind',['scalar_chain','tensor_left','tensor_right','divide_left'])

@@ -1,8 +1,8 @@
 """JVP determinant polynomial derivatives and strict dependency regression cases."""
 import numpy as np
 import pytest
-from stridetorch import torch
-from stridetorch._errors import BrowserUnsupported
+from torchwasm import torch
+from torchwasm._errors import BrowserUnsupported
 
 
 # Closed-form cofactor matrices and their directional derivatives; no runtime

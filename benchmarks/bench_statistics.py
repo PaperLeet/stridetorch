@@ -2,8 +2,8 @@
 import argparse,hashlib,json,platform,statistics,time
 from pathlib import Path
 import numpy as np
-import stridetorch
-from stridetorch import torch
+import torchwasm
+from torchwasm import torch
 
 
 def run_benchmarks(*,dtype='float64',repeat=11,iterations=400,cases=None):
@@ -52,8 +52,8 @@ def run_benchmarks(*,dtype='float64',repeat=11,iterations=400,cases=None):
             for _ in range(count):fn()
             samples.append((time.perf_counter()-start)*1000/count)
         results[name]=dict(iterations=count,median_ms=statistics.median(samples),samples_ms=samples)
-    root=Path(stridetorch.__file__).parent
-    return dict(library=stridetorch.__version__,runtime_module=str(root/'_tensor.py'),python=platform.python_version(),numpy=np.__version__,dtype=dtype,repeat=repeat,iterations=iterations,warmup=3,paired_implementation='shared moments' if fused else 'separate variance/std and mean',scope='Thirteen fixed valid moments/reverse/control workloads. Baseline paired outputs compose existing operations;new paired outputs share computation. Excludes corrected scalar/empty/degenerate semantics and coldstart/application performance.',source_hashes={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in root.iterdir() if p.suffix=='.py' or p.name in ('LICENSE','NOTICE')},results=results)
+    root=Path(torchwasm.__file__).parent
+    return dict(library=torchwasm.__version__,runtime_module=str(root/'_tensor.py'),python=platform.python_version(),numpy=np.__version__,dtype=dtype,repeat=repeat,iterations=iterations,warmup=3,paired_implementation='shared moments' if fused else 'separate variance/std and mean',scope='Thirteen fixed valid moments/reverse/control workloads. Baseline paired outputs compose existing operations;new paired outputs share computation. Excludes corrected scalar/empty/degenerate semantics and coldstart/application performance.',source_hashes={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in root.iterdir() if p.suffix=='.py' or p.name in ('LICENSE','NOTICE')},results=results)
 
 
 if __name__=='__main__':

@@ -5,7 +5,7 @@ whole-application comparisons. Checks include every active gradient before time.
 """
 import argparse,json,platform,statistics,sys,time
 import numpy as np
-from stridetorch import torch,__version__,_convolution as conv
+from torchwasm import torch,__version__,_convolution as conv
 
 
 def _fixture(shape,weight_shape,kwargs,kind,dtype):

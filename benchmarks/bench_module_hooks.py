@@ -13,8 +13,8 @@ import time
 from types import SimpleNamespace
 
 import numpy as np
-import stridetorch
-from stridetorch import torch
+import torchwasm
+from torchwasm import torch
 
 
 def run_benchmarks(repeat=11,iterations=1200,warmup=3,dtype='float32',cases=None):
@@ -82,7 +82,7 @@ def run_benchmarks(repeat=11,iterations=1200,warmup=3,dtype='float32',cases=None
             for _ in range(inner):run()
             samples.append((time.perf_counter()-start)*1000/inner)
         results[name]={'median_ms':statistics.median(samples),'samples_ms':samples,'iterations':inner}
-    return {'library_version':stridetorch.__version__,'python':platform.python_version(),
+    return {'library_version':torchwasm.__version__,'python':platform.python_version(),
         'implementation':sys.modules[torch.Tensor.__module__].__file__,
         'numpy':np.__version__,'platform':platform.platform(),'dtype':options.dtype,'seed':283,
         'repeat':options.repeat,'iterations':options.iterations,'warmup':options.warmup,'results':results}

@@ -2,7 +2,7 @@
 import numpy as np
 import pytest
 
-from stridetorch import torch, UnsupportedOperation, _linalg
+from torchwasm import torch, UnsupportedOperation, _linalg
 
 
 def laid_out(data,layout):

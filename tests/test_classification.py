@@ -3,7 +3,7 @@ import copy
 import math
 import numpy as np
 import pytest
-from stridetorch import torch, as_torch, UnsupportedOperation
+from torchwasm import torch, as_torch, UnsupportedOperation
 
 
 def scalar_oracle(raw,target,weight,smoothing,soft,reduction,nll=False):

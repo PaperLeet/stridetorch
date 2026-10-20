@@ -1,7 +1,7 @@
 """Pinned production Torch2.6 inclusive clamp boundaries and abs's explicit zero reverse edge."""
 import numpy as np
 import pytest
-from stridetorch import torch
+from torchwasm import torch
 
 @pytest.mark.parametrize('dtype',[np.float32,np.float64])
 @pytest.mark.parametrize('case',['abs','clamp','clamp_min','clamp_max'])

@@ -1,11 +1,15 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Explicit Tensor matmul offload prototype
 
 `MatmulOffload` implements host GPU forward multiplication and actual
 first-order autograd pullbacks for the existing CPU Tensor graph. Standard
 `autograd.grad`, `backward`, hooks, retained graphs and an SGD optimizer consume
 its results. The implementation lives in
-[torch_bridge.py](../../benchmarks/webgpu_rpc/torch_bridge.py),
-with [usage and setup](../../benchmarks/webgpu_rpc/README.md).
+[torch_bridge.py](../../packages/torchwasm/benchmarks/webgpu_rpc/torch_bridge.py),
+with [usage and setup](../../packages/torchwasm/benchmarks/webgpu_rpc/README.md).
 It is an explicit experimental helper, depends on private 0.83 interfaces and
 does not change the stable package API, ordinary `@` dispatch or Tensor device.
 
@@ -114,8 +118,8 @@ backend. Stable independent-package API design, resident Tensor storage,
 operation chaining, wider dtype/operation coverage, task isolation and tests on
 other browser/device combinations remain necessary before default integration.
 
-[Machine-readable qualification](../../benchmarks/results/webgpu-tensor-offload.json)
-and its [verified raw archive](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/webgpu-tensor-offload-harness.tar.gz)
+[Machine-readable qualification](../../packages/torchwasm/benchmarks/results/webgpu-tensor-offload.json)
+and its [verified raw archive](../../packages/torchwasm/benchmarks/results/webgpu-tensor-offload-harness.tar.gz)
 preserve original and corrected prototypes, native controls, actual browser
 fixtures, frozen plans, every timing sample and replay dependencies. The archive
 contains 374 files, 142 unique payloads and SHA-256
@@ -127,7 +131,7 @@ improvement goal remains active.
 
 Main adopted the explicit helper and evidence at
 `748985d3b3553648927e279b2a873f0fc1dbafaa`. The
-[remote adoption receipt](../../benchmarks/results/webgpu-tensor-offload-main-adoption.json)
+[remote adoption receipt](../../packages/torchwasm/benchmarks/results/webgpu-tensor-offload-main-adoption.json)
 verifies the helper, tests and all nine benchmark/documentation/evidence paths
 from that commit, together with 66 unchanged runtime resources, 183 export
 identities, seven release-policy files and all 206 qualified package inputs.

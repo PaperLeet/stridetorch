@@ -7,8 +7,8 @@ import time
 from pathlib import Path
 
 import numpy as np
-import stridetorch
-from stridetorch import torch
+import torchwasm
+from torchwasm import torch
 
 
 def run_benchmarks(*, dtype='float32', repeat=11, iterations=2000, cases=None):
@@ -60,7 +60,7 @@ def run_benchmarks(*, dtype='float32', repeat=11, iterations=2000, cases=None):
             for _ in range(count): function()
             samples.append((time.perf_counter() - start) * 1000 / count)
         results[name] = dict(iterations=count, median_ms=statistics.median(samples), samples_ms=samples)
-    return dict(library=stridetorch.__version__, runtime_module=str(Path(stridetorch.__file__).with_name('_registry.py')),
+    return dict(library=torchwasm.__version__, runtime_module=str(Path(torchwasm.__file__).with_name('_registry.py')),
                 python=platform.python_version(), numpy=np.__version__, dtype=dtype, repeat=repeat,
                 iterations=iterations, warmup=3, scope='Twelve fixed steady-state public-call and direct-method workloads; identical numerical work, independent NumPy values/gradients. Excludes cold-start, native Torch and application speed claims.', results=results)
 

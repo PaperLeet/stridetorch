@@ -6,7 +6,7 @@ import weakref
 import numpy as np
 import pytest
 
-from stridetorch import as_torch, torch, UnsupportedOperation
+from torchwasm import as_torch, torch, UnsupportedOperation
 
 
 def test_tensor_scalar_categories_and_native_keyword_forms():

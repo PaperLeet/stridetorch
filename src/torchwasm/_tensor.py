@@ -560,7 +560,10 @@ class Tensor:
             derivative = lambda g: np.zeros_like(g)
         elif exponent == 2:
             # Keep native saved-self behavior without materializing data ** 1.
-            derivative = lambda g: g * (2 * self._data)
+            if _arithmetic._WASM and original_data.dtype == _arithmetic._DOUBLE:
+                derivative = lambda g: _arithmetic.square_backward(self._data, g)
+            else:
+                derivative = lambda g: g * (2 * self._data)
         else:
             derivative = lambda g: g * (exponent * _arithmetic.scalar_power_values(self._data, exponent - 1))
         _rule_value = _autograd.result(_arithmetic.scalar_power_values(original_data, exponent), (self, derivative), zero_passthrough=exponent != 0, tensor_rule=('pow', exponent))
@@ -1151,29 +1154,10 @@ class Tensor:
     def tril(self, diagonal=0):
         if self.ndim < 2: raise RuntimeError('tril requires at least two dimensions')
         return _autograd.result(np.tril(self._data, k=diagonal), (self, lambda g: np.tril(g, k=diagonal)),saves_tensors=False)
-    def cumsum(self, dim):
-        return _autograd.result(self._data.cumsum(axis=dim), (self, lambda g: np.flip(np.flip(g, axis=dim).cumsum(axis=dim), axis=dim)),saves_tensors=False)
+    def cumsum(self, dim, *, dtype=None):
+        return _reductions.cumsum(self, dim, dtype=dtype)
     def cumprod(self, dim, *, dtype=None):
-        original_data = self._data
-        if not original_data.ndim and dim in (0, -1):
-            target = dtype or (np.int64 if original_data.dtype.kind in 'biu' else original_data.dtype)
-            return self.to(dtype=target)
-        if not -original_data.ndim <= dim < original_data.ndim: raise IndexError('cumprod dimension out of range')
-        dim %= original_data.ndim
-        if dtype is None and original_data.dtype.kind in 'biu': dtype = np.int64
-        value = original_data.cumprod(axis=dim, dtype=dtype)
-        def vjp(g):
-            current = self._data
-            saved = value
-            if current is not original_data and np.any(current == 0):
-                saved = current.cumprod(axis=dim)
-            x, prefix, incoming = (np.moveaxis(array, dim, -1) for array in (current, saved, g))
-            grad = np.empty_like(incoming); carry = np.zeros(incoming.shape[:-1], dtype=incoming.dtype)
-            for i in reversed(range(x.shape[-1])):
-                carry = incoming[..., i] + (carry * x[..., i + 1] if i + 1 < x.shape[-1] else 0)
-                grad[..., i] = carry * (prefix[..., i - 1] if i else 1)
-            return np.moveaxis(grad, -1, dim)
-        return _autograd.result(value, (self, vjp))
+        return _reductions.cumprod(self, dim, dtype=dtype)
     def softmax(self, dim, dtype=None):
         self._real_only()
         x = self.to(dtype=dtype) if dtype is not None else self
@@ -1192,13 +1176,7 @@ class Tensor:
     def nan_to_num(self, nan=0., posinf=None, neginf=None):
         return _ops.nan_to_num(self, nan=nan, posinf=posinf, neginf=neginf)
     def clamp(self, min=None, max=None):
-        self._real_only()
-        if min is None and max is None: raise ValueError('clamp needs at least one bound')
-        if isinstance(min, Tensor) or isinstance(max, Tensor): raise _errors.BrowserUnsupported('Tensor clamp bounds require the server')
-        mask = np.ones(self.shape, dtype=bool)
-        if min is not None: mask &= self._data >= min
-        if max is not None: mask &= self._data <= max
-        return _autograd.result(np.clip(self._data, min, max), (self, lambda g: g * mask))
+        return _clamp.apply(self, min, max)
     def clamp_min(self, min): return self.clamp(min=min)
     def clamp_max(self, max): return self.clamp(max=max)
     def sin(self):
@@ -1303,4 +1281,4 @@ class Tensor:
 
 
 # Late module references break Tensor/autograd/operator cycles without rebinding functions.
-from . import _arithmetic, _autograd, _cholesky, _conversion, _defaults, _device, _errors, _linalg, _ops, _random, _state, _tensor_hooks, _indexing, _indexed
+from . import _arithmetic, _autograd, _clamp, _cholesky, _conversion, _defaults, _device, _errors, _linalg, _ops, _random, _state, _tensor_hooks, _indexing, _indexed

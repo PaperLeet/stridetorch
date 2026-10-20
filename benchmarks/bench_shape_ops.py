@@ -2,8 +2,8 @@
 import argparse,gc,hashlib,json,platform,statistics,time
 from pathlib import Path
 import numpy as np
-import stridetorch
-from stridetorch import torch
+import torchwasm
+from torchwasm import torch
 
 
 def run_benchmarks(*,dtype='float64',repeat=11,iterations=1200):
@@ -72,8 +72,8 @@ def run_benchmarks(*,dtype='float64',repeat=11,iterations=1200):
             for _ in range(count):fn()
             samples.append((time.perf_counter()-start)*1000/count)
         results[name]=dict(iterations=count,median_ms=statistics.median(samples),samples_ms=samples)
-    root=Path(stridetorch.__file__).parent
-    return dict(library=stridetorch.__version__,runtime_module=str(root/'_tensor.py'),python=platform.python_version(),numpy=np.__version__,dtype=dtype,repeat=repeat,iterations=iterations,warmup=3,scope='Same successful shape/view/alias/value/derivative workloads plus common allocation controls. Excludes scalar/empty and no-grad semantics corrected in candidate;does not compare equivalent full-native Torch performance.',source_hashes={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in root.iterdir() if p.suffix=='.py' or p.name in ('LICENSE','NOTICE')},results=results)
+    root=Path(torchwasm.__file__).parent
+    return dict(library=torchwasm.__version__,runtime_module=str(root/'_tensor.py'),python=platform.python_version(),numpy=np.__version__,dtype=dtype,repeat=repeat,iterations=iterations,warmup=3,scope='Same successful shape/view/alias/value/derivative workloads plus common allocation controls. Excludes scalar/empty and no-grad semantics corrected in candidate;does not compare equivalent full-native Torch performance.',source_hashes={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in root.iterdir() if p.suffix=='.py' or p.name in ('LICENSE','NOTICE')},results=results)
 
 
 if __name__=='__main__':

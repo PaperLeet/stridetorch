@@ -2,8 +2,8 @@
 import argparse,json,platform,statistics,time
 from pathlib import Path
 import numpy as np
-import stridetorch
-from stridetorch import torch
+import torchwasm
+from torchwasm import torch
 
 
 def run_benchmarks(*,dtype='float32',repeat=11,iterations=500,cases=None):
@@ -55,7 +55,7 @@ def run_benchmarks(*,dtype='float32',repeat=11,iterations=500,cases=None):
             for _ in range(count):fn()
             samples.append((time.perf_counter()-start)*1000/count)
         results[name]=dict(iterations=count,median_ms=statistics.median(samples),samples_ms=samples)
-    return dict(library=stridetorch.__version__,runtime_module=str(Path(stridetorch.__file__).with_name('_tensor.py')),python=platform.python_version(),numpy=np.__version__,dtype=dtype,repeat=repeat,iterations=iterations,warmup=3,scope='Twelve identical valid gather/sort/topk method workloads and exp control;large rows4x8192,columns8192x4,k8/k4096,finite unique values and exact gradients. Excludes new functional API,JVP,half accuracy fixes,invalid schemas,coldstart,native Torch,peak memory and application speed.',results=results)
+    return dict(library=torchwasm.__version__,runtime_module=str(Path(torchwasm.__file__).with_name('_tensor.py')),python=platform.python_version(),numpy=np.__version__,dtype=dtype,repeat=repeat,iterations=iterations,warmup=3,scope='Twelve identical valid gather/sort/topk method workloads and exp control;large rows4x8192,columns8192x4,k8/k4096,finite unique values and exact gradients. Excludes new functional API,JVP,half accuracy fixes,invalid schemas,coldstart,native Torch,peak memory and application speed.',results=results)
 
 
 if __name__=='__main__':

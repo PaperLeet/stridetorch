@@ -5,7 +5,7 @@ import gc
 import numpy as np
 import pytest
 
-from stridetorch import UnsupportedOperation, torch
+from torchwasm import UnsupportedOperation, torch
 
 
 @pytest.mark.parametrize('dtype',[torch.float32,torch.float64])
@@ -143,7 +143,7 @@ def test_saved_self_and_saved_output_have_different_cast_underflow_behavior():
 
 
 def test_rebinding_counters_do_not_retain_discarded_models_or_arrays():
-    from stridetorch import _state
+    from torchwasm import _state
     gc.collect();before=len(_state._storages)
     for _ in range(30):
         model=torch.nn.Linear(3,2);model.double().float().to('cpu:0')

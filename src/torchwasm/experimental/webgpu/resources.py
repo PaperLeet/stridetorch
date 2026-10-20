@@ -11,7 +11,7 @@ def service_sources():
     MessagePort delivery, shutdown and its application isolation boundary.
     """
     package = files(__package__)
-    root = files('stridetorch')
+    root = files('torchwasm')
     return {name: (root if name in ('LICENSE', 'NOTICE') else package)
             .joinpath(name).read_text(encoding='utf-8')
             for name in (*_JAVASCRIPT, 'LICENSE', 'NOTICE')}
@@ -24,13 +24,13 @@ def source_files():
     experimental integration. It does not change runtime.source_files() or
     automatically enable GPU dispatch. JS files must also be served by the host.
     """
-    root = files('stridetorch')
-    result = {'stridetorch/' + item.name: item.read_text(encoding='utf-8')
+    root = files('torchwasm')
+    result = {'torchwasm/' + item.name: item.read_text(encoding='utf-8')
               for item in root.iterdir()
               if item.name.endswith('.py') or item.name in ('LICENSE', 'NOTICE')}
-    result['stridetorch/experimental/__init__.py'] = root.joinpath(
+    result['torchwasm/experimental/__init__.py'] = root.joinpath(
         'experimental', '__init__.py').read_text(encoding='utf-8')
     for item in files(__package__).iterdir():
         if item.name.endswith(('.py', '.mjs')):
-            result['stridetorch/experimental/webgpu/' + item.name] = item.read_text(encoding='utf-8')
+            result['torchwasm/experimental/webgpu/' + item.name] = item.read_text(encoding='utf-8')
     return result

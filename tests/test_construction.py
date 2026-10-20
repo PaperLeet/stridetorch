@@ -4,7 +4,7 @@ import warnings
 import numpy as np
 import pytest
 
-from stridetorch import as_torch, torch
+from torchwasm import as_torch, torch
 
 
 def test_scalar_sequences_preserve_precision_copy_and_gradients():

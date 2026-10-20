@@ -2,8 +2,8 @@
 import argparse,json,platform,statistics,time
 from pathlib import Path
 import numpy as np
-import stridetorch
-from stridetorch import torch
+import torchwasm
+from torchwasm import torch
 
 
 def run_benchmarks(*,dtype='float32',repeat=11,iterations=1000,cases=None,implementation='direct'):
@@ -53,7 +53,7 @@ def run_benchmarks(*,dtype='float32',repeat=11,iterations=1000,cases=None,implem
             for _ in range(count):fn()
             samples.append((time.perf_counter()-start)*1000/count)
         results[name]=dict(iterations=count,median_ms=statistics.median(samples),samples_ms=samples)
-    return dict(library=stridetorch.__version__,runtime_module=str(Path(stridetorch.__file__).with_name('_tensor.py')),python=platform.python_version(),numpy=np.__version__,dtype=dtype,implementation=implementation,repeat=repeat,iterations=iterations,warmup=3,scope='Matching finite-gradient NaN reductions with at least one valid entry per slice; baseline where/sum composite versus direct kernels. Includes unchanged ordinary controls. No all-NaN/IEEE-gradient,half,coldstart,native Torch,peak-memory or app speed claims.',results=results)
+    return dict(library=torchwasm.__version__,runtime_module=str(Path(torchwasm.__file__).with_name('_tensor.py')),python=platform.python_version(),numpy=np.__version__,dtype=dtype,implementation=implementation,repeat=repeat,iterations=iterations,warmup=3,scope='Matching finite-gradient NaN reductions with at least one valid entry per slice; baseline where/sum composite versus direct kernels. Includes unchanged ordinary controls. No all-NaN/IEEE-gradient,half,coldstart,native Torch,peak-memory or app speed claims.',results=results)
 
 
 if __name__=='__main__':

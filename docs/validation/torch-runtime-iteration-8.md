@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Lightweight torch 0.8 validation
 
 This milestone makes common model introspection and local callbacks work through
@@ -140,8 +144,8 @@ versus 2.347 / 2.339 ms in the baseline. These small differences are not claimed
 as kernel speedups; module callbacks extend behavior rather than tensor kernels.
 
 Final timings, retained-memory samples and complete gate results are recorded in
-[iteration-8.json](../../benchmarks/results/iteration-8.json).
-Use [bench_module_hooks.py](../../benchmarks/bench_module_hooks.py)
+[iteration-8.json](../../packages/torchwasm/benchmarks/results/iteration-8.json).
+Use [bench_module_hooks.py](../../packages/torchwasm/benchmarks/bench_module_hooks.py)
 or the WASM runner's `--benchmark module_hooks` option.
 
 ## Validation scope

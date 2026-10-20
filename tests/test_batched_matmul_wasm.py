@@ -3,7 +3,7 @@ import numpy as np
 import pytest
 import gc
 import weakref
-from stridetorch import torch,_matmul,_tensor,_attention
+from torchwasm import torch,_matmul,_tensor,_attention
 
 
 @pytest.fixture(autouse=True)

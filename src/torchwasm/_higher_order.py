@@ -83,6 +83,10 @@ def unary_pullback(context, inputs, description):
     if operation == 'relu':return lambda g: (context.where(source._data <= 0, 0., g),)
     if operation == 'reshape':return lambda g: (g.reshape(source.shape),)
     if operation == 'to':return lambda g: (g.to(dtype=source.dtype),)
+    if operation == 'cumsum':
+        from . import _reductions
+        axis, reverse = argument
+        return lambda g: (_reductions._scan_result(g.to(dtype=source.dtype), axis, source.dtype, reverse=not reverse),)
     if operation == 'sum':
         axes, keepdim = argument
         def backward(g):

@@ -12,7 +12,7 @@ import sys
 import tracemalloc
 
 import numpy as np
-from stridetorch import torch,__version__
+from torchwasm import torch,__version__
 
 
 def run_benchmarks(dtype='float32',depth=16,shape=(64,128)):

@@ -2,8 +2,8 @@
 import weakref
 import numpy as np
 import pytest
-from stridetorch import torch
-from stridetorch._autograd import joint_result
+from torchwasm import torch
+from torchwasm._autograd import joint_result
 
 @pytest.mark.parametrize('method',['backward','targeted_grad'])
 @pytest.mark.parametrize('selective',[False,True])

@@ -7,12 +7,12 @@ import math
 import weakref
 import numpy as np
 import pytest
-from stridetorch import as_torch,torch,UnsupportedOperation
+from torchwasm import as_torch,torch,UnsupportedOperation
 
 
 @pytest.fixture(params=['direct','matrix','auto','direct_no_pad','matrix_no_pad'],autouse=True)
 def algorithm(request,monkeypatch):
-    from stridetorch import _transpose_convolution as tc
+    from torchwasm import _transpose_convolution as tc
     monkeypatch.setattr(tc,'_ALGORITHM',request.param.split('_')[0])
     if request.param.endswith('_no_pad'):monkeypatch.setattr(tc,'_PAD_WORKSPACE_BYTES',0)
 
@@ -160,7 +160,7 @@ def test_bias_only_tape_releases_input_and_weight_objects():
 
 @pytest.mark.parametrize('dim',[1,2,3])
 def test_huge_dilation_padding_does_not_allocate_padded_activation(monkeypatch,dim):
-    from stridetorch import _convolution
+    from torchwasm import _convolution
     def reject(*args,**kwargs):raise AssertionError('unbounded padded activation allocation')
     monkeypatch.setattr(_convolution,'_pad',reject)
     x=torch.ones(1,2,*([3]*dim),dtype=torch.float64,requires_grad=True);w=torch.ones(2,3,*([3]*dim),dtype=torch.float64,requires_grad=True)

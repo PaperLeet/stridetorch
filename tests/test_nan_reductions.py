@@ -1,7 +1,7 @@
 """NumPy-only mathematical and graph contracts, also executed on WASM."""
 import numpy as np
 import pytest
-from stridetorch import UnsupportedOperation, torch
+from torchwasm import UnsupportedOperation, torch
 
 
 @pytest.mark.parametrize('name',['nansum','nanmean'])

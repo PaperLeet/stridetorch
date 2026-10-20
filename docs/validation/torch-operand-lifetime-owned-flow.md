@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Owned-flow allocation, latency and current GPU comparison
 
 The frozen candidate changes ordinary multiply/direct-divide pullback closures
@@ -101,8 +105,8 @@ autograd backend. Production WebGPU stays disabled.
 
 ## Evidence and continuing work
 
-[Machine-readable results](../../benchmarks/results/operand-lifetime-owned-flow.json)
-and the [verified raw archive](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/operand-lifetime-owned-flow-harness.tar.gz)
+[Machine-readable results](../../packages/torchwasm/benchmarks/results/operand-lifetime-owned-flow.json)
+and the [verified raw archive](../../packages/torchwasm/benchmarks/results/operand-lifetime-owned-flow-harness.tar.gz)
 contain all inputs, independent references, 12 complete timing processes,
 allocation measurements, regression results, GPU fixtures and original flags.
 The archive contains 316 files, 183 unique payloads, SHA-256

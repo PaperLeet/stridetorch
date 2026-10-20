@@ -2,12 +2,12 @@
 import pickle
 import numpy as np
 import pytest
-from stridetorch import torch,as_torch,UnsupportedOperation
+from torchwasm import torch,as_torch,UnsupportedOperation
 
 
 @pytest.fixture(params=[('scan','loop'),('packed','scatter'),('block','block'),('auto','auto'),('packed','inverse')],autouse=True)
 def algorithm(request,monkeypatch):
-    from stridetorch import _average_pooling3d
+    from torchwasm import _average_pooling3d
     monkeypatch.setattr(_average_pooling3d,'_ALGORITHM',request.param[0]);monkeypatch.setattr(_average_pooling3d,'_BACKWARD_ALGORITHM',request.param[1])
 
 
@@ -100,7 +100,7 @@ def test_empty_batches_avoid_coordinate_grids(monkeypatch,adaptive):
 
 
 def test_bounded_tiling_streaming_and_source_mutation(monkeypatch):
-    from stridetorch import _average_pooling3d
+    from torchwasm import _average_pooling3d
     monkeypatch.setattr(_average_pooling3d,'_WORKSPACE_BYTES',256)
     a=np.arange(4*5*6,dtype=np.float64).reshape(1,1,4,5,6);x=torch.from_numpy(a).requires_grad_()
     y=torch.nn.functional.avg_pool3d(x,(4,5,6));np.testing.assert_array_equal(y.numpy(),59.5);y.sum().backward();np.testing.assert_allclose(x.grad.numpy(),1/120)
@@ -179,7 +179,7 @@ def test_nonfinite_regions_and_strict_numpy_error_mode(kind,nonfinite):
 
 @pytest.mark.parametrize('strided',[False,True])
 def test_readonly_plan_bounds_and_live_input_values(strided):
-    from stridetorch import _average_pooling3d as engine
+    from torchwasm import _average_pooling3d as engine
     engine._cached_geometry.cache_clear()
     for size in range(2,42):
         geometry=engine._geometry((1,2,8,8,8),(size,2,3))
@@ -199,7 +199,7 @@ def test_readonly_plan_bounds_and_live_input_values(strided):
 
 
 def test_inverse_cache_bounds_and_live_seed_values(monkeypatch):
-    from stridetorch import _average_pooling3d as engine
+    from torchwasm import _average_pooling3d as engine
     monkeypatch.setattr(engine,'_BACKWARD_ALGORITHM','inverse')
     engine._cached_inverse_geometry.cache_clear()
     spatial=(8,8,8)
@@ -220,7 +220,7 @@ def test_inverse_cache_bounds_and_live_seed_values(monkeypatch):
 
 
 def test_inverse_rejects_large_axis_before_coordinate_allocation(monkeypatch):
-    from stridetorch import _average_pooling3d as engine
+    from torchwasm import _average_pooling3d as engine
     shape=(1,1,1_000_000_000,1,1)
     g=engine._Geometry((np.array([0,500_000_000]),np.array([0]),np.array([0])),(np.array([500_000_000,1_000_000_000]),np.array([1]),np.array([1])),(2,1,1),None,True,None)
     seed=np.ones((1,1,2,1,1),dtype=np.float64)
@@ -231,7 +231,7 @@ def test_inverse_rejects_large_axis_before_coordinate_allocation(monkeypatch):
 
 @pytest.mark.parametrize('dtype',[torch.float32,torch.float64])
 def test_inverse_gradient_order_near_cancellation(monkeypatch,dtype):
-    from stridetorch import _average_pooling3d as engine
+    from torchwasm import _average_pooling3d as engine
     seed=np.resize(np.array([1e20,1.,-1e20,2.,3.,-0.],dtype=dtype),(1,1,5,5,5))
     x=torch.ones(1,1,2,2,2,dtype=dtype,requires_grad=True)
     monkeypatch.setattr(engine,'_BACKWARD_ALGORITHM','scatter')

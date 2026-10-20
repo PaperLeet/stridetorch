@@ -5,7 +5,7 @@ import warnings
 
 import numpy as np
 import pytest
-from stridetorch import torch, as_torch
+from torchwasm import torch, as_torch
 
 
 def parameter(gradient):

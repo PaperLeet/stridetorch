@@ -1,7 +1,7 @@
 """Functional derivative contracts: independent analytic and finite-difference oracles."""
 import numpy as np
 import pytest
-from stridetorch import torch, as_torch, UnsupportedOperation
+from torchwasm import torch, as_torch, UnsupportedOperation
 
 @pytest.mark.parametrize('dtype',['float32','float64'])
 @pytest.mark.parametrize('enabled',[False,True])

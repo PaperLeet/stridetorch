@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Torch runtime iteration 70: functional Jacobians with bounded temporary storage
 
 Version 0.70 adds `torch.autograd.functional.jacobian` for the supported real
@@ -154,4 +158,4 @@ StrideTorch pending a naming decision.
 
 ## Main adoption
 
-Version 0.70.0 was adopted on main at `9f2715fc21fa408230a3c49c047dd14af1c69c13`. The guarded ordinary push passed with no active release chain. The remote ref and 2300 tested Git blobs were verified, together with generated Worker derivatives and all 14,083 prior immutable asset tree entries. The adopted SHA had zero Actions runs at verification. No workflow dispatch, tag, package publication or deployment was initiated. [Adoption receipt](../../benchmarks/results/iteration-70-main-adoption.json).
+Version 0.70.0 was adopted on main at `9f2715fc21fa408230a3c49c047dd14af1c69c13`. The guarded ordinary push passed with no active release chain. The remote ref and 2300 tested Git blobs were verified, together with generated Worker derivatives and all 14,083 prior immutable asset tree entries. The adopted SHA had zero Actions runs at verification. No workflow dispatch, tag, package publication or deployment was initiated. [Adoption receipt](../../packages/torchwasm/benchmarks/results/iteration-70-main-adoption.json).

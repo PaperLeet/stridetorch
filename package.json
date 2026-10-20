@@ -1,5 +1,5 @@
 {
-  "name": "stridetorch-wasm-checks",
+  "name": "torchwasm-wasm-checks",
   "private": true,
   "type": "module",
   "scripts": {

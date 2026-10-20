@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Iteration 77: batched matmul and fused SDPA on NumPy/WASM
 
 Version 0.75 extends the measured synchronous WASM matrix path to batch/broadcast matmul and fused SDPA products. Native CPU retains NumPy matmul. The runtime has no new binary dependency or supported GPU device.
@@ -54,6 +58,6 @@ Real exported WASM passed 89/89 catalog modules and 406 mutants, plus the comple
 
 Performance baseline was frozen at `f2d91d09e1559d287f709094774b3d6e95e234d5`. The unrelated 95-path main advance to `7e7b64a5a5cfd6f296b76a7f6e740fd2f0900889` adds BERT, GAN and Dropout exercises and UI changes; core sources and benchmarked PaperLeet function bodies were unchanged. Application validation uses the updated 89-module catalog, preserving all external changes.
 
-[Machine record](../../benchmarks/results/iteration-77.json).
+[Machine record](../../packages/torchwasm/benchmarks/results/iteration-77.json).
 
-[Raw evidence](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/iteration-77-raw.tar.gz) — 39,611,534 bytes; SHA-256 `da5b7f549bd1a1a85485780ef1d8d966561f24a721ba40eea9df05f31486ab30`.
+[Raw evidence](../../packages/torchwasm/benchmarks/results/iteration-77-raw.tar.gz) — 39,611,534 bytes; SHA-256 `da5b7f549bd1a1a85485780ef1d8d966561f24a721ba40eea9df05f31486ab30`.

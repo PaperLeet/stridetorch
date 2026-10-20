@@ -6,7 +6,7 @@ import pickle
 import weakref
 
 import pytest
-from stridetorch import UnsupportedOperation, as_torch, create_torch, torch
+from torchwasm import UnsupportedOperation, as_torch, create_torch, torch
 
 
 NAMESPACES = tuple(torch._compat_modules)
@@ -125,7 +125,7 @@ def test_optional_tensor_probes_do_not_retain_tensors_or_alias_namespaces():
 
 @pytest.mark.parametrize('kind',['namespace','tensor'])
 def test_schedules_profile_keeps_lookup_and_unsupported_mode_protocols(kind):
-    from stridetorch import _legacy
+    from torchwasm import _legacy
     namespace=_legacy.install();x=namespace.tensor([.1,.2])
     target=namespace if kind=='namespace' else x
     sentinel=object()

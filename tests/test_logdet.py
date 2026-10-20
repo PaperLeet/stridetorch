@@ -7,7 +7,7 @@ import weakref
 import numpy as np
 import pytest
 
-from stridetorch import torch, as_torch, UnsupportedOperation
+from torchwasm import torch, as_torch, UnsupportedOperation
 
 
 def scalar_slogdet(a):

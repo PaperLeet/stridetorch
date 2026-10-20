@@ -3,7 +3,7 @@ import gc
 import weakref
 import numpy as np
 import pytest
-from stridetorch import UnsupportedOperation, torch
+from torchwasm import UnsupportedOperation, torch
 
 
 @pytest.mark.parametrize('name',['gather','sort','topk'])
@@ -43,7 +43,7 @@ def test_indexing_does_not_retain_intermediate_values(name):
 
 
 def test_topk_indices_have_compact_owner_and_stable_result_type():
-    from stridetorch._tensor import storage_owner
+    from torchwasm._tensor import storage_owner
     x=torch.arange(16384,dtype=torch.float32).reshape(4,4096)
     for sorted in (True,False):
         pair=x.topk(8,dim=1,sorted=sorted)

@@ -17,5 +17,5 @@ def source_files(profile='autograd'):
     else:
         raise ValueError(f'Unknown runtime profile: {profile}')
     names += ['LICENSE', 'NOTICE']
-    return {f'stridetorch/{name}': (package / name).read_text(encoding='utf-8')
+    return {f'torchwasm/{name}': (package / name).read_text(encoding='utf-8')
             for name in names}

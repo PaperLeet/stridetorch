@@ -1,7 +1,7 @@
 """Classification kernel timings with independent first-order value/VJP checks."""
 import argparse,json,platform,statistics,sys,time
 import numpy as np
-from stridetorch import torch,__version__
+from torchwasm import torch,__version__
 
 
 def _fixture(shape,kind,dtype,implementation):

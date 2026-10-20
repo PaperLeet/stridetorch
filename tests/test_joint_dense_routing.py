@@ -1,8 +1,8 @@
 """Repeated edges, mixed dtypes and hooks through an all-active joint rule."""
 import numpy as np
 import pytest
-from stridetorch import torch
-from stridetorch._autograd import joint_result
+from torchwasm import torch
+from torchwasm._autograd import joint_result
 
 @pytest.mark.parametrize('selective',[False,True])
 @pytest.mark.parametrize('reverse_dtypes',[False,True])

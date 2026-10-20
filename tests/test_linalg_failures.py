@@ -1,8 +1,8 @@
 """Portable factor status when NumPy cannot report floating-point flags."""
 import numpy as np
 import pytest
-from stridetorch import torch
-from stridetorch import _linalg
+from torchwasm import torch
+from torchwasm import _linalg
 
 
 def singular(dtype,n,batched):

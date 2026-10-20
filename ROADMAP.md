@@ -913,3 +913,18 @@ source-commit deployment was superseded and is not claimed as published.
   visible. GPU tensor storage/autograd, broader core APIs and independent-library
   readiness remain active work. See the
   [0.81 record](docs/validation/torch-runtime-0.81-qualification.md).
+
+
+## TorchWasm 0.91
+
+- Checked cumulative products retain scalar/empty ownership, opmath precision,
+  zero-safe reverse gradients, real float32/64 JVP and composed HVP. The
+  differentiable zero-factor path remains quadratic in scan length.
+- Full native/minimum-NumPy/Node/Chrome SDK, PaperLeet application and 89-module
+  WASM checks are retained in a self-contained qualification archive, with a
+  portable SDK snapshot and independent restoration/CLI replay.
+- Current-main integration and exact delivered package/browser checks are
+  tracked separately. Main adoption does not publish or deploy a release.
+- Broader core coverage, large CPU inference costs, known numerical boundaries,
+  and useful GPU storage/autograd integration remain active work. See the
+  [0.91 qualification](docs/validation/torch-runtime-0.91-qualification.md).

@@ -6,14 +6,14 @@ import pytest
 @pytest.mark.parametrize('name',['torch_bridge','resident_bridge','matrix_client'])
 def test_old_import_is_the_canonical_module(name):
     old = importlib.import_module(name)
-    current = importlib.import_module('stridetorch.experimental.webgpu.'+name)
+    current = importlib.import_module('torchwasm.experimental.webgpu.'+name)
     assert old is current
 
 
 def test_old_and_new_offloads_share_one_gate():
-    from stridetorch import torch
+    from torchwasm import torch
     import torch_bridge
-    from stridetorch.experimental.webgpu import MatmulOffload
+    from torchwasm.experimental.webgpu import MatmulOffload
     previous = torch_bridge._busy
     try:
         torch_bridge._busy = True

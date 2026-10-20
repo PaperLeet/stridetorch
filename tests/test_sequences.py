@@ -4,7 +4,7 @@ from fractions import Fraction
 import numpy as np
 import pytest
 
-from stridetorch import UnsupportedOperation, torch
+from torchwasm import UnsupportedOperation, torch
 
 
 @pytest.fixture(autouse=True)
@@ -187,7 +187,7 @@ def test_half_singleton_fill_uses_opmath_conversion_but_multi_element_endpoints_
 
 
 def test_small_fixed_interval_templates_are_bounded_immutable_and_independently_owned():
-    from stridetorch import _sequences
+    from torchwasm import _sequences
     cache=_sequences._unit_grid_bytes;cache.cache_clear()
     a=torch.linspace(0,1,17,requires_grad=True);b=torch.linspace(0,1,17)
     assert cache.cache_info().hits>=1 and not np.shares_memory(a.numpy(),b.numpy())

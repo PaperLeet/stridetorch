@@ -1,7 +1,7 @@
 """Native-compatible NumPy boundaries inside a functional reverse transform."""
 import numpy as np
 import pytest
-from stridetorch import torch
+from torchwasm import torch
 
 @pytest.mark.parametrize('conversion',['numpy','asarray'])
 @pytest.mark.parametrize('requires_grad',[False,True])

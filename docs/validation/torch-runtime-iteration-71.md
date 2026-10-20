@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # Torch runtime iteration 71: matrix-free Hessian-vector products
 
 Version 0.71 adds `torch.autograd.functional.hvp(func, inputs, v=None,
@@ -130,4 +134,4 @@ The evidence container was losslessly recompressed from gzip to XZ for transfer.
 
 ## Main adoption
 
-Version 0.71.0 was adopted on main at `f13fd86c73fb6debc722a777621de90a72e905b1`. The guarded ordinary push passed with no active release chain. The remote ref and 2309 tested Git blobs were verified, together with generated Worker derivatives and all 14,257 prior immutable asset tree entries. The adopted SHA had zero Actions runs at verification. No workflow dispatch, tag, package publication or deployment was initiated. [Adoption receipt](../../benchmarks/results/iteration-71-main-adoption.json).
+Version 0.71.0 was adopted on main at `f13fd86c73fb6debc722a777621de90a72e905b1`. The guarded ordinary push passed with no active release chain. The remote ref and 2309 tested Git blobs were verified, together with generated Worker derivatives and all 14,257 prior immutable asset tree entries. The adopted SHA had zero Actions runs at verification. No workflow dispatch, tag, package publication or deployment was initiated. [Adoption receipt](../../packages/torchwasm/benchmarks/results/iteration-71-main-adoption.json).

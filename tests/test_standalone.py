@@ -6,23 +6,23 @@ import types
 import numpy as np
 import pytest
 
-from stridetorch import UnsupportedOperation, as_torch, create_torch, torch
+from torchwasm import UnsupportedOperation, as_torch, create_torch, torch
 
 
 def test_runtime_submodule_uses_normal_package_imports():
-    from stridetorch import runtime
-    assert 'stridetorch/_tensor.py' in runtime.source_files()
+    from torchwasm import runtime
+    assert 'torchwasm/_tensor.py' in runtime.source_files()
 
 
 def test_minimal_schedules_export_is_self_contained_for_feature_detection(tmp_path):
-    from stridetorch import runtime
+    from torchwasm import runtime
     for name,source in runtime.source_files('schedules').items():
         target=tmp_path/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_text(source,encoding='utf-8')
     script='''
 import sys
 sys.path.insert(0,sys.argv[1])
-from stridetorch._legacy import install
-from stridetorch import UnsupportedOperation
+from torchwasm._legacy import install
+from torchwasm import UnsupportedOperation
 torch=install();x=torch.tensor([.1,.2]);sentinel=object()
 for target in (torch,x):
     assert not hasattr(target,'not_a_real_symbol')
@@ -34,7 +34,7 @@ try:torch.tensor([1.],requires_grad=True)
 except UnsupportedOperation as error:assert not isinstance(error,AttributeError)
 else:raise AssertionError('Schedules unexpectedly accepted autograd')
 assert abs(float(x.square().numpy().sum())-.05)<1e-6
-assert 'stridetorch._api' not in sys.modules and 'stridetorch._tensor' not in sys.modules
+assert 'torchwasm._api' not in sys.modules and 'torchwasm._tensor' not in sys.modules
 '''
     subprocess.run([sys.executable,'-I','-B','-c',script,str(tmp_path)],cwd=tmp_path,check=True,capture_output=True,text=True)
 
@@ -42,12 +42,12 @@ assert 'stridetorch._api' not in sys.modules and 'stridetorch._tensor' not in sy
 @pytest.mark.parametrize('profile', ['autograd', 'schedules'])
 def test_embedded_runtime_carries_redistribution_notices(profile):
     from importlib.resources import files
-    from stridetorch import runtime
+    from torchwasm import runtime
     sources = runtime.source_files(profile)
     for name in ('LICENSE', 'NOTICE'):
-        assert sources['stridetorch/' + name] == files('stridetorch').joinpath(name).read_text(encoding='utf-8')
-    assert 'Version 2.0, January 2004' in sources['stridetorch/LICENSE']
-    assert 'Copyright 2026 PaperLeet contributors' in sources['stridetorch/NOTICE']
+        assert sources['torchwasm/' + name] == files('torchwasm').joinpath(name).read_text(encoding='utf-8')
+    assert 'Version 2.0, January 2004' in sources['torchwasm/LICENSE']
+    assert 'Copyright 2026 PaperLeet contributors' in sources['torchwasm/NOTICE']
 
 
 @pytest.mark.parametrize('dtype', [torch.float32, torch.float64])
@@ -69,8 +69,8 @@ def test_import_and_default_namespace_leave_native_torch_names_untouched():
 import sys, types
 before = {name: types.ModuleType(name) for name in ('torch', 'torch.nn', 'torch.nn.functional')}
 sys.modules.update(before)
-from stridetorch import torch, create_torch
-from stridetorch import Tensor
+from torchwasm import torch, create_torch
+from torchwasm import Tensor
 assert Tensor is torch.Tensor
 assert all(sys.modules[name] is value for name, value in before.items())
 assert create_torch().Tensor is Tensor
@@ -132,7 +132,7 @@ import sys, types
 sys.modules['torch'] = types.ModuleType('torch')
 stale_cuda = types.ModuleType('torch.cuda')
 sys.modules['torch.cuda'] = stale_cuda
-from stridetorch import install_as_torch
+from torchwasm import install_as_torch
 namespace = install_as_torch()
 import torch
 from torch import nn, optim
@@ -155,7 +155,7 @@ assert x.grad.tolist() == [[10., 10.]]
 
 @pytest.mark.parametrize('ending', ['', 'raise SystemExit(7)', 'raise RuntimeError("script failure")'])
 def test_launcher_restores_host_state_after_success_and_errors(tmp_path, ending):
-    from stridetorch._cli import main
+    from torchwasm._cli import main
     previous_argv, previous_path = sys.argv, sys.path[:]
     previous_modules = {name: module for name, module in sys.modules.items()
                         if name == 'torch' or name.startswith('torch.')}

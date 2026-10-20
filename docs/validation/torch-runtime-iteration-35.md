@@ -1,3 +1,7 @@
+> Upstream PaperLeet qualification record. Paths and archive availability refer
+> to its source checkout, not to this standalone candidate. Standalone validation
+> is reported separately in the PR; no upstream release/adoption is implied.
+
 # StrideTorch 0.35: reuse Cholesky JVP solve intermediates
 
 Version 0.35 improves the narrow real float32/64 `cholesky_solve` JVP and its
@@ -124,14 +128,14 @@ comparisons. No WebGPU backend is enabled by this iteration.
 
 ## Reproduction and adoption boundary
 
-[`iteration-35.json`](../../benchmarks/results/iteration-35.json)
-and [`iteration-35-integration.json`](../../benchmarks/results/iteration-35-integration.json)
+[`iteration-35.json`](../../packages/torchwasm/benchmarks/results/iteration-35.json)
+and [`iteration-35-integration.json`](../../packages/torchwasm/benchmarks/results/iteration-35-integration.json)
 record exact source/test hashes, receipts, initial pilots and hashed reproduction
 archives. Application checks use upstream `e21b136c2431d2aeeea52b0d1b1124a09c413f6a` including its
 current catalog in the rebuilt private wheel.
 
 Local gates do not establish remote Linux CI or online deployment. The
-canonical [explicit-release policy](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/docs/releasing.md) remains unchanged. No tag,
+canonical [explicit-release policy](../releasing.md) remains unchanged. No tag,
 workflow dispatch, package publication or CI run is requested by this iteration;
 the user will explicitly release later. Main adoption is recorded separately.
 

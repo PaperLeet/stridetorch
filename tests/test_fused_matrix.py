@@ -1,7 +1,7 @@
 """Affine products: independent polynomial derivatives and native edge controls."""
 import numpy as np
 import pytest
-from stridetorch import torch, as_torch, UnsupportedOperation
+from torchwasm import torch, as_torch, UnsupportedOperation
 
 
 def reduce_bias(value,shape):
