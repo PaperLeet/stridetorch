@@ -161,14 +161,14 @@ comparisons. No WebGPU backend is enabled by this change.
 
 ## Reproduction, adoption and remaining scope
 
-[`iteration-37.json`](../../packages/stridetorch/benchmarks/results/iteration-37.json)
-and [`iteration-37-integration.json`](../../packages/stridetorch/benchmarks/results/iteration-37-integration.json)
+[`iteration-37.json`](../../benchmarks/results/iteration-37.json)
+and [`iteration-37-integration.json`](../../benchmarks/results/iteration-37-integration.json)
 contain exact hashes, receipts, probes, pilots and hashed reproduction archives.
 Application gates use upstream `7b6e36c023e1ce3ebac940dac1e70e062de11ceb`, including its current catalog
 in the rebuilt private wheel. Later main synchronization/adoption is recorded
 separately. Native-reference tests are oracles, not runtime dependencies.
 
-The [explicit-release policy](../releasing.md) remains unchanged. No CI, tag,
+The [explicit-release policy](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/docs/releasing.md) remains unchanged. No CI, tag,
 workflow dispatch, package upload or online publication is requested. The user
 will tag later. Local results do not establish remote Linux CI or deployment.
 The actual export inventory still lacks max_pool2d/MaxPool2d, transpose

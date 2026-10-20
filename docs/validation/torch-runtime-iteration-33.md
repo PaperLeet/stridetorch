@@ -117,11 +117,11 @@ estimates are not measured browser transfer sizes.
 
 ## Adoption and release
 
-Reports are [`iteration-33.json`](../../packages/stridetorch/benchmarks/results/iteration-33.json)
-and [`iteration-33-integration.json`](../../packages/stridetorch/benchmarks/results/iteration-33-integration.json),
+Reports are [`iteration-33.json`](../../benchmarks/results/iteration-33.json)
+and [`iteration-33-integration.json`](../../benchmarks/results/iteration-33-integration.json),
 with hashed reproducibility archives. Main adoption is tracked separately from
 these local gates. No CI, tag, workflow dispatch or online publication has been
-triggered by this iteration. Canonical upstream [explicit release policy](../releasing.md)
+triggered by this iteration. Canonical upstream [explicit release policy](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/docs/releasing.md)
 is preserved: ordinary pushes/PRs are quiet; a user-created stable current-main
 version tag or explicit manual release runs all quality checks before Pages.
 The user plans to tag later. Local success does not assert remote Linux CI or a

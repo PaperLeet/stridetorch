@@ -12,7 +12,7 @@ gate; JS files re-export the canonical package modules. Repository-based hosts
 may retain these URLs while serving the package source tree. Independent hosts
 should export the adjacent assets with `service_sources()` instead of copying
 these thin JS entry points. See the
-[installed-package setup](../../README.md#experimental-browser-gpu-integration).
+[installed-package setup](../../docs/API.md#experimental-browser-gpu-integration).
 
 ## Protocol compatibility
 
@@ -43,7 +43,7 @@ node packages/stridetorch/benchmarks/webgpu_rpc/check-negotiation.mjs
 ```
 
 `fixtures/protocol-v0` preserves a historical client, service and planner for
-these tests. See [the compatibility qualification](../../../../docs/validation/torch-webgpu-protocol-negotiation.md)
+these tests. See [the compatibility qualification](../../docs/validation/torch-webgpu-protocol-negotiation.md)
 for real-browser checks and the measured steady-state overhead.
 
 The packaged implementation has no PaperLeet imports. `gpu-service.mjs` runs
@@ -88,7 +88,7 @@ node packages/stridetorch/benchmarks/webgpu_rpc/check-protocol.mjs
 ```
 
 These checks inject a fake engine. Real GPU/Pyodide numerical, lifecycle and
-latency evidence is in [iteration 74](../../../../docs/validation/torch-runtime-iteration-74.md).
+latency evidence is in [iteration 74](../../docs/validation/torch-runtime-iteration-74.md).
 The raw harness includes the browser fixture, native Torch oracle generator,
 36 fresh-process measurements and an earlier MIME configuration failure. It
 retains historical absolute paths and requires Playwright, Chrome, native Torch
@@ -132,7 +132,7 @@ retention per computed output while keeping the original `read` behavior.
 All result descriptors share the existing eight-output and 24-handle limits.
 The host planner and Python client must both include this extension.
 
-A [matched whole-call comparison against StrideTorch 0.80](../../../../docs/validation/torch-runtime-webgpu-whole-call-0.80.md)
+A [matched whole-call comparison against StrideTorch 0.80](../../docs/validation/torch-runtime-webgpu-whole-call-0.80.md)
 measures actual CPU autograd against these explicit GPU VJPs, including uploads,
 RPC, both gradients and three owned CPU snapshots. Three fresh Chrome processes
 show a benefit for the tested 256/512 float32 matrix workloads and a loss for
@@ -160,7 +160,7 @@ Portable failure-injection and transaction checks:
 node packages/stridetorch/benchmarks/webgpu_rpc/check-program.mjs
 ```
 
-See [iteration 75](../../../../docs/validation/torch-runtime-iteration-75.md) for
+See [iteration 75](../../docs/validation/torch-runtime-iteration-75.md) for
 three program ownership modes, native numerical controls, real multi-output
 quota/cancellation checks and sequential-versus-program measurements. The initial
 short-batch measurements are retained. The longer measurement host raises only
@@ -190,7 +190,7 @@ The first two cover 39 primitive lifecycle cases and four acknowledged
 cancellation/failure races. Set `GPU_PRIMITIVE_RESULT` or
 `GPU_CANCEL_DRAIN_RESULT` to save JSON results. Real Chrome GPU queue,
 numerical-recovery and device-destruction evidence is recorded in
-[iteration 78](../../../../docs/validation/torch-runtime-iteration-78.md).
+[iteration 78](../../docs/validation/torch-runtime-iteration-78.md).
 This remains an explicit experiment and does not add a Torch GPU device.
 ## Matched Torch forward/VJP workloads
 
@@ -209,7 +209,7 @@ The current real Chrome controls match native Torch 2.6/2.14 values, retain
 read-only inputs and release handles/allocations. These controls contain no
 latency measurement. Earlier raw NumPy CPU baselines do not establish a speedup
 over the improved Torch CPU path. See the
-[0.80 qualification record](../../../../docs/validation/torch-runtime-0.80-qualification.md)
+[0.80 qualification record](../../docs/validation/torch-runtime-0.80-qualification.md)
 before drawing any GPU routing or performance conclusion.
 
 ## Explicit Tensor matmul offload
@@ -268,7 +268,7 @@ The actual Chrome probe compares 51 value/gradient cases with native Torch
 2.6/2.14, runs five optimizer steps and checks 19 state/lifecycle controls.
 A matched three-process comparison includes actual autograd, all snapshots and
 three owned CPU outputs. See the
-[Tensor offload report](../../../../docs/validation/torch-webgpu-tensor-offload.md)
+[Tensor offload report](../../docs/validation/torch-webgpu-tensor-offload.md)
 for results and remaining boundaries. Small matrices remain slower on GPU;
 these measurements do not define a general automatic dispatch threshold.
 
@@ -306,7 +306,7 @@ default torch device or judge path is changed.
 
 Run both developer test modules with the command above, adding
 `packages/stridetorch/benchmarks/webgpu_rpc/test_resident_bridge.py`.
-The [resident-session report](../../../../docs/validation/torch-webgpu-resident-session.md)
+The [resident-session report](../../docs/validation/torch-webgpu-resident-session.md)
 includes native/GPU state checks, direct transfer traces and all six paired
 performance contexts, including continuously updated weights. Cache lookup,
 per-call evictions, uploads and copies are timed; session setup and final close

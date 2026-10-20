@@ -126,8 +126,8 @@ statistical guarantees, browser wire sizes or native-Torch/CPU-WASM comparisons.
 
 ## Integration and release
 
-[`iteration-34.json`](../../packages/stridetorch/benchmarks/results/iteration-34.json)
-and [`iteration-34-integration.json`](../../packages/stridetorch/benchmarks/results/iteration-34-integration.json)
+[`iteration-34.json`](../../benchmarks/results/iteration-34.json)
+and [`iteration-34-integration.json`](../../benchmarks/results/iteration-34-integration.json)
 include source/test hashes, exact receipts and hashed reproduction archives.
 The full frontend check and both builds pass at `27d9e600`. Ten later UI-only
 files from `c8d5baac` are preserved byte for byte, with all 47 computational
@@ -137,7 +137,7 @@ See `iteration-34-main-sync.json`. Its first runner had the wrong working
 directory; only that runner was corrected and the failure log retained.
 Latest-main synchronization and non-force adoption are recorded separately.
 No CI, version tag, workflow dispatch or online release is triggered by this
-iteration. The canonical [explicit-release policy](../releasing.md) is retained;
+iteration. The canonical [explicit-release policy](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/docs/releasing.md) is retained;
 the user will tag later. Local success does not assert remote Linux CI or a new
 live deployment. WebGPU remains an end-to-end evaluation target, not an enabled
 backend in this version.

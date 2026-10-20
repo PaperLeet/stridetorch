@@ -1,0 +1,11 @@
+{
+  "name": "stridetorch-wasm-checks",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:wasm": "node scripts/check-wasm.mjs"
+  },
+  "devDependencies": {
+    "pyodide": "0.29.4"
+  }
+}

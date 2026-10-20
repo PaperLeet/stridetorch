@@ -308,7 +308,7 @@ scalar WGSL result through Python, GPU dispatch and asynchronous readback.
 Temporary Python names, buffers and the device are released. Missing WebGPU is
 a capability observation; the synchronous entry's inability to suspend is
 recorded alongside the asynchronous result. No timing or tensor-backend support
-is inferred. See the [sandbox feasibility record](../../../docs/validation/torch-webgpu-bridge-feasibility.md)
+is inferred. See the [sandbox feasibility record](../docs/validation/torch-webgpu-bridge-feasibility.md)
 for the measured PaperLeet constraints.
 
 `bench_batchnorm.py` compares the joint NumPy BN kernel with a first-order Tensor
@@ -400,7 +400,7 @@ timing. Pass `--baseline-source`, `--candidate-source` and `--output`; optional
 `--samples`, `--iterations` and `--reverse` retain every sample and source hash.
 The composition reassociates sums; no bitwise equivalence is claimed for
 exceptional or ill-conditioned values. See the
-[0.45 validation record](../../../docs/validation/torch-runtime-iteration-45.md)
+[0.45 validation record](../docs/validation/torch-runtime-iteration-45.md)
 and `results/iteration-45*.json` plus the four raw harness archives.
 
 ## Inverse volume-pooling adjoints (0.46)
@@ -410,7 +410,7 @@ adjoints and a same-source inverse-disabled control. It imports the neighboring
 `bench_average_pooling_3d.py` helper. Baseline/candidate source paths and output
 are required; samples/iterations/reverse order are optional. Each of 46 flows
 checks values, gradients or SGD updates and actual route selection before timing.
-See the [0.46 validation record](../../../docs/validation/torch-runtime-iteration-46.md).
+See the [0.46 validation record](../docs/validation/torch-runtime-iteration-46.md).
 
 ## Instance normalization (0.47)
 
@@ -420,7 +420,7 @@ composition before timing 26 forward/reverse/JVP and convolution/SGD flows.
 Pyodide Worker. The formal record retains four fresh children per CPU/Node/Chrome
 runtime, every sample and exact source hashes. This is a same-source composition
 comparison, since 0.46 did not expose InstanceNorm. See the
-[0.47 validation record](../../../docs/validation/torch-runtime-iteration-47.md).
+[0.47 validation record](../docs/validation/torch-runtime-iteration-47.md).
 
 ## Transposed convolution (0.48)
 
@@ -431,7 +431,7 @@ reverse_order=False)` also works in a Pyodide Worker. The formal record retains
 four fresh children per CPU/Node/Chrome runtime, every sample, algorithm
 qualification and source hashes. Version0.47 did not expose this API; this is a
 same-source composition comparison. See the
-[0.48 validation record](../../../docs/validation/torch-runtime-iteration-48.md).
+[0.48 validation record](../docs/validation/torch-runtime-iteration-48.md).
 
 ## Bounded convolution padding (0.49)
 
@@ -442,7 +442,7 @@ pullbacks and three encoder/decoder SGD updates before timing. Four fresh
 children per CPU/Node/Chrome retain actual strategy/matrix qualification, every
 sample and all source hashes. Safe legacy halos, ordinary/transpose controls
 and same-source padded/gather/tap controls bound the claims. See the
-[0.49 validation record](../../../docs/validation/torch-runtime-iteration-49.md).
+[0.49 validation record](../docs/validation/torch-runtime-iteration-49.md).
 
 ## Math attention and grouped heads (0.50)
 
@@ -451,7 +451,7 @@ optional `--samples`, `--calls` and `--reverse`. It loads actual independent lib
 snapshots, compares old explicit K/V repetition with grouped contractions and a
 same-source repeated control, and checks values/all VJPs plus three encoder SGD
 updates before timing. Four fresh CPU/Node/Chrome children per runtime retain all
-22 flows and samples. See the [validation record](../../../docs/validation/torch-runtime-iteration-50.md)
+22 flows and samples. See the [validation record](../docs/validation/torch-runtime-iteration-50.md)
 for regressions, the fully-masked mixed-AD boundary and the scope of each claim.
 
 ## Attention validation and saved buffers (0.51)
@@ -463,7 +463,7 @@ three matching optimizer updates before timing. Timed training avoids diagnostic
 weight copies. The preserved 22-flow legacy harness separately compares 0.49/0.51
 with singleton broadcasting retained. Four fresh children per runtime/phase,
 alternating orders and every sample are kept. See the
-[validation record](../../../docs/validation/torch-runtime-iteration-51.md) for
+[validation record](../docs/validation/torch-runtime-iteration-51.md) for
 scope, regressions and retained-buffer versus peak-memory distinctions.
 
 
@@ -481,7 +481,7 @@ all samples, source hashes and fixture hashes. The fixture functions come from
 
 The strict `mm`/`bmm` entry points added in 0.76 reuse the measured 0.75
 matmul engine. This change adds API/AD coverage; it makes no additional
-speedup claim. [Iteration 78](../../../docs/validation/torch-runtime-iteration-78.md)
+speedup claim. [Iteration 78](../docs/validation/torch-runtime-iteration-78.md)
 records native/full-array, strict-argument, empty-dtype and saved-storage
 controls, plus the separate experimental WebGPU error-lifecycle checks.
 ## Ordinary core workloads and the 0.80 candidate
@@ -515,18 +515,18 @@ This command exercises a workload; it does not reproduce the qualification
 timing protocol. The three-process balanced CPU/Node/Chrome comparison, exact
 baseline and all ratios are recorded in
 [`qualification-0.80.json`](results/qualification-0.80.json) and the
-[0.80 validation record](../../../docs/validation/torch-runtime-0.80-qualification.md).
+[0.80 validation record](../docs/validation/torch-runtime-0.80-qualification.md).
 Retain new norm HVP costs, known numerical differences and A/A controls when
 interpreting those measurements.
 
 Later investigations retain the same measured-runtime distinction:
 
-- [Matched 0.80 CPU/WASM versus explicit WebGPU whole calls](../../../docs/validation/torch-runtime-webgpu-whole-call-0.80.md),
+- [Matched 0.80 CPU/WASM versus explicit WebGPU whole calls](../docs/validation/torch-runtime-webgpu-whole-call-0.80.md),
   including transfers, both VJPs and owned CPU snapshots.
-- [An isolated packed-row WASM matrix candidate](../../../docs/validation/torch-runtime-matmul-packed-rows-candidate.md),
+- [An isolated packed-row WASM matrix candidate](../docs/validation/torch-runtime-matmul-packed-rows-candidate.md),
   with full Node SDK and two NumPy matrix gates; broader performance and
   integration qualification remain pending.
-- [Repeated packed-row qualification](../../../docs/validation/torch-runtime-matmul-packed-rows-qualification.md)
+- [Repeated packed-row qualification](../docs/validation/torch-runtime-matmul-packed-rows-qualification.md)
   adds three fresh Node and three fresh Chrome processes, the full Chrome SDK,
   per-kernel/full-call allocation scopes and actual WASM copy-lifetime checks.
   The candidate is selected for integration; package/application adoption gates

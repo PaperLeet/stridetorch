@@ -68,8 +68,8 @@ state, CPU fallback and complete-call performance still need qualification.
 Production WebGPU remains disabled. Pyodide documents this stack-switching
 API as [experimental](https://pyodide.org/en/0.29.4/usage/api/python-api/ffi.html#pyodide.ffi.run_sync).
 
-[Machine-readable results](../../packages/stridetorch/benchmarks/results/operand-lifetime-jspi-followup.json)
-and the [verified raw archive](../../packages/stridetorch/benchmarks/results/operand-lifetime-jspi-followup-harness.tar.gz)
+[Machine-readable results](../../benchmarks/results/operand-lifetime-jspi-followup.json)
+and the [verified raw archive](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/operand-lifetime-jspi-followup-harness.tar.gz)
 retain frozen variants, all test sources, native reference data, full results,
 failed invocations and replay dependencies. The archive contains 559 files,
 253 unique payloads, with SHA-256

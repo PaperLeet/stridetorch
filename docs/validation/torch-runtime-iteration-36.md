@@ -143,14 +143,14 @@ wire sizes. No WebGPU backend or WebGPU speedup is claimed in this version.
 
 ## Reproduction and release boundary
 
-[`iteration-36.json`](../../packages/stridetorch/benchmarks/results/iteration-36.json)
-and [`iteration-36-integration.json`](../../packages/stridetorch/benchmarks/results/iteration-36-integration.json)
+[`iteration-36.json`](../../benchmarks/results/iteration-36.json)
+and [`iteration-36-integration.json`](../../benchmarks/results/iteration-36-integration.json)
 record exact sources/tests, receipts, all three pilots and hashed reproduction
 archives. Application gates use upstream `13d2782a494415ba72bc604a0ef7e4c4f875ba25`; the private wheel
 includes its current application catalog. Latest-main synchronization and
 non-force adoption are recorded separately.
 
-The canonical [explicit-release policy](../releasing.md) stays unchanged.
+The canonical [explicit-release policy](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/docs/releasing.md) stays unchanged.
 No CI, tag, workflow dispatch, package upload or online publication is requested.
 The user will explicitly tag later. Local success does not assert remote Linux
 CI or live deployment. Broader core coverage, residual inference costs, the

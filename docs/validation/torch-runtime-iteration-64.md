@@ -219,8 +219,8 @@ visible allocation cost; this iteration does not claim a universal RAM saving.
 | float64 | [64, 64] | 178,119 | 208,966 | 1.173 |
 | float64 | [4, 32, 32] | 129,488 | 175,823 | 1.358 |
 
-[Machine report](../../packages/stridetorch/benchmarks/results/iteration-64.json)
-and [raw harness](../../packages/stridetorch/benchmarks/results/iteration-64-harness.tar.gz)
+[Machine report](../../benchmarks/results/iteration-64.json)
+and [raw harness](https://github.com/PaperLeet/paperleet.github.io/blob/17d6e1ef560ea0da4dd941939bb1415305ea4004/packages/stridetorch/benchmarks/results/iteration-64-harness.tar.gz)
 contain source/test snapshots, frozen inputs/native outputs, programs, failed
 development pilots, source identities, packages, receipts and all samples.
 Archive: 6,296,457 bytes; SHA-256 `d824de2bd648fc14f0a8fd077653b1cb1ab78e5cc41cd50d0b2670ec1e5eefd5`.
