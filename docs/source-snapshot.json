@@ -17,12 +17,6 @@
     "test extra added to pyproject.toml"
   ],
   "files": {
-    "src/stridetorch.egg-info/PKG-INFO": "236febed315a8feddcc81da9fccbbcfc4a01cbc13a90c6014fc3e0aa5e07a562",
-    "src/stridetorch.egg-info/SOURCES.txt": "8bc889460e78c281c5cd16efc85ecbf67e677dec597f165e171bd29275b88830",
-    "src/stridetorch.egg-info/dependency_links.txt": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
-    "src/stridetorch.egg-info/entry_points.txt": "d2e7131adc53ab58fa0b5d1379ac1d0fef36f2ad618fb79e936fd61459bf4abb",
-    "src/stridetorch.egg-info/requires.txt": "6f1ca21abc35dae0ea0f6878e766fd4e333a8916647d396f32a68183c11be6fe",
-    "src/stridetorch.egg-info/top_level.txt": "430017e141c0cf4df9662035aa89bbca7cf9843e2209b7a2694b6dcadc9089dd",
     "src/torchwasm/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
     "src/torchwasm/NOTICE": "59f92a14b0b7754555742d9e19a02ed80725a9cb8fb2133db2e2119c4ed4f6a5",
     "src/torchwasm/__init__.py": "89e3d4f1ad87b72c2cd42c08e12a410307f0646bc48dd767c05320a7ced91fbf",
